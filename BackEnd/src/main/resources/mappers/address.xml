@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ssafy.happyhouse.model.mapper.AddressMapper">
+
+	<select id="getGugunList" parameterType="String" resultType="map">
+		select distinct left(dongCode,5) as gugunCode, gugunName from address
+		where dongCode like concat(#{sidoCode},'%')
+	</select>
+	
+	<select id="getDongList" parameterType="String" resultType="String">
+		select distinct dongName from address
+		where dongCode like concat(#{gugunCode},'%')
+	</select>
+	
+	<!-- 관심지역 오래된순 정렬 -->
+	<select id="getInterest" parameterType="UserDto" resultType="AddressDto">
+		select a.dongCode, a.sidoName,a.gugunName,a.dongName,a.lat,a.lng 
+		from address a, interest_addr i
+		where i.userid=#{id} and a.dongCode=i.dongCode
+	</select>
+	
+	<!-- 관심지역 최신순 정렬 -->
+	<select id="getInterestNew" parameterType="UserDto" resultType="AddressDto">
+		select a.dongCode, a.sidoName,a.gugunName,a.dongName,a.lat,a.lng 
+		from address a, interest_addr i
+		where i.userid=#{id} and a.dongCode=i.dongCode
+		order by create_date DESC
+	</select>
+	
+	<insert id="addInterest" parameterType="String">
+		insert into interest_addr 
+		values(#{userid}, (select dongCode from address where dongName = #{dongName} and dongCode like concat(#{dongCode},'%') limit 1), CURRENT_TIMESTAMP)
+	</insert>
+	
+	<delete id="deleteInterest" parameterType="String">
+		delete from interest_addr 
+		where userid=#{userid} and dongCode=#{dongCode}
+	</delete>
+</mapper>
