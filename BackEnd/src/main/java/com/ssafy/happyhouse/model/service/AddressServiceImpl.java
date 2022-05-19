@@ -23,7 +23,7 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public List<String> getDongList(String gugunCode) {
+	public List<AddressDto> getDongList(String gugunCode) {
 		return addressMapper.getDongList(gugunCode);
 	}
 
@@ -44,5 +44,15 @@ public class AddressServiceImpl implements AddressService{
 	@Override
 	public void deleteInterest(String userid, String dongCode) {
 		addressMapper.deleteInterest(userid,dongCode);
+	}
+
+	@Override
+	public List<AddressDto> getGeoCode(String dongCode) {
+		return addressMapper.getGeoCode(dongCode);
+	}
+
+	@Override
+	public List<AddressDto> getSidoList() {
+		return addressMapper.getSidoList();
 	}
 }

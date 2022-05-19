@@ -7,9 +7,11 @@ import com.ssafy.happyhouse.model.dto.AddressDto;
 import com.ssafy.happyhouse.model.dto.UserDto;
 
 public interface AddressMapper {
+	public List<AddressDto> getSidoList();
 	public List<Map<String, String>> getGugunList(String sidoCode);
 
-	public List<String> getDongList(String gugunCode);
+	public List<AddressDto> getDongList(String gugunCode);
+	public List<AddressDto> getGeoCode(String dongCode);
 	
 	public List<AddressDto> getInterest(UserDto user);
 	public List<AddressDto> getInterestNew(UserDto user);

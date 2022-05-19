@@ -13,22 +13,24 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssafy.happyhouse.model.dto.AddressDto;
 import com.ssafy.happyhouse.model.dto.UserDto;
 import com.ssafy.happyhouse.model.service.AddressService;
 
-@Controller
+@RestController
+@RequestMapping("/address")
 public class AddressController {
 //commit
 	@Autowired
 	private AddressService addressService;
-	
-	@GetMapping("/")
-	public ModelAndView index() {
-		ModelAndView mav = new ModelAndView("index");
-		return mav;
+
+	@GetMapping("/sido")
+	public ResponseEntity<?> sido() throws Exception {
+		return new ResponseEntity<List<AddressDto>>(addressService.getSidoList(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/sido/{sidoCode}")
@@ -42,23 +44,23 @@ public class AddressController {
 	}
 	@GetMapping("/gugun/{gugunCode}")
 	public ResponseEntity<?> listDong(@PathVariable String gugunCode){
-		 List<String> gugun = addressService.getDongList(gugunCode);
+		 List<AddressDto> gugun = addressService.getDongList(gugunCode);
 		if(gugun != null) {
-			return new ResponseEntity<List<String>>(gugun,HttpStatus.OK);
+			return new ResponseEntity<List<AddressDto>>(gugun,HttpStatus.OK);
 		}else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 	}
-	@GetMapping("/dong")
-	public ModelAndView houseSearch() {
-		ModelAndView mav = new ModelAndView("houseSearch");
-		return mav;
+	@GetMapping("/dong/{dongCode}")
+	public ResponseEntity<?> houseSearch(@PathVariable String dongCode) {
+		List<AddressDto> geocode = addressService.getGeoCode(dongCode);
+		if(geocode != null) {
+			return new ResponseEntity<List<AddressDto>>(geocode,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
 	}
-	@GetMapping("/interest")
-	public ModelAndView interest() {
-		ModelAndView mav = new ModelAndView("interest");
-		return mav;
-	}
+
 	
 	@GetMapping("/interest/list")
 	public ResponseEntity<?> listInterest(HttpSession session){

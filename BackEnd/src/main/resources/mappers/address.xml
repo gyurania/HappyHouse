@@ -4,14 +4,26 @@
 	
 <mapper namespace="com.ssafy.happyhouse.model.mapper.AddressMapper">
 
+	<select id="getSidoList" resultType="AddressDto">
+		select distinct left(dongCode,2) as dongCode, sidoName from address
+		order by dongCode
+	</select>
+
+	
 	<select id="getGugunList" parameterType="String" resultType="map">
 		select distinct left(dongCode,5) as gugunCode, gugunName from address
 		where dongCode like concat(#{sidoCode},'%')
 	</select>
 	
-	<select id="getDongList" parameterType="String" resultType="String">
-		select distinct dongName from address
+	<select id="getDongList" parameterType="String" resultType="AddressDto">
+		select distinct dongName, left(dongCode,8) as dongCode from address
 		where dongCode like concat(#{gugunCode},'%')
+	</select>
+	
+	<select id="getGeoCode" parameterType="String" resultType="AddressDto">
+		select dongName, lat, lng from address
+		where dongCode like concat(#{dongName},'%')
+		limit 1
 	</select>
 	
 	<!-- 관심지역 오래된순 정렬 -->
