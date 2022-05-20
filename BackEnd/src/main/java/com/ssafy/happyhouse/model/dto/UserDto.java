@@ -7,20 +7,22 @@ public class UserDto {
 	private String name;
 	private String email;
 	private String phone;
+	private int isAdmin;
 	
 	public UserDto() {
 		super();
 	}
 	
-	public UserDto(String id, String pass, String name, String email, String phone) {
+	public UserDto(String id, String pass, String name, String email, String phone, int isAdmin) {
 		super();
 		this.id = id;
 		this.pass = pass;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
+		this.isAdmin = isAdmin;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -51,11 +53,17 @@ public class UserDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+	public int getIsAdmin() {
+		return isAdmin;
+	}
+	public void setIsAdmin(int isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDto [id=" + id + ", pass=" + pass + ", name=" + name + ", email=" + email + ", phone=" + phone
-				+ "]";
+				+ ", isAdmin=" + isAdmin + "]";
 	}
-
+	
 }

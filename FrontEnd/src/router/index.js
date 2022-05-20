@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import BoardContainer from "../views/BoardContainer.vue";
+import BoardView from "../views/BoardView.vue";
 import MapView from "../views/MapView.vue";
 
 Vue.use(VueRouter);
@@ -15,7 +15,7 @@ const routes = [
   {
     name: "board",
     path: "/board",
-    component: BoardContainer,
+    component: BoardView,
     children: [
       {
         path: "",
