@@ -18,7 +18,7 @@
 	<select id="login" parameterType="map" resultType="UserDto">
 		select id, name, email, phone
 		from user
-		where id = #{id} and pass = #{pass}
+		where id = #{userid} and pass = #{userpwd}
 	</select>
 	
 	<update id="update" parameterType="UserDto">
