@@ -1,0 +1,53 @@
+<template>
+  <b-container>
+    <div v-if="type == 'detail'">
+      <h4>{{ apt.아파트 }}</h4>
+      <h6>거래금액 : {{ apt.거래금액 }} 만원</h6>
+      <h6>면적 : {{ apt.전용면적 }}</h6>
+      <h6>
+        날짜 : <i>{{ apt.년 }}.</i>
+        <i>{{ apt.월 }}.</i>
+        <i>{{ apt.일 }}</i>
+      </h6>
+    </div>
+    <div v-else>
+      <h4 v-on:click="aptSelect(apt.아파트)">{{ apt.아파트 }}</h4>
+      <h6>주소 : {{ apt.법정동 }} {{ apt.지번 }}</h6>
+    </div>
+    <div class="line"><hr /></div>
+  </b-container>
+</template>
+
+<script>
+import { mapActions, mapMutations } from "vuex";
+
+const houseStore = "houseStore";
+export default {
+  name: "HouseListItem",
+  data() {
+    return {
+      isColor: false,
+    };
+  },
+  props: {
+    type: String,
+    apt: Object,
+  },
+  methods: {
+    ...mapActions(houseStore, ["detailHouse"]),
+    ...mapMutations(houseStore, ["SET_DETAIL_HOUSE"]),
+    selectHouse() {
+      this.detailHouse(this.house);
+    },
+    colorChange(flag) {
+      this.isColor = flag;
+    },
+    aptSelect(name) {
+      this.SET_DETAIL_HOUSE(name.trim());
+      this.$emit("typeSelect", "detail");
+    },
+  },
+};
+</script>
+
+<style></style>

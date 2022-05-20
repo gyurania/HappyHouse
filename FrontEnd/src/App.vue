@@ -12,8 +12,8 @@ import NaviView from "@/components/common/NaviView";
 export default {
   name: "nav-home",
   components: {
-    NaviView
-  }
+    NaviView,
+  },
 };
 </script>
 
@@ -24,6 +24,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  overflow-x: hidden;
 }
 
 #nav {

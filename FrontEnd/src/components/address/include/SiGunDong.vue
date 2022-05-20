@@ -22,7 +22,11 @@
         ></b-form-select>
       </b-col>
       <b-col class="sm-3">
-        <b-form-select v-model="dongCode" :options="dongs"></b-form-select>
+        <b-form-select
+          v-model="dongCode"
+          :options="dongs"
+          @change="dongSelect($event)"
+        ></b-form-select>
       </b-col>
     </b-row>
   </b-container>
@@ -33,6 +37,7 @@ import { mapState, mapActions, mapMutations } from "vuex";
 import years from "@/components/address/include/years.js";
 import months from "@/components/address/include/months.js";
 const addressStore = "addressStore";
+const houseStore = "houseStore";
 
 export default {
   name: "SiGunDong",
@@ -59,20 +64,41 @@ export default {
   },
   methods: {
     ...mapActions(addressStore, ["getSido", "getGugun", "getDong"]),
+    ...mapActions(houseStore, ["getHouseList"]),
     ...mapMutations(addressStore, [
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
+    ...mapMutations(houseStore, ["SET_APT_LIST_DONG"]),
     gugunList() {
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
+      this.gugunSelect();
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
+    },
+    gugunSelect() {
+      if (this.gugunCode) {
+        let gugunCode = this.gugunCode;
+        let YMD = this.year + this.month;
+        this.getHouseList({ gugunCode, YMD });
+        this.$emit("typeSelect", "apt");
+      }
+    },
+    dongSelect(val) {
+      if (this.dongCode) {
+        for (let dong of this.dongs) {
+          if (dong.value == val) {
+            this.SET_APT_LIST_DONG(dong.text);
+          }
+        }
+      }
+      this.$emit("typeSelect", "apt");
     },
   },
 };
