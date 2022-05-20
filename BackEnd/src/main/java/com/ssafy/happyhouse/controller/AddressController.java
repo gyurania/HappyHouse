@@ -52,7 +52,7 @@ public class AddressController {
 		}
 	}
 	@GetMapping("/dong/{dongCode}")
-	public ResponseEntity<?> houseSearch(@PathVariable String dongCode) {
+	public ResponseEntity<?> geoCode(@PathVariable String dongCode) {
 		List<AddressDto> geocode = addressService.getGeoCode(dongCode);
 		if(geocode != null) {
 			return new ResponseEntity<List<AddressDto>>(geocode,HttpStatus.OK);
