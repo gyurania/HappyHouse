@@ -70,7 +70,11 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
-    ...mapMutations(houseStore, ["SET_APT_LIST_DONG"]),
+    ...mapMutations(houseStore, [
+      "SET_APT_LIST_DONG",
+      "SET_BACK_TYPE",
+      "SET_VIEW_TYPE",
+    ]),
     gugunList() {
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
@@ -87,18 +91,22 @@ export default {
         let gugunCode = this.gugunCode;
         let YMD = this.year + this.month;
         this.getHouseList({ gugunCode, YMD });
-        this.$emit("typeSelect", "apt");
+        this.SET_VIEW_TYPE("apt");
+        this.SET_BACK_TYPE("");
       }
     },
     dongSelect(val) {
       if (this.dongCode) {
+        let dongName = "";
         for (let dong of this.dongs) {
           if (dong.value == val) {
             this.SET_APT_LIST_DONG(dong.text);
+            dongName = dong.text;
           }
         }
+        this.SET_BACK_TYPE(dongName);
       }
-      this.$emit("typeSelect", "apt");
+      this.SET_VIEW_TYPE("apt");
     },
   },
 };

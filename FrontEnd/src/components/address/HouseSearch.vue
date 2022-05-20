@@ -1,10 +1,10 @@
 <template>
   <div>
     <h2>아파트거래 조회</h2>
-    <si-gun-dong type="houseSearch" @typeSelect="typeSelect" />
+    <si-gun-dong type="houseSearch" />
     <b-row>
       <b-col lg="3">
-        <house-list :type="this.type" @typeSelect="typeSelect" />
+        <house-list />
       </b-col>
       <b-col lg="9">
         <kakao-map></kakao-map>
@@ -20,20 +20,11 @@ import HouseList from "@/components/house/HouseList.vue";
 
 export default {
   name: "HouseSearch",
-  data() {
-    return {
-      type: "",
-    };
-  },
+
   components: {
     SiGunDong,
     KakaoMap,
     HouseList,
-  },
-  methods: {
-    typeSelect(type) {
-      this.type = type;
-    },
   },
 };
 </script>

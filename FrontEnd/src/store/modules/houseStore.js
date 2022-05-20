@@ -5,6 +5,9 @@ const houseStore = {
   state: {
     houses: [],
     apts: [],
+    backType: "",
+    viewType: "apt",
+    viewRange: "gugun",
   },
   getters: {},
 
@@ -13,7 +16,7 @@ const houseStore = {
       //   console.log(houses);
       state.houses = houses;
     },
-    SET_APT_LIST: (state, houses) => {
+    SET_APT_LIST: (state, houses = state.houses) => {
       let arr = [];
       for (let house of houses) {
         if (!arr.find((element) => element.아파트 == house.아파트)) {
@@ -21,10 +24,14 @@ const houseStore = {
         }
       }
       state.apts = arr;
+      state.viewRange = "gugun";
+      state.backType = "";
     },
     SET_APT_LIST_DONG: (state, dongName) => {
       let apts = [];
       let arr = [];
+      if (dongName == "") state.viewRange = "gugun";
+      else state.viewRange = "dong";
       for (let house of state.houses) {
         if (!apts.find((element) => element.아파트 == house.아파트)) {
           apts.push(house);
@@ -34,7 +41,6 @@ const houseStore = {
         if (apt.법정동.trim().includes(dongName.trim())) {
           arr.push(apt);
         }
-        console.log(apt.법정동.trim());
       }
       state.apts = arr;
     },
@@ -46,6 +52,12 @@ const houseStore = {
         }
       }
       state.apts = arr;
+    },
+    SET_BACK_TYPE: (state, dongName = "") => {
+      state.backType = dongName;
+    },
+    SET_VIEW_TYPE: (state, type) => {
+      state.viewType = type;
     },
   },
   actions: {

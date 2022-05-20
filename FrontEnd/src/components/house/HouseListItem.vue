@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <div v-if="type == 'detail'">
+    <div v-if="viewType == 'detail'">
       <h4>{{ apt.아파트 }}</h4>
       <h6>거래금액 : {{ apt.거래금액 }} 만원</h6>
       <h6>면적 : {{ apt.전용면적 }}</h6>
@@ -12,14 +12,16 @@
     </div>
     <div v-else>
       <h4 v-on:click="aptSelect(apt.아파트)">{{ apt.아파트 }}</h4>
-      <h6>주소 : {{ apt.법정동 }} {{ apt.지번 }}</h6>
+      <h6 v-on:click="dongClick(apt.법정동)">
+        주소 : {{ apt.법정동 }} {{ apt.지번 }}
+      </h6>
     </div>
     <div class="line"><hr /></div>
   </b-container>
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 const houseStore = "houseStore";
 export default {
@@ -30,12 +32,19 @@ export default {
     };
   },
   props: {
-    type: String,
     apt: Object,
+  },
+  computed: {
+    ...mapState(houseStore, ["viewType"]),
   },
   methods: {
     ...mapActions(houseStore, ["detailHouse"]),
-    ...mapMutations(houseStore, ["SET_DETAIL_HOUSE"]),
+    ...mapMutations(houseStore, [
+      "SET_DETAIL_HOUSE",
+      "SET_VIEW_TYPE",
+      "SET_BACK_TYPE",
+      "SET_APT_LIST_DONG",
+    ]),
     selectHouse() {
       this.detailHouse(this.house);
     },
@@ -44,7 +53,12 @@ export default {
     },
     aptSelect(name) {
       this.SET_DETAIL_HOUSE(name.trim());
-      this.$emit("typeSelect", "detail");
+      this.SET_VIEW_TYPE("detail");
+    },
+    dongClick(dongName) {
+      this.SET_APT_LIST_DONG(dongName);
+      this.SET_BACK_TYPE(dongName);
+      this.SET_VIEW_TYPE("apt");
     },
   },
 };
