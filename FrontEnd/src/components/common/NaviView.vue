@@ -1,71 +1,82 @@
 <template>
-  <div class="container">
-    <header id="index_header" class="jumbotron text-center mb-1">
-      <router-link to="/">
-        <img id="logo" src="@/assets/happyhouse.png" width="400" />
-      </router-link>
-    </header>
-    <!-- nav start -->
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark rounded">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <router-link class="nav-link" to="/">Home</router-link>
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbardrop"
-            data-toggle="dropdown"
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand href="#">
+        <router-link to="/">
+          <img
+            src="@/assets/ssafy_logo.png"
+            class="d-inline-block align-middle"
+            width="100px"
+            height="50px"
+            alt="ssafy"
+          />
+        </router-link>
+      </b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item href="#">매물찾기</b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav>
+          <b-nav-item href="#">지역정보</b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav>
+          <b-nav-item href="#">
+            <router-link class="nav-link" to="/board"
+              >공지사항</router-link
+            ></b-nav-item
           >
-            동네 정보
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">APT 매매</a>
-            <!-- 						<a class="dropdown-item" href="#">APT 전월세</a> -->
-            <!-- 						<a class="dropdown-item" href="#">주택 매매</a> -->
-            <!-- 						<a class="dropdown-item" href="#">주택 전월세</a> -->
-            <!-- 						<a class="dropdown-item" href="#">상권 정보</a> -->
-            <!-- 						<a class="dropdown-item" href="#">환경 정보</a> -->
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Notice</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">News</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/board">QnA</router-link>
-        </li>
-      </ul>
+        </b-navbar-nav>
 
-      <div id="nav-login" style="display: flex; float: right">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Sign up</a>
-          </li>
-        </ul>
+        <b-navbar-nav>
+          <b-nav-item href="#">관심목록</b-nav-item>
+        </b-navbar-nav>
 
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">관심지역</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">my page</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">logout</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+        <b-navbar-nav class="ml-auto" v-if="userInfo">
+          <b-nav-item class="align-self-center"
+            ><b-avatar
+              variant="primary"
+              v-text="userInfo ? userInfo.userid.charAt(0).toUpperCase() : ''"
+            ></b-avatar
+            >{{ userInfo.username }}({{ userInfo.userid }})님
+            환영합니다.</b-nav-item
+          >
+          <b-nav-item class="align-self-center"
+            ><router-link
+              :to="{ name: 'mypage' }"
+              class="link align-self-center"
+              >내정보보기</router-link
+            ></b-nav-item
+          >
+          <b-nav-item
+            class="link align-self-center"
+            @click.prevent="onClickLogout"
+            >로그아웃</b-nav-item
+          >
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto" v-else>
+          <b-nav-item-dropdown right>
+            <template #button-content>
+              <b-icon icon="people" font-scale="2"></b-icon>
+            </template>
+            <b-dropdown-item href="#"
+              ><router-link :to="{ name: 'signUp' }" class="link"
+                ><b-icon icon="person-circle"></b-icon> 회원가입</router-link
+              ></b-dropdown-item
+            >
+            <b-dropdown-item href="#"
+              ><router-link :to="{ name: 'signIn' }" class="link"
+                ><b-icon icon="key"></b-icon> 로그인</router-link
+              ></b-dropdown-item
+            >
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
   </div>
 </template>
 
