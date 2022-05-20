@@ -14,7 +14,11 @@
             <b-alert show variant="danger" v-if="isLoginError"
               >아이디 또는 비밀번호를 확인하세요.</b-alert
             >
-            <b-form-group label="아이디:" label-for="userid">
+            <b-form-group
+              label="아이디:"
+              label-for="userid"
+              style="font-weight: bold"
+            >
               <b-form-input
                 id="userid"
                 v-model="user.userid"
@@ -23,7 +27,11 @@
                 @keyup.enter="confirm"
               ></b-form-input>
             </b-form-group>
-            <b-form-group label="비밀번호:" label-for="userpwd">
+            <b-form-group
+              label="비밀번호:"
+              label-for="userpwd"
+              style="font-weight: bold"
+            >
               <b-form-input
                 type="password"
                 id="userpwd"
@@ -76,6 +84,7 @@ export default {
   methods: {
     ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
     async confirm() {
+      // console.log("login enter");
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
@@ -84,7 +93,7 @@ export default {
       }
     },
     movePage() {
-      this.$router.push({ name: "register" });
+      this.$router.push({ name: "regist" });
     },
   },
 };

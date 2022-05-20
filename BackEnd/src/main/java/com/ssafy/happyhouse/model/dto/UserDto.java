@@ -1,12 +1,22 @@
 package com.ssafy.happyhouse.model.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "UserDto : 회원정보", description = "회원의 상세 정보를 나타낸다.")
 public class UserDto {
 	
+	@ApiModelProperty(value = "회원 아이디")
 	private String id;
+	@ApiModelProperty(value = "회원 비밀번호")
 	private String pass;
+	@ApiModelProperty(value = "회원 이름")
 	private String name;
+	@ApiModelProperty(value = "회원 이메일")
 	private String email;
+	@ApiModelProperty(value = "회원 전화번호")
 	private String phone;
+	@ApiModelProperty(value = "관리자 여부")
 	private int isAdmin;
 	
 	public UserDto() {

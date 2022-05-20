@@ -37,8 +37,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto findPW(String id, String username, String email) {
-		// TODO Auto-generated method stub
-		return null;
+		return userMapper.findPW(id, username, email);
 	}
 
 	@Override

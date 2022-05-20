@@ -20,7 +20,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket postsApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
-				.groupName("ssafyVueBoard")
+				.groupName("ssafyHappyHouse")
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.ssafy.happyhouse.controller"))
@@ -29,7 +29,7 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("Happyhouse Board REST API")
+		return new ApiInfoBuilder().title("Happyhouse REST API")
 				.description("SSAFY API Reference for Developers")
 				.termsOfServiceUrl("https://edu.ssafy.com")
 				.license("SSAFY License")
@@ -37,5 +37,3 @@ public class SwaggerConfig {
 	}
 
 }
-
-
