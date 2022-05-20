@@ -43,6 +43,28 @@ const routes = [
     },
   },
   {
+    path: "/user",
+    name: "user",
+    component: () => import("@/views/UserView.vue"),
+    children: [
+      {
+        path: "login",
+        name: "login",
+        component: () => import("@/components/user/UserLogin.vue"),
+      },
+      {
+        path: "regist",
+        name: "regist",
+        component: () => import("@/components/user/UserRegister.vue"),
+      },
+      {
+        path: "mypage",
+        name: "mypage",
+        component: () => import("@/components/user/UserMypage.vue"),
+      },
+    ],
+  },
+  {
     path: "/about",
     name: "About",
     component: () => import("../views/AboutView.vue"),
