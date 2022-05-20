@@ -1,4 +1,4 @@
-import { apiInstance } from "./http-common.js";
+import { apiInstance } from "./index.js";
 
 const api = apiInstance();
 

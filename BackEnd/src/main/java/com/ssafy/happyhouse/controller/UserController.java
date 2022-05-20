@@ -99,7 +99,6 @@ public class UserController {
 	public ResponseEntity<Map<String, Object>> login(
 			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Map<String, String> map) {
 		Map<String, Object> resultMap = new HashMap<>();
-		System.out.println(map);
 		HttpStatus status = null;
 		try {
 			UserDto loginUser = userService.login(map);
