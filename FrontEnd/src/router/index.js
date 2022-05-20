@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import BoardContainer from "../views/BoardContainer.vue";
+import MapView from "../views/MapView.vue";
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,23 @@ const routes = [
     path: "/about",
     name: "About",
     component: () => import("../views/AboutView.vue"),
+  },
+  {
+    path: "/map",
+    name: "Map",
+    component: MapView,
+    children: [
+      {
+        path: "",
+        name: "MapSearch",
+        component: () => import("@/components/address/MapSearch.vue"),
+      },
+      {
+        path: "house",
+        name: "HouseSearch",
+        component: () => import("@/components/address/HouseSearch.vue"),
+      },
+    ],
   },
 ];
 

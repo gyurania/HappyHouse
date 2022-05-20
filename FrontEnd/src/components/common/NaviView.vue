@@ -17,11 +17,15 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="#">매물찾기</b-nav-item>
+          <b-nav-item href="#"
+            ><router-link to="/map/house">매물찾기</router-link></b-nav-item
+          >
         </b-navbar-nav>
 
         <b-navbar-nav>
-          <b-nav-item href="#">지역정보</b-nav-item>
+          <b-nav-item href="#"
+            ><router-link to="/map">지역정보</router-link></b-nav-item
+          >
         </b-navbar-nav>
 
         <b-navbar-nav>

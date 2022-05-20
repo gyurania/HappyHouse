@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import http from "@/util/http-common";
 
 import createPersistedState from "vuex-persistedstate"; //
-
+import addressStore from "@/store/modules/addressStore.js";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -26,6 +26,9 @@ export default new Vuex.Store({
         context.commit("setComments", data);
       });
     },
+  },
+  modules: {
+    addressStore,
   },
   plugins: [createPersistedState()],
 });
