@@ -11,6 +11,14 @@ Vue.use(IconsPlugin);
 
 Vue.config.productionTip = false;
 
+export const eventBus = new Vue({
+  methods: {
+    getGeoCode(range) {
+      this.$emit("getGeoCode", range);
+    },
+  },
+});
+
 new Vue({
   router,
   store,

@@ -1,4 +1,5 @@
 import { houseList } from "@/util/house.js";
+import { eventBus } from "@/main.js";
 
 const houseStore = {
   namespaced: true,
@@ -26,6 +27,7 @@ const houseStore = {
       state.apts = arr;
       state.viewRange = "gugun";
       state.backType = "";
+      eventBus.$emit("getGeoCode", state.viewRange);
     },
     SET_APT_LIST_DONG: (state, dongName) => {
       let apts = [];
@@ -43,6 +45,7 @@ const houseStore = {
         }
       }
       state.apts = arr;
+      eventBus.$emit("getGeoCode", state.viewRange);
     },
     SET_DETAIL_HOUSE: (state, houseName) => {
       let arr = [];
@@ -52,6 +55,7 @@ const houseStore = {
         }
       }
       state.apts = arr;
+      eventBus.$emit("getGeoCode", "house");
     },
     SET_BACK_TYPE: (state, dongName = "") => {
       state.backType = dongName;
