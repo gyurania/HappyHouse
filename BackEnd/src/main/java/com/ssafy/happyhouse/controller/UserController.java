@@ -3,8 +3,6 @@ package com.ssafy.happyhouse.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -45,25 +43,30 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-//	@GetMapping("/join")
-//	public String signUp() {
-//		return "user/join";
-//	}
-
-	@PostMapping("/join")
-	public String register(UserDto userDto, Model model) throws Exception {
-		logger.debug("userDto info : {}", userDto);
-		userService.signUp(userDto);
-		return "redirect:/user/login";
-	}
-
-	@GetMapping("/idcheck")
-//	@ResponseBody
-	public @ResponseBody String idCheck(@RequestParam("ckid") String checkId) throws Exception {
-		int idCount = userService.idCheck(checkId);
-		JSONObject json = new JSONObject();
-		json.put("idcount", idCount);
-		return json.toString();
+	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
+	@PostMapping("/login")
+	public ResponseEntity<Map<String, Object>> login(
+			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Map<String, String> map) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		try {
+			UserDto loginUser = userService.login(map);
+			if (loginUser != null) { // 로그인 성공! 토큰 만들기
+				String token = jwtService.create("userid", loginUser.getId(), "access-token");// key, data, subject
+				logger.debug("로그인 토큰정보 : {}", token);
+				resultMap.put("access-token", token);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			logger.error("로그인 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 //	@GetMapping("/login")
@@ -94,30 +97,31 @@ public class UserController {
 //		}
 //	}
 
-	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
-	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(
-			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Map<String, String> map) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		try {
-			UserDto loginUser = userService.login(map);
-			if (loginUser != null) { // 로그인 성공! 토큰 만들기
-				String token = jwtService.create("userid", loginUser.getId(), "access-token");// key, data, subject
-				logger.debug("로그인 토큰정보 : {}", token);
-				resultMap.put("access-token", token);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
-			} else {
-				resultMap.put("message", FAIL);
-				status = HttpStatus.ACCEPTED;
-			}
-		} catch (Exception e) {
-			logger.error("로그인 실패 : {}", e);
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+//	@GetMapping("/join")
+//	public String signUp() {
+//		return "user/join";
+//	}
+
+	@ApiOperation(value = "회원가입")
+	@PostMapping("/regist")
+	public ResponseEntity<String> register(@RequestBody UserDto userDto, Model model) throws Exception {
+		logger.debug("userDto info : {}", userDto);
+		if (userService.signUp(userDto)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		;
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	@ApiOperation(value = "아이디 중복검사")
+	@GetMapping("/idcheck")
+//	@ResponseBody
+	public ResponseEntity<String> idCheck(@RequestBody String checkId) throws Exception {
+		int idCount = userService.idCheck(checkId);
+		if (idCount == 0) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
 	@GetMapping("/logout")

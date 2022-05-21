@@ -11,26 +11,43 @@
       <b-col cols="8">
         <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
           <b-form class="text-left">
-            <b-form-group label="아이디:" label-for="userid">
+            <b-form-group
+              label="아이디:"
+              label-for="id"
+              style="font-weight: bold"
+            >
               <b-form-input
-                id="userid"
-                v-model="user.userid"
+                id="id"
+                v-model="user.id"
                 required
                 placeholder="아이디 입력"
               ></b-form-input>
+              <div align="right">
+                <b-button type="button" class="m-1" @click="idCheck"
+                  >중복확인</b-button
+                >
+              </div>
             </b-form-group>
 
-            <b-form-group label="비밀번호:" label-for="userpwd">
+            <b-form-group
+              label="비밀번호:"
+              label-for="pass"
+              style="font-weight: bold"
+            >
               <b-form-input
                 type="password"
-                id="userpwd"
-                v-model="user.userpwd"
+                id="pass"
+                v-model="user.pass"
                 required
                 placeholder="비밀번호 입력"
               ></b-form-input
             ></b-form-group>
 
-            <b-form-group label="비밀번호 확인:" label-for="checkpwd">
+            <b-form-group
+              label="비밀번호 확인:"
+              label-for="checkpwd"
+              style="font-weight: bold"
+            >
               <b-form-input
                 type="password"
                 id="checkpwd"
@@ -40,7 +57,15 @@
               ></b-form-input
             ></b-form-group>
 
-            <b-form-group label="이름:" label-for="name">
+            <!-- <b-alert show variant="danger" v-if=""
+              >비밀번호가 일치하지 않습니다.</b-alert
+            > -->
+
+            <b-form-group
+              label="이름:"
+              label-for="name"
+              style="font-weight: bold"
+            >
               <b-form-input
                 id="name"
                 v-model="user.name"
@@ -49,7 +74,11 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-form-group label="이메일:" label-for="email">
+            <b-form-group
+              label="이메일:"
+              label-for="email"
+              style="font-weight: bold"
+            >
               <b-form-input
                 id="email"
                 type="email"
@@ -59,7 +88,11 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-form-group label="연락처:" label-for="phone">
+            <b-form-group
+              label="연락처:"
+              label-for="phone"
+              style="font-weight: bold"
+            >
               <b-form-input
                 id="phone"
                 type="phone"
@@ -69,17 +102,23 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-button
-              type="button"
-              variant="success"
-              class="m-1"
-              @click="movePage"
-              >회원가입</b-button
-            >
+            <div align="center">
+              <b-button
+                type="button"
+                variant="primary"
+                class="m-1"
+                @click="onSubmit"
+                >회원가입</b-button
+              >
 
-            <b-button type="button" variant="danger" class="m-1"
-              >초기화</b-button
-            >
+              <b-button
+                type="button"
+                variant="danger"
+                class="m-1"
+                @click="onReset"
+                >초기화</b-button
+              >
+            </div>
           </b-form>
         </b-card>
       </b-col>
@@ -97,27 +136,84 @@ export default {
     return {
       isLoginError: false,
       user: {
-        userid: "",
-        userpwd: "",
+        id: "",
+        pass: "",
+        checkpwd: "",
+        name: "",
+        email: "",
+        phone: "",
       },
       users: [],
     };
   },
-  created() {
-    http.get(`/user/idcheck`).then(({ data }) => {
-      this.users = data;
-    });
-  },
   methods: {
-    // 아이디 중복 체크
-    checkId() {
-      // console.log(user);
+    onSubmit() {
+      // event.preventDefault();
+
+      let err = true;
+      let msg = "";
+      !this.user.id && ((msg = "아이디를 입력해주세요."), (err = false));
+      err &&
+        !this.user.pass &&
+        ((msg = "비밀번호를 입력해주세요."), (err = false));
+      err && !this.user.name && ((msg = "이름을 입력해주세요."), (err = false));
+      err &&
+        !this.user.email &&
+        ((msg = "이메일을 입력해주세요."), (err = false));
+      err &&
+        !this.user.phone &&
+        ((msg = "연락처를 입력해주세요."), (err = false));
+
+      if (!err) alert(msg);
+      else this.checkPw();
+      // else
+      //   this.type === "register" ? this.registArticle() : this.modifyArticle();
     },
     // 비밀번호 확인
     checkPw() {
-      this.checkPass = this.userpwd == this.checkpwd ? true : false;
+      if (this.user.pass === this.user.checkpwd) {
+        alert("입력완료");
+      } else {
+        alert("비밀번호가 일치하지 않습니다.");
+      }
+
+      this.regist();
     },
-    // 빈 칸 없는지 확인
+    idCheck() {
+      http.get(`/user/idcheck`, this.user.id).then(({ data }) => {
+        let msg = "이미 사용중인 아이디입니다.";
+        if (data === "success") {
+          msg = "사용 가능한 아이디입니다.";
+        }
+        alert(msg);
+      });
+    },
+    onReset() {
+      // event.preventDefault();
+      this.user.id = "";
+      this.user.pass = "";
+      this.user.checkpwd = "";
+      this.user.name = "";
+      this.user.email = "";
+      this.user.phone = "";
+    },
+    regist() {
+      http
+        .post(`/user/regist`, {
+          id: this.user.id,
+          pass: this.user.pass,
+          name: this.user.name,
+          email: this.user.email,
+          phone: this.user.phone,
+        })
+        .then(({ data }) => {
+          let msg = "회원가입 처리 중 문제가 발생했습니다.";
+          if (data === "success") {
+            msg = "회원가입이 완료되었습니다.";
+          }
+          alert(msg);
+        });
+    },
 
     movePage() {
       this.$router.push({ name: "login" });

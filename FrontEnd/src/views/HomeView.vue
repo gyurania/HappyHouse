@@ -1,6 +1,9 @@
 <template>
   <b-container>
-    <div class="background">당신은 어떤 집에서 살고 싶으신가요?</div>
+    <div class="wrap">
+      <div class="background"><img src="@/assets/house.jpg" /></div>
+      <div class="text"><p>어떤 집에서 살고 싶으신가요?</p></div>
+    </div>
   </b-container>
 </template>
 
@@ -14,25 +17,25 @@ export default {
 </script>
 
 <style scoped>
-.underline-steelblue {
-  display: inline-block;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 70%,
-    rgba(72, 190, 233, 0.3) 30%
-  );
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+.wrap {
+  width: 100%;
+  position: relative;
 }
-.background {
-  font-family: Georgia, "맑은 고딕", serif;
-  font-size: xx-large;
-  font-weight: bolder;
-  color: aliceblue;
-  height: 100vh;
-  overflow: hidden;
-  margin: 0;
-  background-image: url("@/assets/house.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+.wrap img {
+  width: 100%;
+  vertical-align: middle;
+}
+.text {
+  position: absolute;
+  top: 60%;
+  left: 50;
+  width: 100%;
+  /* transform: translate(-50%, 50%); */
+  font-size: 20px;
+  font-family: "Jeju Gothic";
+  text-align: center;
+  color: white;
 }
 </style>

@@ -40,6 +40,7 @@
           <b-nav-item href="#">관심목록</b-nav-item>
         </b-navbar-nav>
 
+        <!-- 로그인 상태 -->
         <b-navbar-nav class="ml-auto" v-if="userInfo">
           <b-nav-item class="align-self-center"
             ><b-avatar
@@ -62,6 +63,8 @@
             >로그아웃</b-nav-item
           >
         </b-navbar-nav>
+
+        <!-- 로그아웃 상태 -->
         <b-navbar-nav class="ml-auto" v-else>
           <b-nav-item-dropdown right>
             <template #button-content>
@@ -85,7 +88,27 @@
 </template>
 
 <script>
-export default {};
+import { mapState, mapMutations } from "vuex";
+// import us from "@/store/modules/userStore";
+
+const userStore = "userStore";
+
+export default {
+  name: "NaviView",
+  computed: {
+    ...mapState(userStore, ["isLogin", "userInfo"]),
+  },
+  methods: {
+    ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    onClickLogout() {
+      // console.log("memberStore : ", us);
+      this.SET_IS_LOGIN(false);
+      this.SET_USER_INFO(null);
+      sessionStorage.removeItem("access-token");
+      if (this.$route.path != "/") this.$router.push({ name: "Home" });
+    },
+  },
+};
 </script>
 
 <style>
