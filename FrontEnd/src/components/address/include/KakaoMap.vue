@@ -75,17 +75,18 @@ export default {
       let map = this.map;
       var positions = [];
       var geocoder = new kakao.maps.services.Geocoder();
-      let lastIdx = this.apts.length - 1;
-      for (let i in this.apts) {
-        let str = this.apts[i].법정동 + this.apts[i].지번;
-        let aptName = this.apts[i].아파트;
-        geocoder.addressSearch(str, (result, status) => {
+      let lastIdx = this.apts.length;
+      let cnt = 0;
+      this.apts.forEach((apt) => {
+        let str = apt.법정동 + apt.지번;
+        geocoder.addressSearch(str, async (result, status) => {
           if (status === kakao.maps.services.Status.OK) {
-            let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            if (!coords || !positions.includes(coords)) {
-              positions.push([aptName, coords]);
+            let coords = await new kakao.maps.LatLng(result[0].y, result[0].x);
+            cnt++;
+            if (!positions.some((position) => position[0] === apt.아파트)) {
+              positions.push([apt.아파트, coords]);
             }
-            if (i == lastIdx) {
+            if (lastIdx === cnt) {
               map.setCenter(coords);
               if (range == "gugun") {
                 map.setLevel(7);
@@ -94,14 +95,13 @@ export default {
               } else if (range == "house") {
                 map.setLevel(3);
               }
-
               this.positions = positions;
               this.removeMarker();
               this.displayMarker();
             }
           }
         });
-      }
+      });
     },
   },
 };
