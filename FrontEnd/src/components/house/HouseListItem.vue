@@ -3,7 +3,10 @@
     <div v-if="viewType == 'detail'">
       <h4>{{ apt.아파트 }}</h4>
       <h6>거래금액 : {{ apt.거래금액 }} 만원</h6>
-      <h6>면적 : {{ apt.전용면적 }}</h6>
+      <h6>
+        전용면적 : {{ Math.round(apt.전용면적 / 3.3058) }}평,
+        {{ apt.전용면적 }}m<sup>2</sup>
+      </h6>
       <h6>
         날짜 : <i>{{ apt.년 }}.</i>
         <i>{{ apt.월 }}.</i>
@@ -22,6 +25,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import { eventBus } from "@/main.js";
 
 const houseStore = "houseStore";
 export default {
@@ -33,6 +37,11 @@ export default {
   },
   props: {
     apt: Object,
+  },
+  created() {
+    eventBus.$on("aptMarkerSelect", (aptName) => {
+      this.aptSelect(aptName);
+    });
   },
   computed: {
     ...mapState(houseStore, ["viewType"]),

@@ -16,6 +16,9 @@ export const eventBus = new Vue({
     getGeoCode(range) {
       this.$emit("getGeoCode", range);
     },
+    aptMarkerSelect(aptName) {
+      this.$emit("aptMarkerSelect", aptName);
+    },
   },
 });
 

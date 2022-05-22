@@ -13,6 +13,7 @@ export default {
       infowindows: [],
       positions: [],
       markers: [],
+      num: 0,
     };
   },
   computed: {
@@ -38,8 +39,8 @@ export default {
     initMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 5,
+        center: new kakao.maps.LatLng(36.098066, 127.505276),
+        level: 13,
       };
 
       //지도 객체를 등록합니다.
@@ -58,6 +59,8 @@ export default {
     },
     displayMarker() {
       let map = this.map;
+      map.setCenter(this.positions[0][1]);
+      console.log(this.positions[0]);
       this.positions.forEach((position) => {
         const marker = new kakao.maps.Marker({
           map: map,
@@ -69,25 +72,37 @@ export default {
         });
         infowindow.open(map, marker);
         this.infowindows.push(infowindow);
+        kakao.maps.event.addListener(
+          marker,
+          "click",
+          this.makeClickListener(position[0])
+        );
       });
     },
-    async getMarkerCoordinate(range) {
+    makeClickListener(aptName) {
+      this.num = 0;
+      return function () {
+        eventBus.$emit("aptMarkerSelect", aptName);
+      };
+    },
+    getMarkerCoordinate(range) {
       let map = this.map;
       var positions = [];
       var geocoder = new kakao.maps.services.Geocoder();
       let lastIdx = this.apts.length;
       let cnt = 0;
+      if (this.num++ != 0) return;
       this.apts.forEach((apt) => {
-        let str = apt.법정동 + apt.지번;
+        let str = `${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
+        // let str = `${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
         geocoder.addressSearch(str, async (result, status) => {
+          cnt++;
           if (status === kakao.maps.services.Status.OK) {
             let coords = await new kakao.maps.LatLng(result[0].y, result[0].x);
-            cnt++;
             if (!positions.some((position) => position[0] === apt.아파트)) {
               positions.push([apt.아파트, coords]);
             }
             if (lastIdx === cnt) {
-              map.setCenter(coords);
               if (range == "gugun") {
                 map.setLevel(7);
               } else if (range == "dong") {

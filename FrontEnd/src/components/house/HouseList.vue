@@ -12,6 +12,7 @@
     </house-list-item>
   </b-container>
   <b-container v-else>
+    <div v-if="viewRange == 'dong'" v-on:click="showGugun()">전체보기</div>
     <b-row
       ><b-col><b-alert show>거래 내역이 없습니다.</b-alert></b-col></b-row
     >
