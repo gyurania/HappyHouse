@@ -31,13 +31,18 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public UserDto detailUser(String userid) throws Exception {
+		return userMapper.userInfo(userid);
+	}
+	
+	@Override
 	public boolean update(UserDto user) throws Exception {
 		return userMapper.update(user);
 	}
 
 	@Override
-	public boolean deleteUser(UserDto user) throws Exception {
-		return userMapper.deleteUser(user);
+	public boolean deleteUser(String userId) throws Exception {
+		return userMapper.deleteUser(userId);
 	}
 
 	@Override
@@ -55,6 +60,5 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
 	
 }

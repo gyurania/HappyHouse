@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ssafy.happyhouse.model.dto.UserDto;
 import com.ssafy.happyhouse.model.service.JwtServiceImpl;
@@ -67,7 +68,7 @@ public class UserController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
 	@GetMapping("/info/{userid}")
 	public ResponseEntity<Map<String, Object>> getInfo(
@@ -137,22 +138,12 @@ public class UserController {
 		if (userService.signUp(userDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		;
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "회원탈퇴")
-	@DeleteMapping("/mypage")
-	public ResponseEntity<?> delete(@RequestBody UserDto userDto, Model model, HttpSession session) throws Exception {
-		userService.deleteUser(userDto);
-		session.setAttribute("userinfo", null);
-		return new ResponseEntity<String>("삭제!!!", HttpStatus.OK);
-	}
-	
 	@ApiOperation(value = "아이디 중복검사")
-	@GetMapping("/idcheck")
-//	@ResponseBody
-	public ResponseEntity<String> idCheck(@RequestBody String checkId) throws Exception {
+	@GetMapping("/idcheck/{checkId}")
+	public ResponseEntity<String> idCheck(@PathVariable String checkId) throws Exception {
 		int idCount = userService.idCheck(checkId);
 		if (idCount == 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -160,38 +151,37 @@ public class UserController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
-
 	@ApiOperation(value = "로그인한 유저의 회원정보 반환")
-	@GetMapping("/mypage/")
-	public String myPage() {
-		return "user/mypage";
+	@GetMapping("/mypage/{userId}")
+	public ResponseEntity<UserDto> myPage(@PathVariable String userId) throws Exception {
+//		return "user/mypage";
+		logger.debug("datailUser - 호출");
+		return new ResponseEntity<UserDto>(userService.userInfo(userId), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "비밀번호 체크")
-	@PostMapping("/mypage/passCheck")
-	public ResponseEntity<?> passCheck(@RequestBody String pass, HttpSession session) throws Exception {
-		UserDto user = (UserDto) session.getAttribute("userinfo");
-		String id = user.getId();
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("pass", pass);
-		if (userService.login(map) != null) {
-			return new ResponseEntity<String>("true", HttpStatus.OK);
+	@ApiOperation(value = "회원탈퇴")
+	@DeleteMapping("/mypage/{userId}")
+	public ResponseEntity<String> delete(@PathVariable String userId) throws Exception {
+		if (userService.deleteUser(userId)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("false", HttpStatus.OK);
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@PutMapping("/mypage")
-	public ResponseEntity<?> update(@RequestBody UserDto userDto, Model model, HttpSession session) throws Exception {
-		userService.update(userDto);
-		session.setAttribute("userinfo", userDto);
-		return new ResponseEntity<String>("수정~~~", HttpStatus.OK);
-	}
+//	@GetMapping("/logout")
+//	public String logout(HttpSession session) {
+//		session.invalidate();
+//		return "redirect:/";
+//	}
 
+	@ApiOperation(value = "회원정보 수정")
+	@PutMapping("/mypage/{userId}")
+	public ResponseEntity<String> update(@RequestBody UserDto userDto) throws Exception {
+		if (userService.update(userDto)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+
+	}
 
 }

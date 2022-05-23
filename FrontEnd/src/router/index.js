@@ -62,6 +62,21 @@ const routes = [
         name: "mypage",
         component: () => import("@/components/user/UserMypage.vue"),
       },
+      {
+        path: "update",
+        name: "update",
+        component: () => import("@/components/user/UserUpdate.vue"),
+      },
+      {
+        path: "checkpw",
+        name: "checkpw",
+        component: () => import("@/components/user/checkPass.vue"),
+      },
+      {
+        path: "delete",
+        name: "delete",
+        component: () => import("@/components/user/checkDelete.vue"),
+      },
     ],
   },
   {

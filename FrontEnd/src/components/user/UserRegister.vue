@@ -135,6 +135,7 @@ export default {
   data() {
     return {
       isLoginError: false,
+      duplicateId: false,
       user: {
         id: "",
         pass: "",
@@ -179,10 +180,12 @@ export default {
       }
     },
     idCheck() {
-      http.get(`/user/idcheck`, { id: this.user.id }).then(({ data }) => {
+      http.get(`/user/idcheck/${this.user.id}`).then(({ data }) => {
         let msg = "이미 사용중인 아이디입니다.";
+        this.duplicateId = true;
         if (data === "success") {
           msg = "사용 가능한 아이디입니다.";
+          this.duplicateId = false;
         }
         alert(msg);
       });
@@ -197,22 +200,26 @@ export default {
       this.user.phone = "";
     },
     regist() {
-      http
-        .post(`/user/regist`, {
-          id: this.user.id,
-          pass: this.user.pass,
-          name: this.user.name,
-          email: this.user.email,
-          phone: this.user.phone,
-        })
-        .then(({ data }) => {
-          let msg = "회원가입 처리 중 문제가 발생했습니다.";
-          if (data === "success") {
-            msg = "회원가입이 완료되었습니다.";
-            this.movePage();
-          }
-          alert(msg);
-        });
+      if (this.duplicateId == true) {
+        alert("아이디 중복확인을 해주세요.");
+      } else {
+        http
+          .post(`/user/regist`, {
+            id: this.user.id,
+            pass: this.user.pass,
+            name: this.user.name,
+            email: this.user.email,
+            phone: this.user.phone,
+          })
+          .then(({ data }) => {
+            let msg = "회원가입 처리 중 문제가 발생했습니다.";
+            if (data === "success") {
+              msg = "회원가입이 완료되었습니다.";
+              this.movePage();
+            }
+            alert(msg);
+          });
+      }
     },
 
     movePage() {

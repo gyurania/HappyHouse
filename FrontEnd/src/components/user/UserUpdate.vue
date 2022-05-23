@@ -16,11 +16,7 @@
               label-for="id"
               style="font-weight: bold"
             >
-              <b-form-input
-                id="id"
-                v-model="userInfo.id"
-                readonly
-              ></b-form-input>
+              <b-form-input id="id" v-model="user.id" readonly></b-form-input>
             </b-form-group>
 
             <b-form-group
@@ -31,8 +27,7 @@
               <b-form-input
                 id="name"
                 required
-                v-model="userInfo.name"
-                readonly
+                v-model="user.name"
               ></b-form-input>
             </b-form-group>
 
@@ -45,8 +40,7 @@
                 id="email"
                 type="email"
                 required
-                v-model="userInfo.email"
-                readonly
+                v-model="user.email"
               ></b-form-input>
             </b-form-group>
 
@@ -59,8 +53,7 @@
                 id="phone"
                 type="phone"
                 required
-                readonly
-                v-model="userInfo.phone"
+                v-model="user.phone"
               ></b-form-input>
             </b-form-group>
 
@@ -70,15 +63,15 @@
                 type="button"
                 variant="primary"
                 class="m-1"
-                @click="movePage"
-                >정보수정</b-button
+                @click="updateUser"
+                >수정</b-button
               >
               <b-button
                 type="button"
                 variant="danger"
                 class="m-1"
-                @click="deleteUser"
-                >회원탈퇴</b-button
+                @click="moveMypage"
+                >취소</b-button
               >
             </div>
           </b-form>
@@ -90,30 +83,57 @@
 </template>
 
 <script>
-// import http from "@/util/http-common";
+import http from "@/util/http-common";
 import { mapState, mapMutations } from "vuex";
 
 const userStore = "userStore";
 
 export default {
-  name: "UserMyapage",
+  name: "UserUpdate",
+  data() {
+    return {
+      user: {
+        id: "",
+        pass: "",
+        name: "",
+        email: "",
+        phone: "",
+      },
+    };
+  },
+  created() {
+    http.get(`/user/mypage/${this.userInfo.id}`).then(({ data }) => {
+      this.user = data;
+    });
+  },
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
   },
+  // state:{}
+  // }
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
-    // onClickLogout() {
-    //   // console.log("memberStore : ", us);
-    //   this.SET_IS_LOGIN(false);
-    //   this.SET_USER_INFO(null);
-    //   sessionStorage.removeItem("access-token");
-    //   if (this.$route.path != "/") this.$router.push({ name: "Home" });
-    // },
-    movePage() {
-      this.$router.push({ name: "checkpw" });
+    updateUser() {
+      http
+        .put(`/user/mypage/${this.user.id}`, {
+          id: this.user.id,
+          pass: this.user.pass,
+          name: this.user.name,
+          email: this.user.email,
+          phone: this.user.phone,
+        })
+        .then(({ data }) => {
+          let msg = "수정 처리시 문제가 발생했습니다.";
+          if (data === "success") {
+            msg = "수정이 완료되었습니다.";
+
+            this.$router.push({ name: "mypage" });
+          }
+          alert(msg);
+        });
     },
-    deleteUser() {
-      this.$router.push({ name: "delete" });
+    moveMypage() {
+      this.$router.push({ name: "mypage" });
     },
   },
 };

@@ -13,9 +13,11 @@ public interface UserService {
 
 	UserDto userInfo(String userid) throws Exception;
 
+	UserDto detailUser(String userid) throws Exception;
+	
 	boolean update(UserDto user) throws Exception;
 
-	boolean deleteUser(UserDto user) throws Exception;
+	boolean deleteUser(String userId) throws Exception;
 
 	UserDto findPW(String id, String username, String email);
 
