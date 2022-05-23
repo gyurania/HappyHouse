@@ -1,17 +1,21 @@
 <template>
-  <b-container>
+  <div>
     <div class="wrap">
       <div class="background"><img src="@/assets/house.jpg" /></div>
-      <div class="text"><p>어떤 집에서 살고 싶으신가요?</p></div>
+      <div class="content">
+        <p>어떤 집에서 살고 싶으신가요?</p>
+        <si-gun-dong type="home" />
+      </div>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
+import SiGunDong from "@/components/address/include/SiGunDong.vue";
 export default {
   name: "HomeView",
-  props: {
-    msg: String,
+  components: {
+    SiGunDong,
   },
 };
 </script>
@@ -27,7 +31,7 @@ export default {
   width: 100%;
   vertical-align: middle;
 }
-.text {
+.content {
   position: absolute;
   top: 60%;
   left: 50;

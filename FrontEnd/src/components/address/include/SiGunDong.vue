@@ -15,7 +15,7 @@
           @change="dongList"
         ></b-form-select>
       </b-col>
-      <b-col class="sm-3">
+      <b-col v-if="!(type == 'home')" class="sm-3">
         <b-form-select
           v-model="dongCode"
           :options="dongs"
@@ -58,6 +58,8 @@ export default {
   },
   props: {
     type: String,
+    sido_code: String,
+    gugun_code: String,
   },
   computed: {
     ...mapState(addressStore, [
@@ -69,6 +71,12 @@ export default {
       "dong",
     ]),
     ...mapState(houseStore, ["backType"]),
+  },
+  updated() {
+    if (this.$route.params.sido_code)
+      this.sidoCode = this.$route.params.sido_code;
+    if (this.$route.params.gugun_code)
+      this.gugunCode = this.$route.params.gugun_code;
   },
   created() {
     this.CLEAR_SIDO_LIST();
@@ -99,6 +107,16 @@ export default {
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
+      if (this.type == "home")
+        this.$router.push({
+          name: "HouseSearch",
+          params: {
+            type: "houseSearch",
+            sido_code: this.sidoCode,
+            gugun_code: this.gugunCode,
+          },
+        });
+      console.log(this.sidoCode);
       this.gugunSelect();
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
