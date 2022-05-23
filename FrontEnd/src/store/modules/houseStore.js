@@ -21,7 +21,6 @@ const houseStore = {
       state.viewRange = "gugun";
     },
     SET_HOUSE_LIST: (state, houses) => {
-      //   console.log(houses);
       state.houses = houses;
     },
     SET_APT_LIST: (state, houses = state.houses) => {
@@ -72,7 +71,7 @@ const houseStore = {
     },
   },
   actions: {
-    getHouseList: ({ commit }, args) => {
+    async getHouseList({ commit }, args) {
       const SERVICE_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
       const params = {
         LAWD_CD: args.gugunCode,
@@ -80,7 +79,7 @@ const houseStore = {
         numOfRows: 10000,
         serviceKey: decodeURIComponent(SERVICE_KEY),
       };
-      houseList(
+      await houseList(
         params,
         (response) => {
           commit("SET_HOUSE_LIST", response.data.response.body.items.item);

@@ -14,11 +14,12 @@ export default {
       positions: [],
       markers: [],
       num: 0,
+      range: "",
     };
   },
   computed: {
     ...mapState("houseStore", ["apts"]),
-    ...mapState("addressStore", ["sido"]),
+    ...mapState("addressStore", ["sido", "gugun", "dong"]),
   },
   created() {
     eventBus.$on("getGeoCode", (range) => {
@@ -48,7 +49,7 @@ export default {
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
     },
-    removeMarker() {
+    async removeMarker() {
       this.markers.forEach((marker) => {
         marker.setMap(null);
       });
@@ -58,9 +59,65 @@ export default {
       });
       this.infowindows = [];
     },
-    displayMarker(type) {
+    async getMarkerCoordinate(range) {
       let map = this.map;
-      map.setCenter(this.positions[0][1]);
+      let positions = [];
+      let geocoder = new kakao.maps.services.Geocoder();
+      let lastIdx = this.apts?.length;
+      let cnt = 0;
+      if (this.num++ != 0 && range == this.range) return;
+      this.range = range;
+      if (lastIdx) {
+        this.apts.forEach((apt) => {
+          let str = `${this.sido} ${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
+          geocoder.addressSearch(str, async (result, status) => {
+            cnt++;
+            if (status === kakao.maps.services.Status.OK) {
+              let coords = await new kakao.maps.LatLng(
+                result[0].y,
+                result[0].x
+              );
+              if (!positions.some((position) => position[0] === apt.아파트)) {
+                positions.push([apt.아파트, coords]);
+              }
+              if (lastIdx === cnt) {
+                if (range == "gugun") {
+                  map.setLevel(7);
+                } else if (range == "dong") {
+                  map.setLevel(5);
+                } else if (range == "house") {
+                  map.setLevel(3);
+                }
+                this.positions = positions;
+                await this.removeMarker();
+                await this.displayMarker("apt");
+              }
+            }
+          });
+        });
+      } else {
+        let str = `${this.sido} ${this.gugun} ${this.dong}`;
+        geocoder.addressSearch(str, async (result, status) => {
+          cnt++;
+          if (status === kakao.maps.services.Status.OK) {
+            let coords = await new kakao.maps.LatLng(result[0].y, result[0].x);
+            if (cnt === 1);
+            positions.push([this.dong, coords]);
+            this.positions = positions;
+            map.setLevel(5);
+            await this.removeMarker();
+            this.displayMarker("dong");
+          }
+        });
+        this.num = 0;
+      }
+    },
+    async displayMarker(type) {
+      let map = this.map;
+      map.setCenter(
+        new kakao.maps.LatLng(this.positions[0][1].Ma, this.positions[0][1].La)
+      );
+      map.relayout();
       this.positions.forEach((position) => {
         const marker = new kakao.maps.Marker({
           map: map,
@@ -85,39 +142,9 @@ export default {
         return function () {
           eventBus.$emit("aptMarkerSelect", name);
         };
+      } else if (type === "dong") {
+        this.num = 0;
       }
-    },
-    getMarkerCoordinate(range) {
-      let map = this.map;
-      let positions = [];
-      let geocoder = new kakao.maps.services.Geocoder();
-      let lastIdx = this.apts.length;
-      let cnt = 0;
-      if (this.num++ != 0) return;
-      this.apts.forEach((apt) => {
-        let str = `${this.sido} ${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
-        geocoder.addressSearch(str, async (result, status) => {
-          cnt++;
-          if (status === kakao.maps.services.Status.OK) {
-            let coords = await new kakao.maps.LatLng(result[0].y, result[0].x);
-            if (!positions.some((position) => position[0] === apt.아파트)) {
-              positions.push([apt.아파트, coords]);
-            }
-            if (lastIdx === cnt) {
-              if (range == "gugun") {
-                map.setLevel(7);
-              } else if (range == "dong") {
-                map.setLevel(5);
-              } else if (range == "house") {
-                map.setLevel(3);
-              }
-              this.positions = positions;
-              this.removeMarker();
-              this.displayMarker("apt");
-            }
-          }
-        });
-      });
     },
   },
 };

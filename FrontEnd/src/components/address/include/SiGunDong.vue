@@ -1,12 +1,6 @@
 <template>
   <b-container>
     <b-row class="mt-4 mb-4 text-center">
-      <b-col v-if="type == 'houseSearch'" class="sm-3">
-        <b-form-select v-model="year" :options="years"></b-form-select>
-      </b-col>
-      <b-col v-if="type == 'houseSearch'" class="sm-3">
-        <b-form-select v-model="month" :options="months"></b-form-select>
-      </b-col>
       <b-col class="sm-3">
         <b-form-select
           v-model="sidoCode"
@@ -28,6 +22,15 @@
           @change="dongSelect($event)"
         ></b-form-select>
       </b-col>
+      <b-col v-if="type == 'houseSearch'" class="sm-3">
+        <b-form-select v-model="year" :options="years"></b-form-select>
+      </b-col>
+      <b-col v-if="type == 'houseSearch'" class="sm-3">
+        <b-form-select v-model="month" :options="months"></b-form-select>
+      </b-col>
+      <b-btn v-if="type == 'houseSearch'" class="sm-3 mt-0" @click="changeYM"
+        >날짜 갱신</b-btn
+      >
     </b-row>
   </b-container>
 </template>
@@ -65,6 +68,7 @@ export default {
       "gugun",
       "dong",
     ]),
+    ...mapState(houseStore, ["backType"]),
   },
   created() {
     this.CLEAR_SIDO_LIST();
@@ -82,6 +86,7 @@ export default {
       "CLEAR_DONG_LIST",
       "SET_SIDO",
       "SET_GUGUN",
+      "SET_DONG",
     ]),
     ...mapMutations(houseStore, [
       "SET_APT_LIST_DONG",
@@ -99,11 +104,11 @@ export default {
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
-    gugunSelect() {
+    async gugunSelect() {
       if (this.gugunCode) {
         let gugunCode = this.gugunCode;
         let YMD = this.year + this.month;
-        this.getHouseList({ gugunCode, YMD });
+        await this.getHouseList({ gugunCode, YMD });
         this.SET_VIEW_TYPE("apt");
         this.SET_BACK_TYPE("");
       }
@@ -119,10 +124,22 @@ export default {
         }
         this.SET_BACK_TYPE(dongName);
       }
+      this.SET_DONG(this.dongCode);
       this.SET_VIEW_TYPE("apt");
     },
     dongClick(dongCode) {
       this.dongCode = dongCode;
+    },
+    async changeYM() {
+      if (!this.gugunCode) {
+        alert("시,군,동을 선택해주세요!");
+      } else {
+        this.gugunSelect().then(() => {
+          if (this.dongCode) {
+            this.dongSelect(this.dongCode);
+          }
+        });
+      }
     },
   },
 };

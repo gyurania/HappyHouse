@@ -1,5 +1,4 @@
 import { sidoList, gugunList, dongList } from "@/util/address.js";
-import { eventBus } from "@/main.js";
 
 const addressStore = {
   namespaced: true,
@@ -24,7 +23,6 @@ const addressStore = {
       guguns.forEach((gugun) => {
         state.guguns.push({ value: gugun.gugunCode, text: gugun.gugunName });
       });
-      eventBus.$emit("setMap", state.guguns);
     },
     SET_DONG_LIST: (state, dongs) => {
       dongs.forEach((dong) => {
@@ -50,7 +48,12 @@ const addressStore = {
     },
     SET_GUGUN: (state, gugun) => {
       state.guguns.forEach((object) => {
-        if (object.value === gugun) state.gugun = gugun;
+        if (object.value === gugun) state.gugun = object.text;
+      });
+    },
+    SET_DONG: (state, dong) => {
+      state.dongs.forEach((object) => {
+        if (object.value == dong) state.dong = object.text;
       });
     },
   },
@@ -71,7 +74,6 @@ const addressStore = {
       gugunList(
         params,
         ({ data }) => {
-          // console.log(commit, response);
           commit("SET_GUGUN_LIST", data);
           commit("SET_SIDO", sidoCode);
         },
@@ -85,8 +87,8 @@ const addressStore = {
       dongList(
         params,
         ({ data }) => {
-          // console.log(commit, response);
           commit("SET_DONG_LIST", data);
+          commit("SET_GUGUN", gugunCode);
         },
         (error) => {
           console.log(error);
