@@ -72,6 +72,8 @@ export default {
       // console.log(this.pwcheck);
       if (this.user.pass === this.pwcheck) {
         this.$router.push({ name: "update" });
+      } else {
+        alert("비밀번호가 일치하지 않습니다.");
       }
     },
   },

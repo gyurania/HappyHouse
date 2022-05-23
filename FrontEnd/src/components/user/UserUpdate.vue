@@ -84,7 +84,7 @@
 
 <script>
 import http from "@/util/http-common";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 const userStore = "userStore";
 
@@ -99,6 +99,10 @@ export default {
         email: "",
         phone: "",
       },
+      loginUser: {
+        userid: "",
+        userpwd: "",
+      },
     };
   },
   created() {
@@ -112,6 +116,7 @@ export default {
   // state:{}
   // }
   methods: {
+    ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     updateUser() {
       http
@@ -127,10 +132,29 @@ export default {
           if (data === "success") {
             msg = "수정이 완료되었습니다.";
 
+            this.SET_IS_LOGIN(false);
+            this.SET_USER_INFO(null);
+            sessionStorage.removeItem("access-token");
+
+            // console.log(this.user.id);
+            this.loginUser.userid = this.user.id;
+            this.loginUser.userpwd = this.user.pass;
+
+            // 다시 로그인
+            this.confirm();
+
             this.$router.push({ name: "mypage" });
+            // console.log(this.loginUser.userpwd);
           }
           alert(msg);
         });
+    },
+    async confirm() {
+      await this.userConfirm(this.loginUser);
+      let token = sessionStorage.getItem("access-token");
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+      }
     },
     moveMypage() {
       this.$router.push({ name: "mypage" });

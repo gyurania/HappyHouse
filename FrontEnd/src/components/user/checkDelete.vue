@@ -89,6 +89,8 @@ export default {
         } else {
           this.$router.push({ name: "mypage" });
         }
+      } else {
+        alert("비밀번호가 일치하지 않습니다.");
       }
     },
   },
