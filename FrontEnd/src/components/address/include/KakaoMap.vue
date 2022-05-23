@@ -18,6 +18,7 @@ export default {
   },
   computed: {
     ...mapState("houseStore", ["apts"]),
+    ...mapState("addressStore", ["sido"]),
   },
   created() {
     eventBus.$on("getGeoCode", (range) => {
@@ -57,10 +58,9 @@ export default {
       });
       this.infowindows = [];
     },
-    displayMarker() {
+    displayMarker(type) {
       let map = this.map;
       map.setCenter(this.positions[0][1]);
-      console.log(this.positions[0]);
       this.positions.forEach((position) => {
         const marker = new kakao.maps.Marker({
           map: map,
@@ -75,26 +75,27 @@ export default {
         kakao.maps.event.addListener(
           marker,
           "click",
-          this.makeClickListener(position[0])
+          this.makeClickListener(position[0], type)
         );
       });
     },
-    makeClickListener(aptName) {
-      this.num = 0;
-      return function () {
-        eventBus.$emit("aptMarkerSelect", aptName);
-      };
+    makeClickListener(name, type) {
+      if (type === "apt") {
+        this.num = 0;
+        return function () {
+          eventBus.$emit("aptMarkerSelect", name);
+        };
+      }
     },
     getMarkerCoordinate(range) {
       let map = this.map;
-      var positions = [];
-      var geocoder = new kakao.maps.services.Geocoder();
+      let positions = [];
+      let geocoder = new kakao.maps.services.Geocoder();
       let lastIdx = this.apts.length;
       let cnt = 0;
       if (this.num++ != 0) return;
       this.apts.forEach((apt) => {
-        let str = `${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
-        // let str = `${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
+        let str = `${this.sido} ${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
         geocoder.addressSearch(str, async (result, status) => {
           cnt++;
           if (status === kakao.maps.services.Status.OK) {
@@ -112,7 +113,7 @@ export default {
               }
               this.positions = positions;
               this.removeMarker();
-              this.displayMarker();
+              this.displayMarker("apt");
             }
           }
         });

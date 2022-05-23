@@ -19,6 +19,9 @@ export const eventBus = new Vue({
     aptMarkerSelect(aptName) {
       this.$emit("aptMarkerSelect", aptName);
     },
+    dongClick(dongCode) {
+      this.$emit("dongClick", dongCode);
+    },
   },
 });
 

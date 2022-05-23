@@ -1,4 +1,5 @@
 import { sidoList, gugunList, dongList } from "@/util/address.js";
+import { eventBus } from "@/main.js";
 
 const addressStore = {
   namespaced: true,
@@ -6,6 +7,9 @@ const addressStore = {
     sidos: [{ value: null, text: "선택하세요" }],
     guguns: [{ value: null, text: "선택하세요" }],
     dongs: [{ value: null, text: "선택하세요" }],
+    sido: "",
+    gugun: "",
+    dong: "",
   },
 
   getters: {},
@@ -20,6 +24,7 @@ const addressStore = {
       guguns.forEach((gugun) => {
         state.guguns.push({ value: gugun.gugunCode, text: gugun.gugunName });
       });
+      eventBus.$emit("setMap", state.guguns);
     },
     SET_DONG_LIST: (state, dongs) => {
       dongs.forEach((dong) => {
@@ -36,8 +41,17 @@ const addressStore = {
       state.dongs = [{ value: null, text: "선택하세요" }];
     },
     SET_HOUSE_LIST: (state, houses) => {
-      //   console.log(houses);
       state.houses = houses;
+    },
+    SET_SIDO: (state, sido) => {
+      state.sidos.forEach((object) => {
+        if (object.value == sido) state.sido = object.text;
+      });
+    },
+    SET_GUGUN: (state, gugun) => {
+      state.guguns.forEach((object) => {
+        if (object.value === gugun) state.gugun = gugun;
+      });
     },
   },
 
@@ -45,7 +59,6 @@ const addressStore = {
     getSido: ({ commit }) => {
       sidoList(
         ({ data }) => {
-          // console.log(data);
           commit("SET_SIDO_LIST", data);
         },
         (error) => {
@@ -60,6 +73,7 @@ const addressStore = {
         ({ data }) => {
           // console.log(commit, response);
           commit("SET_GUGUN_LIST", data);
+          commit("SET_SIDO", sidoCode);
         },
         (error) => {
           console.log(error);

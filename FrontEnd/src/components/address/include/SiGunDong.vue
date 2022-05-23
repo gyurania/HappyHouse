@@ -36,6 +36,7 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import years from "@/components/address/include/years.js";
 import months from "@/components/address/include/months.js";
+import { eventBus } from "@/main.js";
 const addressStore = "addressStore";
 const houseStore = "houseStore";
 
@@ -56,11 +57,21 @@ export default {
     type: String,
   },
   computed: {
-    ...mapState(addressStore, ["sidos", "guguns", "dongs"]),
+    ...mapState(addressStore, [
+      "sidos",
+      "guguns",
+      "dongs",
+      "sido",
+      "gugun",
+      "dong",
+    ]),
   },
   created() {
     this.CLEAR_SIDO_LIST();
     this.getSido();
+    eventBus.$on("dongClick", (dongCode) => {
+      this.dongClick(dongCode);
+    });
   },
   methods: {
     ...mapActions(addressStore, ["getSido", "getGugun", "getDong"]),
@@ -69,6 +80,8 @@ export default {
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
+      "SET_SIDO",
+      "SET_GUGUN",
     ]),
     ...mapMutations(houseStore, [
       "SET_APT_LIST_DONG",
@@ -107,6 +120,9 @@ export default {
         this.SET_BACK_TYPE(dongName);
       }
       this.SET_VIEW_TYPE("apt");
+    },
+    dongClick(dongCode) {
+      this.dongCode = dongCode;
     },
   },
 };

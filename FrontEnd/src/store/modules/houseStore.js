@@ -13,6 +13,13 @@ const houseStore = {
   getters: {},
 
   mutations: {
+    INIT_HOUSE_HOUSE_STORE: (state) => {
+      state.houses = [];
+      state.apts = [];
+      state.backType = "";
+      state.viewType = "apt";
+      state.viewRange = "gugun";
+    },
     SET_HOUSE_LIST: (state, houses) => {
       //   console.log(houses);
       state.houses = houses;

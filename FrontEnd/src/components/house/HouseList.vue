@@ -21,6 +21,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import HouseListItem from "@/components/house/HouseListItem.vue";
+import { eventBus } from "@/main.js";
 
 const houseStore = "houseStore";
 export default {
@@ -37,11 +38,15 @@ export default {
   computed: {
     ...mapState(houseStore, ["apts", "backType", "viewType", "viewRange"]),
   },
+  created() {
+    this.INIT_HOUSE_HOUSE_STORE();
+  },
   methods: {
     ...mapMutations(houseStore, [
       "SET_APT_LIST_DONG",
       "SET_VIEW_TYPE",
       "SET_APT_LIST",
+      "INIT_HOUSE_HOUSE_STORE",
     ]),
     typeSelect() {
       this.SET_VIEW_TYPE("apt");
@@ -52,6 +57,7 @@ export default {
     },
     showGugun() {
       this.SET_APT_LIST();
+      eventBus.$emit("dongClick", null);
     },
   },
 };

@@ -36,7 +36,6 @@ export default new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      // paths: [addressStore, userStore],
       storage: sessionStorage,
     }),
   ],

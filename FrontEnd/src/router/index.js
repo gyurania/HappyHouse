@@ -75,7 +75,7 @@ const routes = [
     component: MapView,
     children: [
       {
-        path: "",
+        path: "/interest",
         name: "MapSearch",
         component: () => import("@/components/address/MapSearch.vue"),
       },

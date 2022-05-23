@@ -12,10 +12,17 @@
         <i>{{ apt.월 }}.</i>
         <i>{{ apt.일 }}</i>
       </h6>
+      <h6 v-on:click="dongClick(apt.법정동)">
+        주소 : {{ apt.법정동 }} {{ apt.지번 }}
+      </h6>
     </div>
     <div v-else>
       <h4 v-on:click="aptSelect(apt.아파트)">{{ apt.아파트 }}</h4>
-      <h6 v-on:click="dongClick(apt.법정동)">
+      <h6
+        v-on:click="
+          dongClick(apt.법정동, apt.법정동시군구코드, apt.법정동읍면동코드)
+        "
+      >
         주소 : {{ apt.법정동 }} {{ apt.지번 }}
       </h6>
     </div>
@@ -64,10 +71,12 @@ export default {
       this.SET_DETAIL_HOUSE(name.trim());
       this.SET_VIEW_TYPE("detail");
     },
-    dongClick(dongName) {
+    dongClick(dongName, gugunCode, dongCode10) {
       this.SET_APT_LIST_DONG(dongName);
       this.SET_BACK_TYPE(dongName);
       this.SET_VIEW_TYPE("apt");
+      let dongCode = gugunCode + String(dongCode10).substr(0, 3);
+      eventBus.$emit("dongClick", dongCode);
     },
   },
 };
