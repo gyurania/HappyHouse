@@ -72,7 +72,7 @@ export default {
     ]),
     ...mapState(houseStore, ["backType"]),
   },
-  updated() {
+  mounted() {
     if (this.$route.params.sido_code)
       this.sidoCode = this.$route.params.sido_code;
     if (this.$route.params.gugun_code)
@@ -116,7 +116,6 @@ export default {
             gugun_code: this.gugunCode,
           },
         });
-      console.log(this.sidoCode);
       this.gugunSelect();
       this.CLEAR_DONG_LIST();
       this.dongCode = null;

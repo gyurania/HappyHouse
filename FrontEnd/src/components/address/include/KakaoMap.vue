@@ -66,6 +66,7 @@ export default {
       let lastIdx = this.apts?.length;
       let cnt = 0;
       if (this.num++ != 0 && range == this.range) return;
+      console.log(this.num, range, this.range);
       this.range = range;
       if (lastIdx) {
         this.apts.forEach((apt) => {
@@ -90,7 +91,7 @@ export default {
                 }
                 this.positions = positions;
                 await this.removeMarker();
-                await this.displayMarker("apt");
+                this.displayMarker("apt");
               }
             }
           });
@@ -112,7 +113,7 @@ export default {
         this.num = 0;
       }
     },
-    async displayMarker(type) {
+    displayMarker(type) {
       let map = this.map;
       map.setCenter(
         new kakao.maps.LatLng(this.positions[0][1].Ma, this.positions[0][1].La)
