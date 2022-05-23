@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { eventBus } from "@/main.js";
 
 export default {
@@ -18,7 +18,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("houseStore", ["apts"]),
+    ...mapGetters("houseStore", ["aptResult"]),
     ...mapState("addressStore", ["sido", "gugun", "dong"]),
   },
   created() {
@@ -63,13 +63,12 @@ export default {
       let map = this.map;
       let positions = [];
       let geocoder = new kakao.maps.services.Geocoder();
-      let lastIdx = this.apts?.length;
+      let lastIdx = this.aptResult?.length;
       let cnt = 0;
       if (this.num++ != 0 && range == this.range) return;
-      console.log(this.num, range, this.range);
       this.range = range;
       if (lastIdx) {
-        this.apts.forEach((apt) => {
+        this.aptResult.forEach((apt) => {
           let str = `${this.sido} ${apt.법정동} ${apt.도로명} ${apt.도로명건물본번호코드} ${apt.도로명건물부번호코드}`;
           geocoder.addressSearch(str, async (result, status) => {
             cnt++;

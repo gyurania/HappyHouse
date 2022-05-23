@@ -1,9 +1,9 @@
 <template>
-  <b-container v-if="apts && apts.length" class="list">
+  <b-container v-if="aptResult && aptResult.length" class="list">
     <div v-if="viewType == 'detail'" v-on:click="back()">돌아가기</div>
     <div v-else-if="viewRange == 'dong'" v-on:click="showGugun()">전체보기</div>
     <house-list-item
-      v-for="(apt, index) in apts"
+      v-for="(apt, index) in aptResult"
       :key="index"
       :apt="apt"
       :type="type"
@@ -19,7 +19,7 @@
   </b-container>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 import HouseListItem from "@/components/house/HouseListItem.vue";
 import { eventBus } from "@/main.js";
 
@@ -36,7 +36,8 @@ export default {
     HouseListItem,
   },
   computed: {
-    ...mapState(houseStore, ["apts", "backType", "viewType", "viewRange"]),
+    ...mapGetters("houseStore", ["aptResult"]),
+    ...mapState(houseStore, ["backType", "viewType", "viewRange"]),
   },
   created() {
     this.INIT_HOUSE_HOUSE_STORE();

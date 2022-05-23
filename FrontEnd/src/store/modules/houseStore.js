@@ -9,16 +9,53 @@ const houseStore = {
     backType: "",
     viewType: "apt",
     viewRange: "gugun",
+    aptPriceFilter: {
+      start: 0,
+      end: 0,
+    },
   },
-  getters: {},
+  getters: {
+    aptResult: (state) => {
+      let result = [];
+      state.apts.forEach((apt) => {
+        let price = apt.거래금액.replace(/[^\d]+/g, "");
+        if (state.viewRange != "house") {
+          if (!result.find((data) => data.아파트 == apt.아파트)) {
+            if (
+              price >= state.aptPriceFilter.start &&
+              price <= state.aptPriceFilter.end
+            ) {
+              result.push(apt);
+            }
+          }
+        } else if (
+          price >= state.aptPriceFilter.start &&
+          price <= state.aptPriceFilter.end
+        ) {
+          result.push(apt);
+        }
+      });
+      return result;
+    },
+  },
 
   mutations: {
+    SET_START_PRICE: (state, price) => {
+      state.aptPriceFilter.start = price;
+    },
+    SET_END_PRICE: (state, price) => {
+      state.aptPriceFilter.end = price;
+    },
     INIT_HOUSE_HOUSE_STORE: (state) => {
       state.houses = [];
       state.apts = [];
       state.backType = "";
       state.viewType = "apt";
       state.viewRange = "gugun";
+      state.aptPriceFilter = {
+        start: 0,
+        end: Number.MAX_SAFE_INTEGER,
+      };
     },
     SET_HOUSE_LIST: (state, houses) => {
       state.houses = houses;
@@ -26,9 +63,9 @@ const houseStore = {
     SET_APT_LIST: (state, houses = state.houses) => {
       let arr = [];
       for (let house of houses) {
-        if (!arr.find((element) => element.아파트 == house.아파트)) {
-          arr.push(house);
-        }
+        //   if (!arr.find((element) => element.아파트 == house.아파트)) {
+        arr.push(house);
+        //   }
       }
       state.apts = arr;
       state.viewRange = "gugun";
@@ -41,9 +78,9 @@ const houseStore = {
       if (dongName == "") state.viewRange = "gugun";
       else state.viewRange = "dong";
       for (let house of state.houses) {
-        if (!apts.find((element) => element.아파트 == house.아파트)) {
-          apts.push(house);
-        }
+        // if (!apts.find((element) => element.아파트 == house.아파트)) {
+        apts.push(house);
+        // }
       }
       for (let apt of apts) {
         if (apt.법정동.trim().includes(dongName.trim())) {
@@ -61,6 +98,7 @@ const houseStore = {
         }
       }
       state.apts = arr;
+      state.viewRange = "house";
       eventBus.$emit("getGeoCode", "house");
     },
     SET_BACK_TYPE: (state, dongName = "") => {
