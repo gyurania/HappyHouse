@@ -21,6 +21,12 @@
 		where id = #{userid} and pass = #{userpwd}
 	</select>
 	
+	<select id="userInfo" parameterType="String" resultType="userDto">
+		select name, id, email, phone
+		from user
+		where id = #{userid}
+	</select>
+	
 	<update id="update" parameterType="UserDto">
 		update user
 		set pass = #{pass},

@@ -172,15 +172,14 @@ export default {
     // 비밀번호 확인
     checkPw() {
       if (this.user.pass === this.user.checkpwd) {
-        alert("입력완료");
+        // alert("입력완료");
+        this.regist();
       } else {
         alert("비밀번호가 일치하지 않습니다.");
       }
-
-      this.regist();
     },
     idCheck() {
-      http.get(`/user/idcheck`, this.user.id).then(({ data }) => {
+      http.get(`/user/idcheck`, { id: this.user.id }).then(({ data }) => {
         let msg = "이미 사용중인 아이디입니다.";
         if (data === "success") {
           msg = "사용 가능한 아이디입니다.";
@@ -210,6 +209,7 @@ export default {
           let msg = "회원가입 처리 중 문제가 발생했습니다.";
           if (data === "success") {
             msg = "회원가입이 완료되었습니다.";
+            this.movePage();
           }
           alert(msg);
         });
