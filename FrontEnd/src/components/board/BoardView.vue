@@ -7,6 +7,7 @@
       :key="index"
       :comment="comment"
       :isModifyShow="isModifyShow"
+      :isShow="userInfo ? comment.userid == userInfo.id : false"
     ></comment-view>
   </b-container>
 </template>
@@ -17,16 +18,21 @@ import BoardDetail from "@/components/board/item/BoardDetail.vue";
 import CommentView from "@/components/board/include/comment/CommentView.vue";
 import CommentWrite from "@/components/board/include/comment/CommentWrite.vue";
 
+import { mapState, mapMutations } from "vuex";
+
+const userStore = "userStore";
 export default {
   name: "board-view",
   data() {
     return {
       board_no: "",
       isModifyShow: false,
+      isShow: true,
       modifyComment: Object,
     };
   },
   computed: {
+    ...mapState(userStore, ["isLogin", "userInfo"]),
     ...mapGetters(["comments"]),
   },
   components: {
@@ -37,6 +43,9 @@ export default {
   created() {
     this.board_no = Number(this.$route.params.board_no);
     this.$store.dispatch("getComments", `/comment/${this.board_no}`);
+  },
+  methods: {
+    ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
   },
 };
 </script>
