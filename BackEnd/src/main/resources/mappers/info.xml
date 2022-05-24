@@ -7,7 +7,7 @@
 	<select id="guInfo" parameterType="String" resultType="InfoDto">
 		select *
 		from seoul_gu_info
-		where gu_name = #{guName}
+		where gu_name = #{gugun}
 	</select>
 
 	<select id="getAvg" resultType="InfoDto">

@@ -5,24 +5,44 @@
         <b-alert show><h3>지역 정보</h3></b-alert>
       </b-col>
     </b-row>
-    <si-gun-dong />
 
+    <!-- <si-gun-dong />
     <div align="center">
       <b-form-input id="id" v-model="guName" type="text"></b-form-input>
-      <b-button type="button" variant="primary" class="m-1" @click="list"
+      <b-button type="button" variant="primary" class="m-1" @click="search"
         >검색</b-button
       >
-    </div>
+    </div> -->
+
+    <!-- select box -->
+    <b-row class="mt-4 mb-4 text-center">
+      <b-col class="sm-3">
+        <b-form-select
+          class="w-50"
+          v-model="sidoCode"
+          :options="sidos"
+          @change="gugunList"
+        ></b-form-select>
+      </b-col>
+      <b-col class="sm-3">
+        <b-form-select
+          class="w-50"
+          v-model="gugunCode"
+          :options="guguns"
+          @change="selectGugun"
+        ></b-form-select>
+      </b-col>
+    </b-row>
 
     <!-- chart -->
-    <div style="text-align: center" class="p-3 mt-0">
+    <div style="text-align: center" class="p-3 mt-0" v-if="infoResult.info">
       <div class="row mt-0" style="display: flex; justify-content: center">
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>인구수</h5>
           <div v-if="infoResult.info">
             <Bar
               :chart-options="chartOptions"
-              :chart-data="chartData"
+              :chart-data="popul"
               :chart-id="chartId"
               :dataset-id-key="datasetIdKey"
               :plugins="plugins"
@@ -32,11 +52,11 @@
           </div>
         </div>
 
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>인구밀도</h5>
           <Bar
             :chart-options="chartOptions"
-            :chart-data="chartData2"
+            :chart-data="density"
             :chart-id="chartId"
             :dataset-id-key="datasetIdKey"
             :plugins="plugins"
@@ -45,11 +65,11 @@
           />
         </div>
 
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>시장</h5>
           <Bar
             :chart-options="chartOptions"
-            :chart-data="chartData2"
+            :chart-data="market"
             :chart-id="chartId"
             :dataset-id-key="datasetIdKey"
             :plugins="plugins"
@@ -58,11 +78,11 @@
           />
         </div>
 
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>의료기관</h5>
           <Bar
             :chart-options="chartOptions"
-            :chart-data="chartData2"
+            :chart-data="medical"
             :chart-id="chartId"
             :dataset-id-key="datasetIdKey"
             :plugins="plugins"
@@ -74,12 +94,12 @@
 
       <!-- chart -->
       <div class="row mt-4" style="display: flex; justify-content: center">
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>공원</h5>
           <div v-if="infoResult.info">
             <Bar
               :chart-options="chartOptions"
-              :chart-data="chartData"
+              :chart-data="park"
               :chart-id="chartId"
               :dataset-id-key="datasetIdKey"
               :plugins="plugins"
@@ -89,11 +109,11 @@
           </div>
         </div>
 
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>공공도서관</h5>
           <Bar
             :chart-options="chartOptions"
-            :chart-data="chartData2"
+            :chart-data="library"
             :chart-id="chartId"
             :dataset-id-key="datasetIdKey"
             :plugins="plugins"
@@ -102,11 +122,11 @@
           />
         </div>
 
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>노인복지시설</h5>
           <Bar
             :chart-options="chartOptions"
-            :chart-data="chartData2"
+            :chart-data="welfare"
             :chart-id="chartId"
             :dataset-id-key="datasetIdKey"
             :plugins="plugins"
@@ -115,11 +135,11 @@
           />
         </div>
 
-        <div class="col-2 scale-up-2 child">
+        <div class="col-3 scale-up-2 child">
           <h5>보육시설</h5>
           <Bar
             :chart-options="chartOptions"
-            :chart-data="chartData2"
+            :chart-data="child"
             :chart-id="chartId"
             :dataset-id-key="datasetIdKey"
             :plugins="plugins"
@@ -129,13 +149,19 @@
         </div>
       </div>
     </div>
+
+    <div v-else>
+      <h4><br /><br />자치구를 선택하세요.</h4>
+    </div>
   </b-container>
 </template>
 
 <script>
-import SiGunDong from "@/components/address/include/SiGunDong.vue";
 import { Bar } from "vue-chartjs/legacy";
 import http from "@/util/http-common";
+
+import { mapState, mapActions, mapMutations } from "vuex";
+const addressStore = "addressStore";
 
 import {
   Chart as ChartJS,
@@ -160,33 +186,22 @@ export default {
   name: "InfoChart",
   data() {
     return {
-      chartData: {
-        labels: ["구 이름", "평균"],
-        datasets: [{ data: [100, 30] }],
-      },
-      temp: 100,
-      chartData2: {
-        labels: ["구 이름", "평균"],
-        datasets: [
-          {
-            borderColor: ["#f3b773", "#BDBDBD"],
-            backgroundColor: ["rgba(243,183,115,0.5)", "rgba(189,189,189,0.5)"],
-            borderWidth: 5,
-            data: [20, 43],
-          },
-        ],
-      },
+      sidoCode: null,
+      gugunCode: null,
+      gugunName: null,
+
+      guName: "", // 검색한 구 코드
+
       chartOptions: {
         responsive: true,
       },
-      guName: "",
       infoResult: {
         info: null,
         avg: null,
       },
     };
   },
-  components: { Bar, SiGunDong },
+  components: { Bar },
   props: {
     chartId: {
       type: String,
@@ -202,7 +217,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 800,
+      default: 600,
     },
     cssClasses: {
       default: "",
@@ -217,19 +232,190 @@ export default {
       default: () => {},
     },
   },
+  computed: {
+    ...mapState(addressStore, [
+      "sidos",
+      "guguns",
+      "dongs",
+      "sido",
+      "gugun",
+      "dong",
+    ]),
+  },
+  mounted() {
+    if (this.$route.params.sido_code)
+      this.sidoCode = this.$route.params.sido_code;
+    if (this.$route.params.gugun_code) {
+      this.gugunCode = this.$route.params.gugun_code;
+    }
+  },
+  created() {
+    this.CLEAR_SIDO_LIST();
+    this.getSido();
+  },
   methods: {
-    list() {
-      http.get(`/info/${this.guName}`).then(({ data }) => {
-        let msg = "실패";
-        if (data != null) {
-          msg = "성공";
-          this.infoResult.info = data.info;
-          this.infoResult.avg = data.avg;
-          console.log(this.infoResult.info.market);
-          console.log(this.infoResult.avg.market);
-        }
-        alert(msg);
-      });
+    ...mapActions(addressStore, ["getSido", "getGugun", "getDong"]),
+    ...mapMutations(addressStore, [
+      "CLEAR_SIDO_LIST",
+      "CLEAR_GUGUN_LIST",
+      "CLEAR_DONG_LIST",
+      "SET_SIDO",
+      "SET_GUGUN",
+      "SET_DONG",
+    ]),
+
+    gugunList() {
+      this.CLEAR_GUGUN_LIST();
+      this.gugunCode = null;
+      if (this.sidoCode) this.getGugun(this.sidoCode);
+    },
+
+    selectGugun() {
+      this.SET_GUGUN(this.gugunCode);
+      this.guName = this.gugun;
+      this.search();
+    },
+
+    search() {
+      http
+        .get(`/info/${this.gugun}`)
+        .then(({ data }) => {
+          let msg = "";
+          if (data != null) {
+            msg = "성공";
+            this.infoResult.info = data.info;
+            this.infoResult.avg = data.avg;
+            // console.log(this.infoResult.info.market);
+            // console.log(this.infoResult.avg.market);
+            this.drawChart();
+          }
+          console.log(msg);
+        })
+        .catch((error) => console.log(error));
+    },
+
+    // 차트 그리기
+    drawChart() {
+      // 인구 수
+      this.popul = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.popul, this.infoResult.avg.popul],
+          },
+        ],
+      };
+      // 인구 밀도
+      this.density = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.density, this.infoResult.avg.density],
+          },
+        ],
+      };
+      // 시장
+      this.market = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.market, this.infoResult.avg.market],
+          },
+        ],
+      };
+      // 의료기관
+      this.medical = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.medical, this.infoResult.avg.medical],
+          },
+        ],
+      };
+      //공원
+      this.park = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.park, this.infoResult.avg.park],
+          },
+        ],
+      };
+      // 도서관
+      this.library = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.library, this.infoResult.avg.library],
+          },
+        ],
+      };
+      // 복지시설
+      this.welfare = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.welfare, this.infoResult.avg.welfare],
+          },
+        ],
+      };
+      // 보육기관
+      this.child = {
+        labels: [this.guName, "서울시 평균"],
+        datasets: [
+          {
+            borderColor: ["#87CEEB", "#BDBDBD"],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(189,189,189,0.5)",
+            ],
+            borderWidth: 3,
+            data: [this.infoResult.info.child, this.infoResult.avg.child],
+          },
+        ],
+      };
     },
   },
 };
