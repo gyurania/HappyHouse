@@ -2,9 +2,11 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show><h3>커뮤니티</h3></b-alert>
+        <b-alert show><h3>공지사항</h3></b-alert>
       </b-col>
     </b-row>
+    <!-- 관리자만 공지사항 작성 가능 -->
+    <!-- <b-row v-if="adminCheck" class="mb-1"> -->
     <b-row class="mb-1">
       <b-col class="text-right">
         <b-button variant="outline-primary" @click="moveWrite()"
@@ -12,12 +14,13 @@
         >
       </b-col>
     </b-row>
+
     <b-row>
-      <b-col v-if="articles.length">
+      <b-col v-if="notices.length">
         <b-table-simple hover responsive>
           <b-thead head-variant="dark">
             <b-tr>
-              <b-th>글번호</b-th>
+              <b-th>공지번호</b-th>
               <b-th>제목</b-th>
               <b-th>작성자</b-th>
               <b-th>작성일</b-th>
@@ -25,54 +28,55 @@
           </b-thead>
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
-            <board-list-item
-              v-for="article in articles"
-              :key="article.articleno"
-              :article="article"
+            <notice-list-item
+              v-for="notice in notices"
+              :key="notice.noticeno"
+              :notice="notice"
             />
           </tbody>
         </b-table-simple>
       </b-col>
 
-      <b-col v-else class="text-center">작성된 게시글이 없습니다.</b-col>
+      <b-col v-else class="text-center">등록된 공지사항이 없습니다.</b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
 import http from "@/util/http-common";
-import BoardListItem from "@/components/board/item/BoardListItem";
+import NoticeListItem from "@/components/notice/item/NoticeListItem";
 import { mapState, mapMutations } from "vuex";
 
 const userStore = "userStore";
 
 export default {
-  name: "BoardList",
-  components: {
-    BoardListItem,
-  },
+  name: "NoticeList",
+  components: { NoticeListItem },
   data() {
     return {
-      articles: [],
+      notices: [],
+      adminCheck: false,
     };
   },
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
   },
   created() {
-    http.get(`/board`).then(({ data }) => {
-      this.articles = data;
+    http.get(`/notice`).then(({ data }) => {
+      this.notices = data;
     });
+  },
+  mounted() {
+    // 관리자일 경우에만 공지사항 작성 가능
+    console.log(this.userInfo.isAdmin);
+    if (this.userInfo.isAdmin == 1) {
+      this.adminCheck = true;
+    }
   },
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     moveWrite() {
-      if (this.userInfo) {
-        this.$router.push({ name: "boardCreate" });
-      } else {
-        alert("로그인 후 이용 가능합니다.");
-        this.$router.push({ name: "login" });
-      }
+      this.$router.push({ name: "noticeCreate" });
     },
   },
 };

@@ -10,7 +10,7 @@
     <div class="head">{{ comment.userid }} ({{ comment.create_time }})</div>
     <div class="content" v-html="enterToBr(comment.comment)"></div>
     <!-- 로그인 기능 구현 후 로그인한 자신의 글에만 보이게 한다. -->
-    <div v-show="isShow" class="cbtn">
+    <div v-if="idCheck" v-show="isShow" class="cbtn">
       <label @click="modifyCommentView">수정</label> |
       <label @click="deleteComment">삭제</label>
     </div>
@@ -20,6 +20,9 @@
 <script>
 import http from "@/util/http-common";
 import CommentWrite from "@/components/board/include/comment/CommentWrite.vue";
+import { mapState, mapMutations } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "comment-view",
@@ -27,6 +30,8 @@ export default {
     return {
       isModifyShow: false,
       isShow: true,
+
+      idCheck: false, // 로그인한 자신의 글에만 보이게 한다.
     };
   },
   components: {
@@ -35,7 +40,11 @@ export default {
   props: {
     comment: Object,
   },
+  computed: {
+    ...mapState(userStore, ["isLogin", "userInfo"]),
+  },
   methods: {
+    ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     modifyCommentView() {
       this.onModifyComment({
         comment_no: this.comment.comment_no,

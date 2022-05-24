@@ -1,50 +1,78 @@
 package com.ssafy.happyhouse.model.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "공지사항", description = "관리자만 작성 가능한 공지사항")
 public class NoticeDto {
-	private int idx;
-	private String userId;
-	private String subject;
+	@ApiModelProperty(value = "공지사항 번호")
+	private int notice_no;
+	@ApiModelProperty(value = "제목")
+	private String title;
+	@ApiModelProperty(value = "내용")
 	private String content;
+	@ApiModelProperty(value = "작성일")
+	private String create_time;
+	@ApiModelProperty(value = "작성자 아이디")
+	private String userid;
 	
 	public NoticeDto() {
 		super();
 	}
-	public NoticeDto(int idx, String userId, String subject, String content) {
+
+	public NoticeDto(int notice_no, String title, String content, String create_time, String userid) {
 		super();
-		this.idx = idx;
-		this.userId = userId;
-		this.subject = subject;
+		this.notice_no = notice_no;
+		this.title = title;
 		this.content = content;
+		this.create_time = create_time;
+		this.userid = userid;
 	}
-	
-	public int getIdx() {
-		return idx;
+
+	public int getNotice_no() {
+		return notice_no;
 	}
-	public void setIdx(int idx) {
-		this.idx = idx;
+
+	public void setNotice_no(int notice_no) {
+		this.notice_no = notice_no;
 	}
-	public String getUserId() {
-		return userId;
+
+	public String getTitle() {
+		return title;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
+	public String getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(String create_time) {
+		this.create_time = create_time;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
 	@Override
 	public String toString() {
-		return "NoticeDto [idx=" + idx + ", userId=" + userId + ", subject=" + subject + ", content=" + content + "]";
+		return "NoticeDto [notice_no=" + notice_no + ", title=" + title + ", content=" + content + ", create_time="
+				+ create_time + ", userid=" + userid + "]";
 	}
 	
 

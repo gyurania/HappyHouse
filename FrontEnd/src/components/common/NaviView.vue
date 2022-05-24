@@ -26,7 +26,7 @@
 
         <b-navbar-nav>
           <b-nav-item href="#"
-            ><router-link class="nav-link" to="/map"
+            ><router-link class="nav-link" to="/info"
               >지역정보</router-link
             ></b-nav-item
           >
@@ -34,8 +34,16 @@
 
         <b-navbar-nav>
           <b-nav-item href="#">
-            <router-link class="nav-link" to="/board"
+            <router-link class="nav-link" to="/notice"
               >공지사항</router-link
+            ></b-nav-item
+          >
+        </b-navbar-nav>
+
+        <b-navbar-nav>
+          <b-nav-item href="#">
+            <router-link class="nav-link" to="/board"
+              >커뮤니티</router-link
             ></b-nav-item
           >
         </b-navbar-nav>

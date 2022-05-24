@@ -6,14 +6,6 @@
       </b-col>
     </b-row>
 
-    <!-- <si-gun-dong />
-    <div align="center">
-      <b-form-input id="id" v-model="guName" type="text"></b-form-input>
-      <b-button type="button" variant="primary" class="m-1" @click="search"
-        >검색</b-button
-      >
-    </div> -->
-
     <!-- select box -->
     <b-row class="mt-4 mb-4 text-center">
       <b-col class="sm-3">
@@ -277,21 +269,25 @@ export default {
     },
 
     search() {
-      http
-        .get(`/info/${this.gugun}`)
-        .then(({ data }) => {
-          let msg = "";
-          if (data != null) {
-            msg = "성공";
-            this.infoResult.info = data.info;
-            this.infoResult.avg = data.avg;
-            // console.log(this.infoResult.info.market);
-            // console.log(this.infoResult.avg.market);
-            this.drawChart();
-          }
-          console.log(msg);
-        })
-        .catch((error) => console.log(error));
+      if (this.sidoCode == "11") {
+        http
+          .get(`/info/${this.gugun}`)
+          .then(({ data }) => {
+            // let msg = "실패";
+            if (data != null) {
+              // msg = "성공";
+              this.infoResult.info = data.info;
+              this.infoResult.avg = data.avg;
+              this.drawChart();
+            }
+            // console.log(msg);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        alert("서비스 준비 중입니다...");
+      }
     },
 
     // 차트 그리기
@@ -422,9 +418,9 @@ export default {
 </script>
 
 <style scoped>
-/* @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
 .bv-example-row {
   font-family: "Jeju Gothic";
-} */
+}
 </style>

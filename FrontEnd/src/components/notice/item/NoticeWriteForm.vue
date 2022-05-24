@@ -21,7 +21,7 @@
         >
           <b-form-input
             id="title"
-            v-model="article.title"
+            v-model="notice.title"
             type="text"
             required
             placeholder="제목 입력..."
@@ -31,7 +31,7 @@
         <b-form-group id="content-group" label="내용:" label-for="content">
           <b-form-textarea
             id="content"
-            v-model="article.content"
+            v-model="notice.content"
             placeholder="내용 입력..."
             rows="10"
             max-rows="15"
@@ -61,11 +61,11 @@ import { mapState, mapMutations } from "vuex";
 const userStore = "userStore";
 
 export default {
-  name: "BoardWriteForm",
+  name: "NoticeWriteForm",
   data() {
     return {
-      article: {
-        board_no: 0,
+      notice: {
+        notice_no: 0,
         userid: "",
         title: "",
         content: "",
@@ -78,12 +78,8 @@ export default {
   },
   created() {
     if (this.type === "modify") {
-      http.get(`/board/${this.$route.params.board_no}`).then(({ data }) => {
-        // this.article.articleno = data.article.articleno;
-        // this.article.userid = data.article.userid;
-        // this.article.subject = data.article.subject;
-        // this.article.content = data.article.content;
-        this.article = data;
+      http.get(`/notice/${this.$route.params.notice_no}`).then(({ data }) => {
+        this.notice = data;
       });
       this.isUserid = true;
     }
@@ -99,35 +95,34 @@ export default {
       let err = true;
       let msg = "";
 
-      !this.article.title && ((msg = "제목 입력해주세요"), (err = false));
+      !this.notice.title && ((msg = "제목 입력해주세요"), (err = false));
       err &&
-        !this.article.content &&
+        !this.notice.content &&
         ((msg = "내용 입력해주세요"), (err = false));
 
       if (!err) alert(msg);
-      else
-        this.type === "register" ? this.registArticle() : this.modifyArticle();
+      else this.type === "register" ? this.registNotice() : this.modifyNotice();
     },
     onReset(event) {
       event.preventDefault();
-      this.article.articleno = 0;
-      this.article.subject = "";
-      this.article.content = "";
+      this.notice.noticeno = 0;
+      this.notice.subject = "";
+      this.notice.content = "";
       if (this.type === "modify") {
         this.$router.push({
-          name: "boardView",
-          params: { board_no: this.article.board_no },
+          name: "noticeView",
+          params: { notice_no: this.notice.notice_no },
         });
       } else {
-        this.$router.push({ name: "boardList" });
+        this.$router.push({ name: "NoticeList" });
       }
     },
-    registArticle() {
+    registNotice() {
       http
-        .post(`/board`, {
+        .post(`/notice`, {
           userid: this.userInfo.id,
-          title: this.article.title,
-          content: this.article.content,
+          title: this.notice.title,
+          content: this.notice.content,
         })
         .then(({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
@@ -138,13 +133,13 @@ export default {
           this.moveList();
         });
     },
-    modifyArticle() {
+    modifyNotice() {
       http
-        .put(`/board/${this.article.board_no}`, {
-          board_no: this.article.board_no,
-          userid: this.article.userid,
-          title: this.article.title,
-          content: this.article.content,
+        .put(`/notice/${this.notice.notice_no}`, {
+          notice_no: this.notice.notice_no,
+          userid: this.notice.userid,
+          title: this.notice.title,
+          content: this.notice.content,
         })
         .then(({ data }) => {
           let msg = "수정 처리시 문제가 발생했습니다.";
@@ -154,13 +149,13 @@ export default {
           alert(msg);
           // 현재 route를 /list로 변경.
           this.$router.push({
-            name: "boardView",
-            params: { board_no: this.article.board_no },
+            name: "noticeView",
+            params: { notice_no: this.notice.notice_no },
           });
         });
     },
     moveList() {
-      this.$router.push({ name: "boardList" });
+      this.$router.push({ name: "NoticeList" });
     },
   },
 };

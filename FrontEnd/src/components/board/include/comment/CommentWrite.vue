@@ -13,6 +13,7 @@
       <button class="small" @click="updateCommentCancel">취소</button>
       <button class="small" @click="updateComment">수정</button>
     </div>
+
     <div v-else class="regist_form">
       <textarea
         id="comment"
@@ -21,20 +22,22 @@
         cols="35"
         rows="2"
       ></textarea>
-      <button @click="registComment">등록</button>
+      <b-button @click="registComment">등록</b-button>
     </div>
   </div>
 </template>
 
 <script>
 import http from "@/util/http-common";
+import { mapState, mapMutations } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "comment-write",
   data() {
     return {
-      // 차후 작성자 이름은 로그인 구현후 로그인한 사용자로 바꾼다.
-      userid: "test",
+      userid: "", // 로그인한 사용자 아이디로 바꿈
       comment: "",
       modicomment: this.modifyComment?.comment, // 옵셔널체이닝 : modifyComment가 null 일 경우는 바인딩 안함, modifyComment는 반드시 선언되야 작동.
       // modicomment: this.modifyComment ? this.modifyComment.comment : {}, //props 는 직접 변경 X
@@ -44,24 +47,39 @@ export default {
     board_no: { type: Number },
     modifyComment: { type: Object },
   },
+  computed: {
+    ...mapState(userStore, ["isLogin", "userInfo"]),
+  },
   methods: {
+    ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     registComment() {
-      http
-        .post("/comment/", {
-          userid: this.userid,
-          comment: this.comment,
-          board_no: this.board_no,
-        })
-        .then(({ data }) => {
-          let msg = "등록 처리시 문제가 발생했습니다.";
-          if (data === "success") {
-            msg = "등록이 완료되었습니다.";
-          }
-          alert(msg);
+      if (this.userInfo == null) {
+        alert("로그인 후 이용 가능합니다.");
+      } else {
+        this.userid = this.userInfo.id;
 
-          // 화면 새로고침.
-          this.$router.go();
-        });
+        if (this.comment != "") {
+          http
+            .post("/comment/", {
+              userid: this.userid,
+              comment: this.comment,
+              board_no: this.board_no,
+            })
+            .then(({ data }) => {
+              let msg = "등록 처리시 문제가 발생했습니다.";
+              if (data === "success") {
+                msg = "등록이 완료되었습니다.";
+              }
+              alert(msg);
+
+              // 화면 새로고침.
+              this.$router.go();
+            });
+        } else {
+          // 댓글 쓰지 않고 버튼 누르면 등록 안됨
+          alert("댓글을 작성해주세요.");
+        }
+      }
     },
     updateComment() {
       http
