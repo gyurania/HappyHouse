@@ -53,7 +53,7 @@
           <b-nav-item class="align-self-center"
             ><b-avatar
               variant="primary"
-              v-text="userInfo ? userInfo.id.charAt(0).toUpperCase() : ''"
+              v-text="userInfo ? userInfo.name.charAt(0).toUpperCase() : ''"
             ></b-avatar>
             {{ userInfo.name }}({{ userInfo.id }})님 환영합니다.</b-nav-item
           >

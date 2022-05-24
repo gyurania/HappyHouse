@@ -81,6 +81,20 @@ const routes = [
     ],
   },
   {
+    path: "/info",
+    name: "info",
+    component: () => import("../views/InfoView.vue"),
+    redirect: "/info/chart",
+    children: [
+      {
+        path: "chart",
+        name: "chart",
+        component: () => import("@/components/info/InfoChart.vue"),
+      },
+    ],
+  },
+
+  {
     path: "/about",
     name: "About",
     component: () => import("../views/AboutView.vue"),
