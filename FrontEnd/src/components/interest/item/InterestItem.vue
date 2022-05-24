@@ -7,6 +7,7 @@
         size="sm"
         class="float-right mt-0 pt-0 pb-0 pl-1 pr-1"
         @click="deleteClick()"
+        v-if="!showDetail"
         >X</b-btn
       ></b-card-header
     >
@@ -15,10 +16,15 @@
       {{ item.dongName }}
     </b-card-text>
     <b-card-text v-if="type == 'apart'"
-      ><h4>{{ item.아파트 }}</h4>
+      ><h4 @click="detailClick()">{{ item.아파트 }}</h4>
+      <h6 v-if="showDetail">거래금액 : {{ item.거래금액 }} 만원</h6>
+      <h6 v-if="showDetail">
+        전용면적 : {{ Math.round(item.전용면적 / 3.3058) }}평,
+        {{ item.전용면적 }}m<sup>2</sup>
+      </h6>
       <h6>
-        날짜 : <i>{{ item.년 }}.</i>
-        <i>{{ item.월 }}.</i>
+        날짜 : <i>{{ item.년 }}.</i> <i>{{ item.월 }}.</i>
+        <i v-if="showDetail">{{ item.일 }}</i>
       </h6>
       <h6>주소 : {{ item.법정동 }} {{ item.지번 }}</h6></b-card-text
     >
@@ -33,6 +39,7 @@ export default {
     type: String,
     item: Object,
     index: Number,
+    showDetail: Boolean,
   },
   computed: {
     ...mapState("userStore", ["userInfo"]),
@@ -62,7 +69,8 @@ export default {
       });
     },
     deleteClick() {
-      const params = [this.userInfo.id, this.item.dongCode];
+      let params;
+      if (this.userInfo) params = [this.userInfo.id, this.item.dongCode];
       if (this.type == "area") {
         deleteInterest(params, ({ data }) => {
           if (data == "삭제성공") console.log(data);
@@ -80,8 +88,24 @@ export default {
           }
         }
         localStorage.setItem("recentApt", JSON.stringify(newList));
+
+        let str = this.item.아파트 + this.item.년 + this.item.월;
+        console.log(str);
+        let recentList = JSON.parse(localStorage.getItem("recentList"));
+        for (let i in recentList) {
+          if (recentList[i][str]) {
+            console.log(recentList[i][str]);
+            recentList.splice(i, 1);
+            localStorage.setItem("recentList", JSON.stringify(recentList));
+            break;
+          }
+        }
         this.$router.go();
       }
+    },
+    detailClick() {
+      let str = this.item.아파트 + this.item.년 + this.item.월;
+      this.$emit("show-detail-list", str);
     },
   },
 };

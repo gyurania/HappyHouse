@@ -71,7 +71,8 @@ export default {
       this.isColor = flag;
     },
     aptSelect(name) {
-      this.addRecentApt();
+      console.log(this.apt.아파트);
+      this.addRecentApt(name);
       this.SET_DETAIL_HOUSE(name.trim());
       this.SET_VIEW_TYPE("detail");
     },
@@ -82,31 +83,41 @@ export default {
       let dongCode = gugunCode + String(dongCode10).substr(0, 3);
       eventBus.$emit("dongClick", dongCode);
     },
-    addRecentApt() {
+    addRecentApt(name) {
       let newList = [];
-      const aptList = JSON.parse(localStorage.getItem("recentApt"));
-      if (aptList) {
-        for (let apt of aptList) {
-          if (!(apt.일련번호 === this.apt.일련번호)) {
-            newList.push(apt);
+      if (this.apt.아파트 == name) {
+        const aptList = JSON.parse(localStorage.getItem("recentApt"));
+        if (aptList) {
+          for (let apt of aptList) {
+            if (!(apt.일련번호 === this.apt.일련번호)) {
+              newList.push(apt);
+            }
           }
         }
+        newList.unshift(this.apt);
+        if (newList.length > 10) newList.pop();
+        localStorage.setItem("recentApt", JSON.stringify(newList));
       }
-      newList.unshift(this.apt);
-      if (newList.length > 10) newList.pop();
-      localStorage.setItem("recentApt", JSON.stringify(newList));
     },
     addRecentDetail() {
       if (this.viewType == "detail") {
         let str = this.apt.아파트 + this.apt.년 + this.apt.월;
-        console.log(str);
-        let detailList = JSON.parse(localStorage.getItem("recentApt"));
-        if (detailList && detailList[str]) {
-          return;
+        let detailList = {};
+        let recentList = JSON.parse(localStorage.getItem("recentList"));
+        if (recentList) {
+          for (let item of recentList) {
+            if (item[str]) {
+              return;
+            }
+          }
+        } else {
+          recentList = [];
         }
+
         detailList[str] = this.apts;
-        console.log(detailList);
-        localStorage.setItem("recentList", JSON.stringify(detailList));
+        recentList.push(detailList);
+
+        localStorage.setItem("recentList", JSON.stringify(recentList));
       }
     },
   },
