@@ -71,7 +71,7 @@
             ></b-nav-item
           >
           <b-nav-item
-            class="link align-self-center"
+            class="nav-link align-self-center"
             @click.prevent="onClickLogout"
             >로그아웃</b-nav-item
           >
@@ -84,13 +84,13 @@
               <b-icon icon="people" font-scale="2"></b-icon>
             </template>
             <b-dropdown-item href="#"
-              ><router-link :to="{ name: 'regist' }" class="link"
-                ><b-icon icon="person-circle"></b-icon> 회원가입</router-link
+              ><router-link :to="{ name: 'regist' }" class="nav-link text-dark"
+                ><b-icon icon="person-circle"></b-icon>회원가입</router-link
               ></b-dropdown-item
             >
-            <b-dropdown-item href="#"
-              ><router-link :to="{ name: 'login' }" class="link"
-                ><b-icon icon="key"></b-icon> 로그인</router-link
+            <b-dropdown-item
+              ><router-link :to="{ name: 'login' }" class="nav-link text-dark"
+                ><b-icon icon="key"></b-icon>로그인</router-link
               ></b-dropdown-item
             >
           </b-nav-item-dropdown>
@@ -139,5 +139,10 @@ export default {
   display: inline-block;
   font-size: 30pt;
   font-weight: bold;
+}
+.dropdown-item > li {
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 </style>

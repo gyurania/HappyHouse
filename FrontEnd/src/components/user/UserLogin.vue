@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import http from "@/util/http-common";
 
 const userStore = "userStore";
@@ -97,10 +97,11 @@ export default {
     ...mapState(userStore, ["isLogin", "isLoginError"]),
   },
   mounted() {
-    this.isLoginError = false;
+    this.SET_IS_LOGIN_ERROR(false);
   },
   methods: {
     ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
+    ...mapMutations(userStore, ["SET_IS_LOGIN_ERROR"]),
     async confirm() {
       // console.log("login enter");
       await this.userConfirm(this.user);
