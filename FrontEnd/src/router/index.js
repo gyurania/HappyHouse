@@ -118,6 +118,7 @@ const routes = [
     children: [
       {
         path: "area",
+        alias: [""],
         name: "InterestArea",
         component: () => import("@/components/interest/InterestArea.vue"),
       },
@@ -125,6 +126,11 @@ const routes = [
         path: "apart",
         name: "InterestApart",
         component: () => import("@/components/interest/InterestApt.vue"),
+      },
+      {
+        path: "recent",
+        name: "RecentApt",
+        component: () => import("@/components/interest/RecentApt.vue"),
       },
     ],
   },

@@ -23,9 +23,18 @@ function interestList(params, success, fail) {
 }
 
 async function insertInterestAddr(json, success, fail) {
-  console.log(json);
   await api.post(`address/interest`, json).then(success).catch(fail);
 }
+
+async function deleteInterest(params, success, fail) {
+  let userid = params[0];
+  let dongCode = params[1];
+  await api
+    .delete(`address/interest/${userid}/${dongCode}`)
+    .then(success)
+    .catch(fail);
+}
+
 export {
   sidoList,
   gugunList,
@@ -33,4 +42,5 @@ export {
   geoCode,
   interestList,
   insertInterestAddr,
+  deleteInterest,
 };

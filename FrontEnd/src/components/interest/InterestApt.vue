@@ -1,9 +1,16 @@
 <template>
-  <b-container v-if="userInfo">
+  <b-card-group deck v-if="userInfo" class="ml-3">
+    <b-jumbotron v-if="!itemList.length"
+      >관심 매물이 없습니다. <br /><br />관심 매물을 등록해주세요</b-jumbotron
+    >
     <b-card-group deck>
-      <interest-item v-for="i in arr" :key="i" type="apart"></interest-item>
+      <interest-item
+        v-for="i in itemList"
+        :key="i"
+        type="apart"
+      ></interest-item>
     </b-card-group>
-  </b-container>
+  </b-card-group>
   <div v-else>관심매물을 사용하려면 로그인을 해주세요</div>
 </template>
 
@@ -15,7 +22,7 @@ export default {
   name: "InterestArea",
   data() {
     return {
-      arr: 5,
+      itemList: 0,
     };
   },
   computed: {

@@ -67,7 +67,7 @@ export default {
 <style>
 .list {
   overflow: scroll;
-  height: 650px;
+  height: 600px;
   overflow-x: hidden;
 }
 </style>

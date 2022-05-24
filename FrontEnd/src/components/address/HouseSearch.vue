@@ -15,10 +15,16 @@
             <b-btn @click="filterClick" size="sm" class="mt-0">필터적용</b-btn>
           </b-container>
         </b-form>
-        <house-list />
       </b-col>
       <b-col lg="9">
         <si-gun-dong type="houseSearch" />
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col lg="3">
+        <house-list />
+      </b-col>
+      <b-col lg="9">
         <kakao-map></kakao-map>
       </b-col>
     </b-row>

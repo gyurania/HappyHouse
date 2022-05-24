@@ -84,12 +84,11 @@ public class AddressController {
 		}
 	}
 	
-	@DeleteMapping("/interest/{dongCode}")
-	public ResponseEntity<?> deleteInterest(HttpSession session,@PathVariable String dongCode){
-		UserDto user = (UserDto) session.getAttribute("userinfo");
-		if(user != null) {
-			addressService.deleteInterest(user.getId(), dongCode);
-			return new ResponseEntity<String>("삭제성공~",HttpStatus.OK);
+	@DeleteMapping("/interest/{userid}/{dongCode}")
+	public ResponseEntity<?> deleteInterest(@PathVariable String userid,@PathVariable String dongCode){
+		if(userid != null&&dongCode!=null) {
+			addressService.deleteInterest(userid, dongCode);
+			return new ResponseEntity<String>("삭제성공",HttpStatus.OK);
 		}else {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);			
 		}

@@ -50,8 +50,11 @@ export default {
       this.aptSelect(aptName);
     });
   },
+  updated() {
+    this.addRecentDetail();
+  },
   computed: {
-    ...mapState(houseStore, ["viewType"]),
+    ...mapState(houseStore, ["viewType", "apts"]),
   },
   methods: {
     ...mapActions(houseStore, ["detailHouse"]),
@@ -68,6 +71,7 @@ export default {
       this.isColor = flag;
     },
     aptSelect(name) {
+      this.addRecentApt();
       this.SET_DETAIL_HOUSE(name.trim());
       this.SET_VIEW_TYPE("detail");
     },
@@ -77,6 +81,33 @@ export default {
       this.SET_VIEW_TYPE("apt");
       let dongCode = gugunCode + String(dongCode10).substr(0, 3);
       eventBus.$emit("dongClick", dongCode);
+    },
+    addRecentApt() {
+      let newList = [];
+      const aptList = JSON.parse(localStorage.getItem("recentApt"));
+      if (aptList) {
+        for (let apt of aptList) {
+          if (!(apt.일련번호 === this.apt.일련번호)) {
+            newList.push(apt);
+          }
+        }
+      }
+      newList.unshift(this.apt);
+      if (newList.length > 10) newList.pop();
+      localStorage.setItem("recentApt", JSON.stringify(newList));
+    },
+    addRecentDetail() {
+      if (this.viewType == "detail") {
+        let str = this.apt.아파트 + this.apt.년 + this.apt.월;
+        console.log(str);
+        let detailList = JSON.parse(localStorage.getItem("recentApt"));
+        if (detailList && detailList[str]) {
+          return;
+        }
+        detailList[str] = this.apts;
+        console.log(detailList);
+        localStorage.setItem("recentList", JSON.stringify(detailList));
+      }
     },
   },
 };

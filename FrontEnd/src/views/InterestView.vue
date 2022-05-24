@@ -17,7 +17,11 @@
         >
       </b-navbar-nav>
       <b-navbar-nav>
-        <b-nav-item>최근 본 매물</b-nav-item>
+        <b-nav-item
+          ><router-link class="nav-link" to="/interest/recent"
+            >최근 본 매물</router-link
+          ></b-nav-item
+        >
       </b-navbar-nav>
     </b-navbar>
     <router-view></router-view>

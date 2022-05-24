@@ -43,7 +43,8 @@
 	
 	<insert id="addInterest" parameterType="String">
 		insert into interest_addr 
-		values(#{userid}, (select dongCode from address where dongCode like concat(#{dongCode},'%') limit 1), CURRENT_TIMESTAMP)
+		select #{userid}, (select dongCode from address where dongCode like concat(#{dongCode},'%') limit 1), CURRENT_TIMESTAMP
+		interest_addr where not exists(select * from interest_addr where userid=#{userid} and dongCode =(select dongCode from address where dongCode like concat(#{dongCode},'%') limit 1))
 	</insert>
 	
 	<delete id="deleteInterest" parameterType="String">

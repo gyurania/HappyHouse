@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-col class="mt-4 mb-4 text-center">
+    <b-col class="text-center">
       <b-row class="justify-content-md-center">
         <b-col v-if="type == 'houseSearch'" md="3">
           <b-form-select v-model="year" :options="years"></b-form-select>
