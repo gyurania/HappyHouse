@@ -18,6 +18,7 @@
             >
               <b-form-input
                 id="id"
+                type="text"
                 v-model="user.id"
                 required
                 placeholder="아이디 입력"
@@ -68,6 +69,7 @@
             >
               <b-form-input
                 id="name"
+                type="text"
                 v-model="user.name"
                 required
                 placeholder="이름 입력"
@@ -95,7 +97,7 @@
             >
               <b-form-input
                 id="phone"
-                type="phone"
+                type="number"
                 v-model="user.phone"
                 required
                 placeholder="연락처 입력"

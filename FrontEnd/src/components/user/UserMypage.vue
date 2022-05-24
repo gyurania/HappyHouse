@@ -18,6 +18,7 @@
             >
               <b-form-input
                 id="id"
+                type="text"
                 v-model="userInfo.id"
                 readonly
               ></b-form-input>
@@ -30,6 +31,7 @@
             >
               <b-form-input
                 id="name"
+                type="text"
                 required
                 v-model="userInfo.name"
                 readonly
@@ -57,7 +59,7 @@
             >
               <b-form-input
                 id="phone"
-                type="phone"
+                type="text"
                 required
                 readonly
                 v-model="userInfo.phone"
@@ -100,6 +102,7 @@ export default {
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
   },
+  created() {},
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     // onClickLogout() {

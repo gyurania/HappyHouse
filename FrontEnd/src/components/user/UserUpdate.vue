@@ -16,7 +16,12 @@
               label-for="id"
               style="font-weight: bold"
             >
-              <b-form-input id="id" v-model="user.id" readonly></b-form-input>
+              <b-form-input
+                id="id"
+                v-model="user.id"
+                type="text"
+                readonly
+              ></b-form-input>
             </b-form-group>
 
             <b-form-group
@@ -26,6 +31,7 @@
             >
               <b-form-input
                 id="name"
+                type="text"
                 required
                 v-model="user.name"
               ></b-form-input>
@@ -51,7 +57,7 @@
             >
               <b-form-input
                 id="phone"
-                type="phone"
+                type="text"
                 required
                 v-model="user.phone"
               ></b-form-input>
@@ -113,8 +119,6 @@ export default {
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
   },
-  // state:{}
-  // }
   methods: {
     ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
@@ -144,7 +148,6 @@ export default {
             this.confirm();
 
             this.$router.push({ name: "mypage" });
-            // console.log(this.loginUser.userpwd);
           }
           alert(msg);
         });

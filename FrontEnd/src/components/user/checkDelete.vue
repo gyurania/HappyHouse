@@ -78,7 +78,7 @@ export default {
           http.delete(`/user/mypage/${this.user.id}`).then(({ data }) => {
             let msg = "탈퇴 처리 중 문제가 발생했습니다.";
             if (data === "success") {
-              msg = "탈퇴되었습니다.";
+              msg = "탈퇴 처리 되었습니다.";
               this.SET_IS_LOGIN(false);
               this.SET_USER_INFO(null);
               sessionStorage.removeItem("access-token");
