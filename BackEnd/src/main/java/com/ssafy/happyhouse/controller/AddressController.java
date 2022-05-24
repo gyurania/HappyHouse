@@ -62,10 +62,9 @@ public class AddressController {
 	}
 
 	
-	@GetMapping("/interest/list")
-	public ResponseEntity<?> listInterest(HttpSession session){
-		UserDto user = (UserDto) session.getAttribute("userinfo");
-		List<AddressDto> list= addressService.getInterest(user);
+	@GetMapping("/interest/list/{userid}")
+	public ResponseEntity<?> listInterest(@PathVariable String userid){
+		List<AddressDto> list= addressService.getInterest(userid);
 		if(list != null) {
 			return new ResponseEntity<List<AddressDto>>(list,HttpStatus.OK);
 		}else {

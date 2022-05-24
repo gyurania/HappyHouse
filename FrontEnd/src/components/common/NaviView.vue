@@ -18,13 +18,17 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="#"
-            ><router-link to="/map/house">매물찾기</router-link></b-nav-item
+            ><router-link class="nav-link" to="/map/house"
+              >매물찾기</router-link
+            ></b-nav-item
           >
         </b-navbar-nav>
 
         <b-navbar-nav>
           <b-nav-item href="#"
-            ><router-link to="/map">지역정보</router-link></b-nav-item
+            ><router-link class="nav-link" to="/map"
+              >지역정보</router-link
+            ></b-nav-item
           >
         </b-navbar-nav>
 
@@ -37,7 +41,11 @@
         </b-navbar-nav>
 
         <b-navbar-nav>
-          <b-nav-item href="#">관심목록</b-nav-item>
+          <b-nav-item href="#"
+            ><router-link class="nav-link" to="/interest"
+              >관심목록</router-link
+            ></b-nav-item
+          >
         </b-navbar-nav>
 
         <!-- 로그인 상태 -->

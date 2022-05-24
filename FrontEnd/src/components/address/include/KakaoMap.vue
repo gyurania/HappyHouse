@@ -66,6 +66,7 @@ export default {
       let lastIdx = this.aptResult?.length;
       let cnt = 0;
       if (this.num++ != 0 && range == this.range) return;
+      console.log(this.num, range, this.range);
       this.range = range;
       if (lastIdx) {
         this.aptResult.forEach((apt) => {

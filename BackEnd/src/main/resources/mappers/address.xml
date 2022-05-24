@@ -27,7 +27,7 @@
 	</select>
 	
 	<!-- 관심지역 오래된순 정렬 -->
-	<select id="getInterest" parameterType="UserDto" resultType="AddressDto">
+	<select id="getInterest" parameterType="String" resultType="AddressDto">
 		select a.dongCode, a.sidoName,a.gugunName,a.dongName,a.lat,a.lng 
 		from address a, interest_addr i
 		where i.userid=#{id} and a.dongCode=i.dongCode

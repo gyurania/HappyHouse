@@ -58,8 +58,6 @@ export default {
   },
   props: {
     type: String,
-    sido_code: String,
-    gugun_code: String,
   },
   computed: {
     ...mapState(addressStore, [
@@ -77,6 +75,10 @@ export default {
       this.sidoCode = this.$route.params.sido_code;
     if (this.$route.params.gugun_code)
       this.gugunCode = this.$route.params.gugun_code;
+    if (this.$route.params.gugun_code) {
+      this.dongCode = this.$route.params.dong_code;
+      if (this.dongCode) this.changeYM();
+    }
   },
   created() {
     this.CLEAR_SIDO_LIST();
@@ -114,6 +116,7 @@ export default {
             type: "houseSearch",
             sido_code: this.sidoCode,
             gugun_code: this.gugunCode,
+            dong_code: null,
           },
         });
       this.gugunSelect();

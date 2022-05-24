@@ -22,8 +22,8 @@ const houseStore = {
         if (state.viewRange != "house") {
           if (!result.find((data) => data.아파트 == apt.아파트)) {
             if (
-              price >= state.aptPriceFilter.start &&
-              price <= state.aptPriceFilter.end
+              price * 1 >= state.aptPriceFilter.start * 1 &&
+              price * 1 <= state.aptPriceFilter.end * 1
             ) {
               result.push(apt);
             }

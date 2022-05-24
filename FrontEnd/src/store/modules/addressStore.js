@@ -74,6 +74,7 @@ const addressStore = {
       gugunList(
         params,
         ({ data }) => {
+          commit("CLEAR_GUGUN_LIST");
           commit("SET_GUGUN_LIST", data);
           commit("SET_SIDO", sidoCode);
         },
@@ -87,6 +88,7 @@ const addressStore = {
       dongList(
         params,
         ({ data }) => {
+          commit("CLEAR_DONG_LIST");
           commit("SET_DONG_LIST", data);
           commit("SET_GUGUN", gugunCode);
         },

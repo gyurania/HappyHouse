@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import BoardView from "../views/BoardView.vue";
 import MapView from "../views/MapView.vue";
+import InterestView from "../views/InterestView.vue";
 
 Vue.use(VueRouter);
 
@@ -90,14 +91,26 @@ const routes = [
     component: MapView,
     children: [
       {
-        path: "/interest",
-        name: "MapSearch",
-        component: () => import("@/components/address/MapSearch.vue"),
-      },
-      {
         path: "house",
         name: "HouseSearch",
         component: () => import("@/components/address/HouseSearch.vue"),
+      },
+    ],
+  },
+  {
+    path: "/interest",
+    name: "Interest",
+    component: InterestView,
+    children: [
+      {
+        path: "area",
+        name: "InterestArea",
+        component: () => import("@/components/interest/InterestArea.vue"),
+      },
+      {
+        path: "apart",
+        name: "InterestApart",
+        component: () => import("@/components/interest/InterestApt.vue"),
       },
     ],
   },

@@ -18,4 +18,7 @@ function geoCode(params, success, fail) {
   api.get(`/address/dong/${params}`).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, dongList, geoCode };
+function interestList(params, success, fail) {
+  api.get(`/address/interest/list/${params}`).then(success).catch(fail);
+}
+export { sidoList, gugunList, dongList, geoCode, interestList };

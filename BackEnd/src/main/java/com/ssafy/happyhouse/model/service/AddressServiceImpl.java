@@ -28,8 +28,8 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public List<AddressDto> getInterest(UserDto user) {
-		return addressMapper.getInterest(user);
+	public List<AddressDto> getInterest(String userid) {
+		return addressMapper.getInterest(userid);
 	}
 
 	@Override

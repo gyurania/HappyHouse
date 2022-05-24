@@ -13,7 +13,7 @@ public interface AddressMapper {
 	public List<AddressDto> getDongList(String gugunCode);
 	public List<AddressDto> getGeoCode(String dongCode);
 	
-	public List<AddressDto> getInterest(UserDto user);
+	public List<AddressDto> getInterest(String userid);
 	public List<AddressDto> getInterestNew(UserDto user);
 
 	public void addInterest(String userid, String dongCode, String dongName);
