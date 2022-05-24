@@ -1,37 +1,46 @@
 <template>
   <b-container>
-    <b-row class="mt-4 mb-4 text-center">
-      <b-col class="sm-3">
-        <b-form-select
-          v-model="sidoCode"
-          :options="sidos"
-          @change="gugunList"
-        ></b-form-select>
-      </b-col>
-      <b-col class="sm-3">
-        <b-form-select
-          v-model="gugunCode"
-          :options="guguns"
-          @change="dongList"
-        ></b-form-select>
-      </b-col>
-      <b-col v-if="!(type == 'home')" class="sm-3">
-        <b-form-select
-          v-model="dongCode"
-          :options="dongs"
-          @change="dongSelect($event)"
-        ></b-form-select>
-      </b-col>
-      <b-col v-if="type == 'houseSearch'" class="sm-3">
-        <b-form-select v-model="year" :options="years"></b-form-select>
-      </b-col>
-      <b-col v-if="type == 'houseSearch'" class="sm-3">
-        <b-form-select v-model="month" :options="months"></b-form-select>
-      </b-col>
-      <b-btn v-if="type == 'houseSearch'" class="sm-3 mt-0" @click="changeYM"
-        >날짜 갱신</b-btn
-      >
-    </b-row>
+    <b-col class="mt-4 mb-4 text-center">
+      <b-row class="justify-content-md-center">
+        <b-col v-if="type == 'houseSearch'" md="3">
+          <b-form-select v-model="year" :options="years"></b-form-select>
+        </b-col>
+        <b-col v-if="type == 'houseSearch'" md="3">
+          <b-form-select v-model="month" :options="months"></b-form-select>
+        </b-col>
+        <b-col sm="auto" class="pl-0">
+          <b-btn v-if="type == 'houseSearch'" class="mt-0" @click="changeYM"
+            >날짜 갱신</b-btn
+          >
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="3" class="p-1">
+          <b-form-select
+            v-model="sidoCode"
+            :options="sidos"
+            @change="gugunList"
+          ></b-form-select>
+        </b-col>
+        <b-col md="3" class="p-1">
+          <b-form-select
+            v-model="gugunCode"
+            :options="guguns"
+            @change="dongList"
+          ></b-form-select>
+        </b-col>
+        <b-col v-if="!(type == 'home')" md="3" class="p-1">
+          <b-form-select
+            v-model="dongCode"
+            :options="dongs"
+            @change="dongSelect($event)"
+          ></b-form-select>
+        </b-col>
+        <b-col md="auto" v-if="type == 'houseSearch' && userInfo" class="p-1">
+          <b-btn class="mt-0" @click="addInterestAddr">관심지역등록</b-btn>
+        </b-col>
+      </b-row>
+    </b-col>
   </b-container>
 </template>
 
@@ -40,6 +49,7 @@ import { mapState, mapActions, mapMutations } from "vuex";
 import years from "@/components/address/include/years.js";
 import months from "@/components/address/include/months.js";
 import { eventBus } from "@/main.js";
+import { insertInterestAddr } from "@/util/address.js";
 const addressStore = "addressStore";
 const houseStore = "houseStore";
 
@@ -60,6 +70,7 @@ export default {
     type: String,
   },
   computed: {
+    ...mapState("userStore", ["userInfo"]),
     ...mapState(addressStore, [
       "sidos",
       "guguns",
@@ -159,6 +170,17 @@ export default {
             this.dongSelect(this.dongCode);
           }
         });
+      }
+    },
+    addInterestAddr() {
+      if (!this.dongCode) {
+        alert("시,군,동을 선택해주세요!");
+      } else {
+        if (this.userInfo)
+          insertInterestAddr(
+            { userid: this.userInfo.id, dongCode: this.dongCode },
+            () => {}
+          );
       }
     },
   },

@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,18 +9,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.ssafy.happyhouse.model.dto.AddressDto;
 import com.ssafy.happyhouse.model.dto.UserDto;
 import com.ssafy.happyhouse.model.service.AddressService;
+
 
 @RestController
 @RequestMapping("/address")
@@ -93,11 +94,12 @@ public class AddressController {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);			
 		}
 	}
-	@PostMapping("/interest/{dongCode}/{dongName}")
-	public ResponseEntity<?> insertInterest(HttpSession session,@PathVariable String dongCode,@PathVariable String dongName){
-		UserDto user = (UserDto) session.getAttribute("userinfo");
-		if(user != null) {
-			addressService.addInterest(user.getId(), dongCode, dongName);
+	@PostMapping("/interest")
+	public ResponseEntity<?> insertInterest(@RequestBody HashMap<String,String> map){
+		String userid = (String) map.get("userid");
+		String dongCode = (String) map.get("dongCode");
+		if(userid != null) {
+			addressService.addInterest(userid, dongCode);
 			return new ResponseEntity<String>("등록성공~",HttpStatus.OK);
 		}else {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);			

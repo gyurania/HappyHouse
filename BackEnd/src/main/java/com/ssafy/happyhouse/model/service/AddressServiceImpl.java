@@ -38,8 +38,8 @@ public class AddressServiceImpl implements AddressService{
 	}
 	
 	@Override
-	public void addInterest(String userid, String dongCode, String dongName) {
-		addressMapper.addInterest(userid,dongCode,dongName);
+	public void addInterest(String userid, String dongCode) {
+		addressMapper.addInterest(userid,dongCode);
 	}
 	@Override
 	public void deleteInterest(String userid, String dongCode) {

@@ -17,7 +17,7 @@ public interface AddressService {
 	public List<AddressDto> getInterest(String userid);
 	public List<AddressDto> getInterestNew(UserDto user);
 	
-	public void addInterest(String userid, String dongCode, String dongName);
+	public void addInterest(String userid, String dongCode);
 	
 	public void deleteInterest(String userid, String dongCode);
 }

@@ -21,4 +21,16 @@ function geoCode(params, success, fail) {
 function interestList(params, success, fail) {
   api.get(`/address/interest/list/${params}`).then(success).catch(fail);
 }
-export { sidoList, gugunList, dongList, geoCode, interestList };
+
+async function insertInterestAddr(json, success, fail) {
+  console.log(json);
+  await api.post(`address/interest`, json).then(success).catch(fail);
+}
+export {
+  sidoList,
+  gugunList,
+  dongList,
+  geoCode,
+  interestList,
+  insertInterestAddr,
+};
