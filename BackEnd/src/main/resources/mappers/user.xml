@@ -16,13 +16,13 @@
 	</select>
 	
 	<select id="login" parameterType="map" resultType="UserDto">
-		select id, name, email, phone
+		select *
 		from user
 		where id = #{userid} and pass = #{userpwd}
 	</select>
 	
 	<select id="userInfo" parameterType="String" resultType="userDto">
-		select name, id, email, phone, pass
+		select *
 		from user
 		where id = #{userid}
 	</select>

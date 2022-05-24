@@ -9,7 +9,10 @@
     <!-- <b-row v-if="adminCheck" class="mb-1"> -->
     <b-row class="mb-1">
       <b-col class="text-right">
-        <b-button variant="outline-primary" @click="moveWrite()"
+        <b-button
+          v-if="adminCheck"
+          variant="outline-primary"
+          @click="moveWrite()"
           >글쓰기</b-button
         >
       </b-col>
@@ -69,8 +72,10 @@ export default {
   mounted() {
     // 관리자일 경우에만 공지사항 작성 가능
     console.log(this.userInfo.isAdmin);
-    if (this.userInfo.isAdmin == 1) {
-      this.adminCheck = true;
+    if (this.userInfo != null) {
+      if (this.userInfo.isAdmin == 1) {
+        this.adminCheck = true;
+      }
     }
   },
   methods: {

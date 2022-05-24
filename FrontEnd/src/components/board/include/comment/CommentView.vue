@@ -10,7 +10,7 @@
     <div class="head">{{ comment.userid }} ({{ comment.create_time }})</div>
     <div class="content" v-html="enterToBr(comment.comment)"></div>
     <!-- 로그인 기능 구현 후 로그인한 자신의 글에만 보이게 한다. -->
-    <div v-if="idCheck" v-show="isShow" class="cbtn">
+    <div v-show="isShow" class="cbtn">
       <label @click="modifyCommentView">수정</label> |
       <label @click="deleteComment">삭제</label>
     </div>
@@ -43,6 +43,10 @@ export default {
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
   },
+  // mounted() {
+  //   // console.log(this.comment.userid);
+  //   console.log(this.userInfo.id);
+  // },
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     modifyCommentView() {

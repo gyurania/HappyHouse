@@ -17,13 +17,13 @@ public class UserDto {
 	@ApiModelProperty(value = "회원 전화번호")
 	private String phone;
 	@ApiModelProperty(value = "관리자 여부")
-	private int isAdmin;
+	private boolean isAdmin;
 	
 	public UserDto() {
 		super();
 	}
 	
-	public UserDto(String id, String pass, String name, String email, String phone, int isAdmin) {
+	public UserDto(String id, String pass, String name, String email, String phone, boolean isAdmin) {
 		super();
 		this.id = id;
 		this.pass = pass;
@@ -63,10 +63,10 @@ public class UserDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getIsAdmin() {
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
-	public void setIsAdmin(int isAdmin) {
+	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
