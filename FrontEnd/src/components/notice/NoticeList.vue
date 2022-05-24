@@ -71,7 +71,7 @@ export default {
   },
   mounted() {
     // 관리자일 경우에만 공지사항 작성 가능
-    console.log(this.userInfo.isAdmin);
+    // console.log(this.userInfo.isAdmin);
     if (this.userInfo != null) {
       if (this.userInfo.isAdmin == 1) {
         this.adminCheck = true;

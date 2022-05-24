@@ -96,6 +96,9 @@ export default {
   computed: {
     ...mapState(userStore, ["isLogin", "isLoginError"]),
   },
+  mounted() {
+    this.isLoginError = false;
+  },
   methods: {
     ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
     async confirm() {

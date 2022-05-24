@@ -69,6 +69,9 @@ const routes = [
         component: () => import("@/components/notice/NoticeModify.vue"),
       },
     ],
+    redirect: () => {
+      return "/notice";
+    },
   },
   {
     path: "/user",
