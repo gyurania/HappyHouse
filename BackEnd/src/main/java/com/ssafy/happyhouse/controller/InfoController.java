@@ -1,11 +1,7 @@
 package com.ssafy.happyhouse.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +19,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/info")
 public class InfoController {
-
-	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
-	private static final String SUCCESS = "success";
-	private static final String FAIL = "fail";
 
 	@Autowired
 	private InfoService infoService;

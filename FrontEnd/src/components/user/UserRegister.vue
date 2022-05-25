@@ -208,17 +208,22 @@ export default {
       }
     },
     idCheck() {
-      http.get(`/user/idcheck/${this.user.id}`).then(({ data }) => {
-        // let msg = "이미 사용중인 아이디입니다.";
-        this.duplicateId = true;
+      if (this.user.id) {
+        http.get(`/user/idcheck/${this.user.id}`).then(({ data }) => {
+          // let msg = "이미 사용중인 아이디입니다.";
+          this.duplicateId = true;
+          this.useableId = false;
+          if (data === "success") {
+            // msg = "사용 가능한 아이디입니다.";
+            this.duplicateId = false;
+            this.useableId = true;
+          }
+          // alert(msg);
+        });
+      } else {
+        this.duplicateId = false;
         this.useableId = false;
-        if (data === "success") {
-          // msg = "사용 가능한 아이디입니다.";
-          this.duplicateId = false;
-          this.useableId = true;
-        }
-        // alert(msg);
-      });
+      }
     },
     onReset() {
       // event.preventDefault();
@@ -228,6 +233,10 @@ export default {
       this.user.name = "";
       this.user.email = "";
       this.user.phone = "";
+
+      this.duplicateId = false;
+      this.useableId = false;
+      this.passErr = false;
     },
     regist() {
       if (this.duplicateId == true) {

@@ -20,7 +20,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
 .wrap {

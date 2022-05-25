@@ -18,8 +18,10 @@ export default {
 </script>
 
 <style>
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Jeju Gothic";
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -50,7 +52,7 @@ a {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 70%, cyan 30%);
 }
 
-button,
+/* button,
 .btn {
   background-color: #d0d3d0;
   color: rgb(80, 82, 79);
@@ -60,5 +62,5 @@ button,
   border-radius: 4px;
   font-size: large;
   cursor: pointer;
-}
+} */
 </style>
