@@ -14,7 +14,7 @@
           >
         </b-col>
       </b-row>
-      <b-row>
+      <b-row align-h="center">
         <b-col md="3" class="p-1">
           <b-form-select
             v-model="sidoCode"

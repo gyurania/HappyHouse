@@ -1,19 +1,27 @@
 <template>
   <div>
-    <h2>아파트거래 조회</h2>
+    <h3 class="underline-steelblue pt-1">
+      <b-icon icon="search"></b-icon> 아파트 거래 조회
+    </h3>
     <b-row>
       <b-col lg="3">
-        <i v-on:click="filterBtnClick()">{{ filterBtn }} </i>
+        <i v-on:click="filterBtnClick()" class="link">{{ filterBtn }} </i>
         <b-form v-if="filterShow" class="text-right">
-          <b-container>
-            <b-input-group size="sm" prepend="최소가격" append="만원">
-              <b-form-input v-model="start"></b-form-input>
-            </b-input-group>
-            <b-input-group size="sm" prepend="최대가격" append="만원">
-              <b-form-input v-model="end"></b-form-input>
-            </b-input-group>
-            <b-btn @click="filterClick" size="sm" class="mt-0">필터적용</b-btn>
-          </b-container>
+          <b-row align-h="center">
+            <b-col sm="9" class="m-0 p-0">
+              <b-input-group size="sm" prepend="최소가격" append="만원">
+                <b-form-input v-model="start"></b-form-input>
+              </b-input-group>
+              <b-input-group size="sm" prepend="최대가격" append="만원">
+                <b-form-input v-model="end"></b-form-input>
+              </b-input-group>
+            </b-col>
+            <b-col sm="auto" class="m-0 p-0">
+              <b-btn @click="filterClick" size="md" class="mt-0"
+                >필터<br />적용</b-btn
+              >
+            </b-col>
+          </b-row>
         </b-form>
       </b-col>
       <b-col lg="9">
@@ -42,7 +50,7 @@ export default {
   data() {
     return {
       start: 0,
-      end: Number.MAX_SAFE_INTEGER,
+      end: 100000000000,
       filterShow: false,
     };
   },
@@ -69,4 +77,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.link:hover {
+  /* background: silver; */
+  cursor: pointer;
+}
+.underline-steelblue {
+  display: inline-block;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(72, 190, 233, 0.3) 30%
+  );
+}
+</style>

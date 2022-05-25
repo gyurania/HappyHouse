@@ -11,12 +11,15 @@
         >X</b-btn
       ></b-card-header
     >
-    <b-card-text class="p-4" v-if="type == 'area'" @click="cardClick()">
+    <b-card-text class="p-4 link" v-if="type == 'area'" @click="cardClick()">
       {{ item.sidoName }} {{ item.gugunName }}
       {{ item.dongName }}
     </b-card-text>
     <b-card-text v-if="type == 'apart'"
-      ><h4 @click="detailClick()">{{ item.아파트 }}</h4>
+      ><h4 v-if="!showDetail" @click="detailClick()" class="link">
+        {{ item.아파트 }}
+      </h4>
+      <h4 v-if="showDetail">{{ item.아파트 }}</h4>
       <h6 v-if="showDetail">거래금액 : {{ item.거래금액 }} 만원</h6>
       <h6 v-if="showDetail">
         전용면적 : {{ Math.round(item.전용면적 / 3.3058) }}평,
@@ -116,5 +119,9 @@ export default {
 <style scoped>
 .card-body {
   padding: 0;
+}
+.link:hover {
+  background: silver;
+  cursor: pointer;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="map" style="width: 95%; height: 600px"></div>
+  <div id="map" style="width: 95%; height: 590px"></div>
 </template>
 
 <script>
@@ -101,12 +101,13 @@ export default {
           cnt++;
           if (status === kakao.maps.services.Status.OK) {
             let coords = await new kakao.maps.LatLng(result[0].y, result[0].x);
-            if (cnt === 1);
-            positions.push([this.dong, coords]);
-            this.positions = positions;
-            map.setLevel(5);
-            await this.removeMarker();
-            this.displayMarker("dong");
+            if (cnt === 1) {
+              positions.push([this.dong, coords]);
+              this.positions = positions;
+              map.setLevel(5);
+              await this.removeMarker();
+              this.displayMarker("dong");
+            }
           }
         });
         this.num = 0;

@@ -1,22 +1,24 @@
 <template>
   <b-card-group deck class="ml-3">
-    <b-jumbotron v-if="!recentList || !recentList.length"
-      >최근 본 매물이 없습니다.</b-jumbotron
-    >
-    <b-row class="ml-3">
-      <div v-if="showDetail" @click="back()">돌아가기</div>
-    </b-row>
-    <b-row>
-      <interest-item
-        v-for="(item, index) in recentList"
-        :key="index"
-        type="apart"
-        :item="item"
-        :index="index + 1"
-        :showDetail="showDetail"
-        @show-detail-list="showDetailList"
-      ></interest-item>
-    </b-row>
+    <b-col>
+      <b-row class="ml">
+        <b-jumbotron v-if="!recentList || !recentList.length" max-width="20em"
+          >최근 본 매물이 없습니다.</b-jumbotron
+        >
+        <div v-if="showDetail" @click="back()" class="link">돌아가기</div>
+      </b-row>
+      <b-row>
+        <interest-item
+          v-for="(item, index) in recentList"
+          :key="index"
+          type="apart"
+          :item="item"
+          :index="index + 1"
+          :showDetail="showDetail"
+          @show-detail-list="showDetailList"
+        ></interest-item>
+      </b-row>
+    </b-col>
   </b-card-group>
 </template>
 
@@ -53,4 +55,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.link:hover {
+  background: silver;
+  cursor: pointer;
+}
+</style>

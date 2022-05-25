@@ -12,13 +12,14 @@
         <i>{{ apt.월 }}.</i>
         <i>{{ apt.일 }}</i>
       </h6>
-      <h6 v-on:click="dongClick(apt.법정동)">
+      <h6 v-on:click="dongClick(apt.법정동)" class="link">
         주소 : {{ apt.법정동 }} {{ apt.지번 }}
       </h6>
     </div>
     <div v-else>
-      <h4 v-on:click="aptSelect(apt.아파트)">{{ apt.아파트 }}</h4>
+      <h4 class="link" v-on:click="aptSelect(apt.아파트)">{{ apt.아파트 }}</h4>
       <h6
+        class="link"
         v-on:click="
           dongClick(apt.법정동, apt.법정동시군구코드, apt.법정동읍면동코드)
         "
@@ -71,7 +72,6 @@ export default {
       this.isColor = flag;
     },
     aptSelect(name) {
-      console.log(this.apt.아파트);
       this.addRecentApt(name);
       this.SET_DETAIL_HOUSE(name.trim());
       this.SET_VIEW_TYPE("detail");
@@ -89,7 +89,13 @@ export default {
         const aptList = JSON.parse(localStorage.getItem("recentApt"));
         if (aptList) {
           for (let apt of aptList) {
-            if (!(apt.일련번호 === this.apt.일련번호)) {
+            if (
+              !(
+                apt.일련번호 === this.apt.일련번호 &&
+                apt.년 === this.apt.년 &&
+                this.apt.월 === apt.월
+              )
+            ) {
               newList.push(apt);
             }
           }
@@ -124,4 +130,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.link:hover {
+  background: silver;
+  cursor: pointer;
+}
+</style>
