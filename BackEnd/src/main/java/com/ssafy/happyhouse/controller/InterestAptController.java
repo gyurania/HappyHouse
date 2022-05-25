@@ -30,28 +30,28 @@ public class InterestAptController {
 		return new ResponseEntity<List<HouseDto>>(interestAptService.getInterestApt(userid),HttpStatus.OK);
 	}
 	
-	@GetMapping("{userid}/{code}")
-	public ResponseEntity<?> getAptList(@PathVariable String userid, @PathVariable String code){
-		return new ResponseEntity<List<HouseDto>>(interestAptService.getInterestAptList(userid, code),HttpStatus.OK);
-	}
+//	@GetMapping("{userid}/{code}")
+//	public ResponseEntity<?> getAptList(@PathVariable String userid, @PathVariable String code){
+//		return new ResponseEntity<List<HouseDto>>(interestAptService.getInterestAptList(userid, code),HttpStatus.OK);
+//	}
 	
-	@PostMapping("")
-	public ResponseEntity<?> addApt(@RequestBody HouseDto houseDto,@PathVariable String userid){
-		interestAptService.addInterestApt(houseDto,userid);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-	
-	@PostMapping("/{userid}/{code}")
-	public ResponseEntity<?> addAptList(@RequestBody HouseDto houseDto,@PathVariable String userid){
-		interestAptService.addInterestAptList(houseDto,userid);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/{userid}/{code}")
-	public ResponseEntity<?> deleteApt(@PathVariable String userid, @PathVariable String code){
-		interestAptService.deleteInterestApt(userid, code);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-	
+//	@PostMapping("")
+//	public ResponseEntity<?> addApt(@RequestBody HouseDto houseDto,@PathVariable String userid){
+//		interestAptService.addInterestApt(houseDto,userid);
+//		return new ResponseEntity<Void>(HttpStatus.OK);
+//	}
+//	
+//	@PostMapping("/{userid}/{code}")
+//	public ResponseEntity<?> addAptList(@RequestBody HouseDto houseDto,@PathVariable String userid){
+//		interestAptService.addInterestAptList(houseDto,userid);
+//		return new ResponseEntity<Void>(HttpStatus.OK);
+//	}
+//	
+//	@DeleteMapping("/{userid}/{code}")
+//	public ResponseEntity<?> deleteApt(@PathVariable String userid, @PathVariable String code){
+//		interestAptService.deleteInterestApt(userid, code);
+//		return new ResponseEntity<Void>(HttpStatus.OK);
+//	}
+//	
 	
 }
