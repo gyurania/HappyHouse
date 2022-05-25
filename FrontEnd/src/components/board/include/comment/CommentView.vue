@@ -7,10 +7,12 @@
     />
   </div>
   <div v-else class="comment">
-    <div class="head">{{ comment.userid }} ({{ comment.create_time }})</div>
-    <div class="content" v-html="enterToBr(comment.comment)"></div>
+    <div class="comment-head">
+      {{ comment.userid }} ({{ comment.create_time }})
+    </div>
+    <div class="comment-content" v-html="enterToBr(comment.comment)"></div>
     <!-- 로그인 기능 구현 후 로그인한 자신의 글에만 보이게 한다. -->
-    <div v-show="isShow" class="cbtn">
+    <div v-if="isShow" class="cbtn">
       <label @click="modifyCommentView">수정</label> |
       <label @click="deleteComment">삭제</label>
     </div>
@@ -52,7 +54,7 @@ export default {
       });
     },
     deleteComment() {
-      if (confirm("정말로 삭제?")) {
+      if (confirm("정말로 삭제하시겠습니까?")) {
         http.delete(`/comment/${this.comment.comment_no}`).then(({ data }) => {
           let msg = "삭제 처리시 문제가 발생했습니다.";
           if (data === "success") {
@@ -86,11 +88,11 @@ export default {
   padding: 10px 20px;
   margin: 10px;
 }
-.head {
+.comment-head {
   font-weight: bold;
   margin-bottom: 5px;
 }
-.content {
+.comment-content {
   padding: 5px;
 }
 .cbtn {

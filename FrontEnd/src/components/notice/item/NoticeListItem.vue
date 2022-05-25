@@ -1,12 +1,8 @@
 <template>
-  <b-tr>
+  <b-tr @click="link()" class="link">
     <b-td>{{ notice.notice_no }}</b-td>
     <b-td class="text-left">
-      <router-link
-        class="link"
-        :to="{ name: 'noticeView', params: { notice_no: notice.notice_no } }"
-        >{{ notice.title }}</router-link
-      >
+      {{ notice.title }}
     </b-td>
     <b-td>{{ notice.userid }}</b-td>
     <b-td>{{ notice.create_time | dateFormat }}</b-td>
@@ -26,6 +22,14 @@ export default {
       return moment(new Date(regtime)).format("YY.MM.DD");
     },
   },
+  methods: {
+    link() {
+      this.$router.push({
+        name: "noticeView",
+        params: { notice_no: this.notice.notice_no },
+      });
+    },
+  },
 };
 </script>
 
@@ -36,8 +40,7 @@ td {
   height: 50px;
 }
 
-.link {
-  text-decoration: none;
-  color: black;
+.link:hover {
+  cursor: pointer;
 }
 </style>

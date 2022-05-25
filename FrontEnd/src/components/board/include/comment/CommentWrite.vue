@@ -1,28 +1,44 @@
 <template>
   <div class="regist">
     <div v-if="this.modifyComment != null" class="regist_form">
-      <textarea
-        id="modicomment"
-        name="modicomment"
-        v-model="modicomment"
-        cols="35"
-        rows="2"
-      ></textarea>
-      <!-- <textarea id="comment" name="comment" v-text="modifyComment.comment" ref="comment" cols="35" rows="2">
+      <b-row>
+        <b-col sm="11">
+          <textarea
+            id="modicomment"
+            name="modicomment"
+            v-model="modicomment"
+            cols="40"
+            rows="2"
+          ></textarea>
+        </b-col>
+        <!-- <textarea id="comment" name="comment" v-text="modifyComment.comment" ref="comment" cols="35" rows="2">
       </textarea> -->
-      <button class="small" @click="updateCommentCancel">취소</button>
-      <button class="small" @click="updateComment">수정</button>
+        <b-col sm="auto">
+          <b-row class="pt-3">
+            <b-button size="sm" @click="updateComment">수정</b-button>
+          </b-row>
+          <b-row class="pt-1">
+            <b-button size="sm" @click="updateCommentCancel">취소</b-button>
+          </b-row>
+        </b-col>
+      </b-row>
     </div>
 
     <div v-else class="regist_form">
-      <textarea
-        id="comment"
-        name="comment"
-        v-model="comment"
-        cols="35"
-        rows="2"
-      ></textarea>
-      <b-button @click="registComment">등록</b-button>
+      <b-row>
+        <b-col sm="11">
+          <textarea
+            id="comment"
+            name="comment"
+            v-model="comment"
+            cols="35"
+            rows="2"
+          ></textarea>
+        </b-col>
+        <b-col sm="auto" class="pt-2 pl-0">
+          <b-button size="sm" @click="registComment">등록</b-button>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>
@@ -115,12 +131,12 @@ export default {
   text-align: left;
   border-radius: 5px;
   background-color: #d6e7fa;
-  padding: 20px;
+  padding: 10px;
 }
 
 textarea {
-  width: 90%;
-  padding: 10px 20px;
+  width: 100%;
+  padding: 10px 10px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
