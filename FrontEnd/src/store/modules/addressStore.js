@@ -6,9 +6,9 @@ const addressStore = {
     sidos: [{ value: null, text: "선택하세요" }],
     guguns: [{ value: null, text: "선택하세요" }],
     dongs: [{ value: null, text: "선택하세요" }],
-    sido: "",
-    gugun: "",
-    dong: "",
+    sido: "선택하세요",
+    gugun: "선택하세요",
+    dong: "선택하세요",
   },
 
   getters: {},
@@ -42,11 +42,13 @@ const addressStore = {
       state.houses = houses;
     },
     SET_SIDO: (state, sido) => {
+      state.gugun = "선택하세요";
       state.sidos.forEach((object) => {
         if (object.value == sido) state.sido = object.text;
       });
     },
     SET_GUGUN: (state, gugun) => {
+      state.dong = "선택하세요";
       state.guguns.forEach((object) => {
         if (object.value === gugun) state.gugun = object.text;
       });

@@ -60,10 +60,9 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("houseStore", ["SET_START_PRICE", "SET_END_PRICE"]),
+    ...mapMutations("houseStore", ["SET_FILTER_PRICE"]),
     filterClick() {
-      this.SET_START_PRICE(this.start);
-      this.SET_END_PRICE(this.end);
+      this.SET_FILTER_PRICE({ startPrice: this.start, endPrice: this.end });
     },
     filterBtnClick() {
       this.filterShow = !this.filterShow;

@@ -96,13 +96,15 @@ export default {
           });
         });
       } else {
-        let str = `${this.sido} ${this.gugun} ${this.dong}`;
+        let str = `${this.sido}`;
+        if (this.gugun != "선택하세요") str += ` ${this.gugun}`;
+        if (this.dong != "선택하세요") str += ` ${this.dong}`;
         geocoder.addressSearch(str, async (result, status) => {
           cnt++;
           if (status === kakao.maps.services.Status.OK) {
             let coords = await new kakao.maps.LatLng(result[0].y, result[0].x);
             if (cnt === 1) {
-              positions.push([this.dong, coords]);
+              positions.push([str.split(" ").slice(-1)[0], coords]);
               this.positions = positions;
               map.setLevel(5);
               await this.removeMarker();

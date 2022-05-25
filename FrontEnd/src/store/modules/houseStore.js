@@ -35,11 +35,17 @@ const houseStore = {
           result.push(apt);
         }
       });
+
       return result;
     },
   },
 
   mutations: {
+    SET_FILTER_PRICE(state, { startPrice, endPrice }) {
+      state.aptPriceFilter.start = startPrice;
+      state.aptPriceFilter.end = endPrice;
+      eventBus.$emit("getGeoCode", state.viewRange);
+    },
     SET_START_PRICE: (state, price) => {
       state.aptPriceFilter.start = price;
     },
@@ -54,7 +60,7 @@ const houseStore = {
       state.viewRange = "gugun";
       state.aptPriceFilter = {
         start: 0,
-        end: Number.MAX_SAFE_INTEGER,
+        end: 100000000000,
       };
     },
     SET_HOUSE_LIST: (state, houses) => {
