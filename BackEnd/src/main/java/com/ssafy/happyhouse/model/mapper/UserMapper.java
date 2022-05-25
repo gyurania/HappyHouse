@@ -22,7 +22,7 @@ public interface UserMapper {
 
 	boolean deleteUser(String userId) throws Exception;
 
-	UserDto findPW(String id, String username, String email);
+	UserDto findPW(String id, String email);
 
 	int idCheck(String id) throws SQLException;
 

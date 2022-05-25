@@ -11,9 +11,6 @@
       <b-col cols="8">
         <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
           <b-form class="text-left">
-            <b-alert show variant="danger" v-if="isLoginError"
-              >아이디 또는 비밀번호를 확인하세요.</b-alert
-            >
             <b-form-group
               label="아이디:"
               label-for="userid"
@@ -42,6 +39,10 @@
               ></b-form-input>
             </b-form-group>
 
+            <b-alert show variant="danger" v-if="isLoginError"
+              >아이디 또는 비밀번호를 확인하세요.</b-alert
+            >
+
             <div align="center">
               <b-button
                 type="button"
@@ -58,6 +59,11 @@
                 >회원가입</b-button
               >
 
+              <div class="text-center mt-3">
+                <router-link to="/user/findpw">
+                  비밀번호를 잊어버리셨나요?</router-link
+                >
+              </div>
               <!-- <div class="mt-3 mb-4 text-center">
                 <span class="fw-normal">or</span>
               </div> -->

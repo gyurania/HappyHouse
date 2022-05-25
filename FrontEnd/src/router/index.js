@@ -108,6 +108,11 @@ const routes = [
         name: "delete",
         component: () => import("@/components/user/checkDelete.vue"),
       },
+      {
+        path: "findpw",
+        name: "findpw",
+        component: () => import("@/components/user/findPass.vue"),
+      },
     ],
   },
   {

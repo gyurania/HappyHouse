@@ -22,13 +22,21 @@
                 v-model="user.id"
                 required
                 placeholder="아이디 입력"
+                @blur="idCheck"
               ></b-form-input>
-              <div align="right">
+
+              <!-- <div align="right">
                 <b-button type="button" class="m-1" @click="idCheck"
                   >중복확인</b-button
                 >
-              </div>
+              </div> -->
             </b-form-group>
+            <b-alert show variant="danger" v-if="duplicateId"
+              >이미 사용중인 아이디입니다.</b-alert
+            >
+            <b-alert show variant="success" v-if="useableId"
+              >사용 가능한 아이디입니다.</b-alert
+            >
 
             <b-form-group
               label="비밀번호:"
@@ -41,8 +49,14 @@
                 v-model="user.pass"
                 required
                 placeholder="비밀번호 입력"
+                @blur="passError"
               ></b-form-input
             ></b-form-group>
+
+            <b-alert show variant="danger" v-if="passErr"
+              >비밀번호는 6자 이상, 하나의 문자 및 하나의 숫자를 포함해야
+              합니다.</b-alert
+            >
 
             <b-form-group
               label="비밀번호 확인:"
@@ -97,7 +111,7 @@
             >
               <b-form-input
                 id="phone"
-                type="number"
+                type="text"
                 v-model="user.phone"
                 required
                 placeholder="연락처 입력"
@@ -138,6 +152,7 @@ export default {
     return {
       isLoginError: false,
       duplicateId: false,
+      useableId: false,
       user: {
         id: "",
         pass: "",
@@ -147,12 +162,13 @@ export default {
         phone: "",
       },
       users: [],
+      passErr: false,
     };
   },
+  beforeDestroy() {},
   methods: {
     onSubmit() {
       // event.preventDefault();
-
       let err = true;
       let msg = "";
       !this.user.id && ((msg = "아이디를 입력해주세요."), (err = false));
@@ -181,15 +197,27 @@ export default {
         alert("비밀번호가 일치하지 않습니다.");
       }
     },
+    passError() {
+      var reg = /^[A-Za-z0-9]{6,}$/;
+      if (this.user.pass != "") {
+        if (!reg.test(this.user.pass)) {
+          this.passErr = true;
+        } else {
+          this.passErr = false;
+        }
+      }
+    },
     idCheck() {
       http.get(`/user/idcheck/${this.user.id}`).then(({ data }) => {
-        let msg = "이미 사용중인 아이디입니다.";
+        // let msg = "이미 사용중인 아이디입니다.";
         this.duplicateId = true;
+        this.useableId = false;
         if (data === "success") {
-          msg = "사용 가능한 아이디입니다.";
+          // msg = "사용 가능한 아이디입니다.";
           this.duplicateId = false;
+          this.useableId = true;
         }
-        alert(msg);
+        // alert(msg);
       });
     },
     onReset() {
@@ -204,6 +232,8 @@ export default {
     regist() {
       if (this.duplicateId == true) {
         alert("아이디 중복확인을 해주세요.");
+      } else if (this.passErr) {
+        this.passErr = true;
       } else {
         http
           .post(`/user/regist`, {

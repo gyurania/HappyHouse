@@ -43,4 +43,11 @@
 		delete from user
 		where id = #{userid};
 	</delete>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPW" parameterType="String" resultType="userDto">
+		select *
+		from user
+		where id = #{id} and email = #{email};
+	</select>
 </mapper>
