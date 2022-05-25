@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto findPW(String id, String username, String email) {
-		return userMapper.findPW(id, username, email);
+	public UserDto findPW(String userId, String email) {
+		return userMapper.findPW(userId, email);
 	}
 
 	@Override

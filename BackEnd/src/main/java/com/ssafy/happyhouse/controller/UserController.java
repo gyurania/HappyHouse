@@ -98,39 +98,6 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-//	@GetMapping("/login")
-//	public String login() {
-//		return "user/login";
-//	}
-
-//	@PostMapping("/login")
-//	public String login(@RequestParam Map<String, String> map, Model model, HttpSession session,
-//			HttpServletResponse response) throws Exception {
-//		logger.debug("map : {}", map.get("id"));
-//		UserDto userDto = userService.login(map);
-//		if (userDto != null) {
-//			session.setAttribute("userinfo", userDto);
-//
-//			Cookie cookie = new Cookie("ssafy_id", map.get("id"));
-//			cookie.setPath("/");
-//			if ("saveok".equals(map.get("idsave"))) {
-//				cookie.setMaxAge(60 * 60 * 24 * 365 * 40);
-//			} else {
-//				cookie.setMaxAge(0);
-//			}
-//			response.addCookie(cookie);
-//			return "redirect:/";
-//		} else {
-//			model.addAttribute("msg", "아이디 또는 비밀번호 확인 후 다시 로그인하세요!");
-//			return "user/login";
-//		}
-//	}
-
-//	@GetMapping("/join")
-//	public String signUp() {
-//		return "user/join";
-//	}
-
 	@ApiOperation(value = "회원가입")
 	@PostMapping("/regist")
 	public ResponseEntity<String> register(@RequestBody UserDto userDto, Model model) throws Exception {
@@ -151,6 +118,16 @@ public class UserController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
+	@ApiOperation(value = "아이디, 이메일이 일치하는 회원의 비밀번호 찾기")
+	@GetMapping("/findpw")
+	public ResponseEntity<UserDto> findPW(@RequestParam String userId, @RequestParam String email) throws Exception{
+		logger.debug("findPW - 호출");
+		if(userService.findPW(userId, email) != null) {
+			return new ResponseEntity<UserDto>(userService.findPW(userId, email), HttpStatus.OK); 
+		}
+		return new ResponseEntity<UserDto>(new UserDto(), HttpStatus.NO_CONTENT);
+	}
+	
 	@ApiOperation(value = "로그인한 유저의 회원정보 반환")
 	@GetMapping("/mypage/{userId}")
 	public ResponseEntity<UserDto> myPage(@PathVariable String userId) throws Exception {
@@ -167,12 +144,6 @@ public class UserController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
-
-//	@GetMapping("/logout")
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "redirect:/";
-//	}
 
 	@ApiOperation(value = "회원정보 수정")
 	@PutMapping("/mypage/{userId}")

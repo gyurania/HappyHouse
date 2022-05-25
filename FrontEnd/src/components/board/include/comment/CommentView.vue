@@ -29,9 +29,7 @@ export default {
   data() {
     return {
       isModifyShow: false,
-      isShow: true,
-
-      idCheck: false, // 로그인한 자신의 글에만 보이게 한다.
+      // isShow: true, // 로그인한 자신의 글에만 보이게 한다.
     };
   },
   components: {
@@ -39,14 +37,11 @@ export default {
   },
   props: {
     comment: Object,
+    isShow: Boolean,
   },
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
   },
-  // mounted() {
-  //   // console.log(this.comment.userid);
-  //   console.log(this.userInfo.id);
-  // },
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     modifyCommentView() {
