@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h3 class="underline-steelblue pt-1">
+  <div class="bv-example-row mt-3 text-center">
+    <h3 class="underline-hotpink">
       <b-icon icon="pin-angle-fill"></b-icon>
       관심 목록
     </h3>
@@ -27,12 +27,12 @@
   </div>
 </template>
 <style scoped>
-.underline-steelblue {
+.underline-hotpink {
   display: inline-block;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0) 70%,
-    rgba(72, 190, 233, 0.3) 30%
+    rgba(231, 27, 139, 0.3) 30%
   );
 }
 </style>

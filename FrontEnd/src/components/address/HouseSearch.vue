@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="underline-steelblue pt-1">
+    <h3 class="underline-hotpink pt-1">
       <b-icon icon="search"></b-icon> 아파트 거래 조회
     </h3>
     <b-row>
@@ -82,12 +82,12 @@ export default {
   /* background: silver; */
   cursor: pointer;
 }
-.underline-steelblue {
+.underline-hotpink {
   display: inline-block;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0) 70%,
-    rgba(72, 190, 233, 0.3) 30%
+    rgba(231, 27, 139, 0.3) 30%
   );
 }
 </style>

@@ -145,6 +145,7 @@ export default {
       }
     },
     dongSelect(val) {
+      this.SET_DONG(this.dongCode);
       if (this.dongCode) {
         let dongName = "";
         for (let dong of this.dongs) {
@@ -155,7 +156,6 @@ export default {
         }
         this.SET_BACK_TYPE(dongName);
       }
-      this.SET_DONG(this.dongCode);
       this.SET_VIEW_TYPE("apt");
     },
     dongClick(dongCode) {
