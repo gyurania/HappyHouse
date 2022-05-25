@@ -47,6 +47,14 @@
                 @click="find"
                 >비밀번호 찾기</b-button
               >
+
+              <b-button
+                type="button"
+                variant="success"
+                class="m-1"
+                @click="movePage"
+                >로그인</b-button
+              >
             </div>
           </b-form>
         </b-card>
@@ -71,23 +79,34 @@ export default {
   },
   methods: {
     find() {
-      http
-        .get(`/user/findpw`, {
-          params: {
-            userId: this.user.userid,
-            email: encodeURI(this.user.email),
-          },
-        })
-        .then(({ data }) => {
-          if (data.pass != undefined) {
-            alert(`비밀번호는 ${data.pass} 입니다.`);
-          } else {
-            alert("존재하지 않는 회원정보입니다.");
-          }
-        });
+      if (this.user.userid != null && this.user.email != null) {
+        http
+          .get(`/user/findpw`, {
+            params: {
+              userId: this.user.userid,
+              email: encodeURI(this.user.email),
+            },
+          })
+          .then(({ data }) => {
+            if (data.pass != undefined) {
+              alert(`비밀번호는 ${data.pass} 입니다.`);
+            } else {
+              alert("존재하지 않는 회원정보입니다.");
+            }
+          });
+      } else {
+        alert("아이디와 이메일을 입력해주세요.");
+      }
+    },
+    movePage() {
+      this.$router.push({ name: "login" });
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+input {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+</style>

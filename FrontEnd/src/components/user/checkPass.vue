@@ -64,6 +64,11 @@ export default {
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
   },
+  created() {
+    http.get(`/user/mypage/${this.userInfo.id}`).then(({ data }) => {
+      this.user = data;
+    });
+  },
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
 
@@ -77,12 +82,11 @@ export default {
       }
     },
   },
-  created() {
-    http.get(`/user/mypage/${this.userInfo.id}`).then(({ data }) => {
-      this.user = data;
-    });
-  },
 };
 </script>
 
-<style></style>
+<style scoped>
+input {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+</style>

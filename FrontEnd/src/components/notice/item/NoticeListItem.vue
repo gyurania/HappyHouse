@@ -3,6 +3,7 @@
     <b-td>{{ notice.notice_no }}</b-td>
     <b-td class="text-left">
       <router-link
+        class="link"
         :to="{ name: 'noticeView', params: { notice_no: notice.notice_no } }"
         >{{ notice.title }}</router-link
       >
@@ -33,5 +34,10 @@ td {
   text-align: center;
   border-bottom: 1px solid #ddd;
   height: 50px;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
 }
 </style>

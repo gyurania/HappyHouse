@@ -58,7 +58,7 @@
 
         <!-- 로그인 상태 -->
         <b-navbar-nav class="ml-auto" v-if="userInfo">
-          <b-nav-item class="align-self-center"
+          <b-nav-item class="align-self-center" id="welcome"
             ><b-avatar
               variant="primary"
               v-text="userInfo ? userInfo.name.charAt(0).toUpperCase() : ''"
@@ -144,5 +144,9 @@ export default {
   padding-top: 0px;
   padding-right: 0px;
   padding-left: 0px;
+}
+
+#welcome {
+  pointer-events: none;
 }
 </style>

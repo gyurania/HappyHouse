@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show><h3>글 보기</h3></b-alert>
+        <b-alert show><h3>게시글 보기</h3></b-alert>
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -91,7 +91,7 @@ export default {
       //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
     },
     deleteArticle() {
-      if (confirm("정말로 삭제?")) {
+      if (confirm("정말로 삭제하시겠습니까?")) {
         http.delete(`/board/${this.article.board_no}`).then(({ data }) => {
           let msg = "삭제 처리시 문제가 발생했습니다.";
           if (data === "success") {

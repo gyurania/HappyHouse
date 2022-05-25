@@ -166,4 +166,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+input {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+</style>

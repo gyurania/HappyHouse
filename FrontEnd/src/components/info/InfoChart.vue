@@ -1,13 +1,13 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
+    <!-- <b-row>
       <b-col>
         <b-alert show><h3>지역 정보</h3></b-alert>
       </b-col>
-    </b-row>
+    </b-row> -->
 
     <!-- select box -->
-    <b-row class="mt-4 mb-4 text-center">
+    <b-row class="mt-4 mb-4">
       <b-col class="sm-3">
         <b-form-select
           class="w-50"

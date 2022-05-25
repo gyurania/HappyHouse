@@ -67,13 +67,13 @@
               <!-- <div class="mt-3 mb-4 text-center">
                 <span class="fw-normal">or</span>
               </div> -->
-              <div class="d-flex justify-content-center my-4">
+              <!-- <div class="d-flex justify-content-center my-4">
                 <img
                   @click="KakaoLogin"
                   class="btn"
                   src="@/assets/kakao_login_medium_narrow.png"
                 />
-              </div>
+              </div> -->
             </div>
           </b-form>
         </b-card>
@@ -85,7 +85,6 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
-import http from "@/util/http-common";
 
 const userStore = "userStore";
 
@@ -120,108 +119,12 @@ export default {
     movePage() {
       this.$router.push({ name: "regist" });
     },
-
-    KakaoLogin() {
-      console.log(window.Kakao);
-      window.Kakao.Auth.login({
-        scope: "account_email, profile, gender",
-        success: this.GetMe,
-        fail: function (error) {
-          console.log(error);
-        },
-      });
-    },
-    GetMe(authObj) {
-      console.log(authObj);
-      window.Kakao.API.request({
-        url: "/v2/user/me",
-        success: (res) => {
-          const kakao_account = res.kakao_account;
-
-          http
-            .post("/login", {
-              userName: kakao_account.profile.nickname,
-              userEmail: kakao_account.email,
-              userPassword: "kakao",
-            })
-            .then(({ data }) => {
-              console.log("LoginVue: data : ");
-              console.log(data);
-
-              // login 성공 전달
-              this.$store.commit("SET_LOGIN", {
-                isLogin: true,
-                userName: data.userName,
-                userEmail: data.userEmail,
-                userPassword: data.userPassword,
-                userPhone: data.userPhone,
-              });
-              // this.$alertify.success(
-              //   this.$store.state.userInfo.userName + "님 환영합니다"
-              // );
-
-              this.$router.push("/Home");
-            })
-            .catch((error) => {
-              console.log("KaKaoLoginVue: error : ");
-              console.log(error);
-              if (error.response.status == "404") {
-                // => 카카오 회원가입
-
-                http
-                  .post("/user", {
-                    userName: kakao_account.profile.nickname,
-                    userEmail: kakao_account.email,
-                    userProfileImageUrl:
-                      kakao_account.profile.profile_image_url,
-                    userRank: this.userRank,
-                    userPassword: "kakao",
-                  })
-                  .then(({ data }) => {
-                    console.log("JoinVue - data : ");
-                    console.log(data);
-
-                    // join 성공 전달
-                    this.$store.commit("SET_LOGIN", {
-                      isLogin: true,
-                      userName: data.userName,
-                      userEmail: data.userEmail,
-                      userMessage: data.userMessage,
-                      userPassword: data.userPassword,
-                      userPhone: data.userPhone,
-                    });
-
-                    // this.$alertify.success(
-                    //   this.$store.state.userInfo.userName + "님 환영합니다"
-                    // );
-                    // home 로 이동
-                    this.$router.push("/Home");
-                  })
-                  .catch((error) => {
-                    console.log("LoginVue: error : ");
-                    console.log(error);
-                    if (error.response.status == "404") {
-                      this.$alertify.error("카카오 로그인에 실패했습니다.");
-                    } else {
-                      this.$alertify.error(
-                        "Opps!! 서버에 문제가 발생했습니다."
-                      );
-                    }
-                  });
-              } else {
-                this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
-              }
-            });
-        },
-
-        fail: (error) => {
-          this.$router.push("/");
-          console.log(error);
-        },
-      });
-    },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+input {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+</style>

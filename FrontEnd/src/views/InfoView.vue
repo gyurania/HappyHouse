@@ -1,7 +1,7 @@
 <template>
   <b-container class="bv-example-row mt-3 text-center">
     <h3 class="underline-hotpink">
-      <b-icon icon="lightbulb"></b-icon> Info Service
+      <b-icon icon="lightbulb"></b-icon> 지역 정보
     </h3>
 
     <router-view></router-view>

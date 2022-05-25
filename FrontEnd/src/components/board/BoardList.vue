@@ -1,18 +1,6 @@
 <template>
   <b-container class="bv-example-row mt-3">
     <b-row>
-      <b-col>
-        <b-alert show><h3>커뮤니티</h3></b-alert>
-      </b-col>
-    </b-row>
-    <b-row class="mb-1">
-      <b-col class="text-right">
-        <b-button variant="outline-primary" @click="moveWrite()"
-          >글쓰기</b-button
-        >
-      </b-col>
-    </b-row>
-    <b-row>
       <b-col v-if="articles.length">
         <b-table-simple hover responsive>
           <b-thead head-variant="dark">
@@ -35,6 +23,14 @@
       </b-col>
 
       <b-col v-else class="text-center">작성된 게시글이 없습니다.</b-col>
+    </b-row>
+
+    <b-row class="mt-1">
+      <b-col class="text-right">
+        <b-button variant="outline-primary" @click="moveWrite()"
+          >글쓰기</b-button
+        >
+      </b-col>
     </b-row>
   </b-container>
 </template>
