@@ -40,7 +40,14 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-alert show variant="danger" v-if="isLoginError"
+            <b-alert
+              show
+              variant="danger"
+              v-if="isLoginError"
+              style="
+                font-family: Avenir, Helvetica, Arial, sans-serif;
+                font-weight: normal;
+              "
               >아이디 또는 비밀번호를 확인하세요.</b-alert
             >
 

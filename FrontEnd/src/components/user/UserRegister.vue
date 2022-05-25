@@ -260,10 +260,12 @@ export default {
     },
     // 비밀번호 확인
     checkPw() {
-      if (this.user.pass === this.user.checkpwd) {
-        this.passCoin = true;
-      } else {
-        this.passCoin = false; // 비밀번호 일치하지 않음
+      if (this.passErr) {
+        if (this.user.pass === this.user.checkpwd) {
+          this.passCoin = true;
+        } else {
+          this.passCoin = false; // 비밀번호 일치하지 않음
+        }
       }
     },
     passError() {
