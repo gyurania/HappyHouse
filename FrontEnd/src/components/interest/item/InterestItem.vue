@@ -68,39 +68,41 @@ export default {
         },
       });
     },
-    deleteClick() {
+    deleteArea() {
       let params;
       if (this.userInfo) params = [this.userInfo.id, this.item.dongCode];
-      if (this.type == "area") {
-        deleteInterest(params, ({ data }) => {
-          if (data == "삭제성공") console.log(data);
-          this.$router.go();
-        });
-      }
-      if (this.type == "apart" && this.$route.path == "/interest/recent") {
-        let newList = [];
-        const aptList = JSON.parse(localStorage.getItem("recentApt"));
-        if (aptList) {
-          for (let apt of aptList) {
-            if (!(apt.일련번호 === this.item.일련번호)) {
-              newList.push(apt);
-            }
-          }
-        }
-        localStorage.setItem("recentApt", JSON.stringify(newList));
-
-        let str = this.item.아파트 + this.item.년 + this.item.월;
-        console.log(str);
-        let recentList = JSON.parse(localStorage.getItem("recentList"));
-        for (let i in recentList) {
-          if (recentList[i][str]) {
-            console.log(recentList[i][str]);
-            recentList.splice(i, 1);
-            localStorage.setItem("recentList", JSON.stringify(recentList));
-            break;
-          }
-        }
+      deleteInterest(params, ({ data }) => {
+        if (data != "삭제성공") console.log(data);
         this.$router.go();
+      });
+    },
+    deleteRecent() {
+      let newList = [];
+      const aptList = JSON.parse(localStorage.getItem("recentApt"));
+      if (aptList) {
+        for (let apt of aptList) {
+          if (!(apt.일련번호 === this.item.일련번호)) {
+            newList.push(apt);
+          }
+        }
+      }
+      localStorage.setItem("recentApt", JSON.stringify(newList));
+      let str = this.item.아파트 + this.item.년 + this.item.월;
+      let recentList = JSON.parse(localStorage.getItem("recentList"));
+      for (let i in recentList) {
+        if (recentList[i][str]) {
+          console.log(recentList[i][str]);
+          recentList.splice(i, 1);
+          localStorage.setItem("recentList", JSON.stringify(recentList));
+          break;
+        }
+      }
+      this.$router.go();
+    },
+    deleteClick() {
+      if (this.type == "area") this.deleteArea();
+      if (this.type == "apart" && this.$route.path == "/interest/recent") {
+        this.deleteRecent();
       }
     },
     detailClick() {
