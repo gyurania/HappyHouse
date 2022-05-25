@@ -20,23 +20,21 @@
                 id="id"
                 type="text"
                 v-model="user.id"
+                :state="idState"
                 required
                 placeholder="아이디 입력"
                 @blur="idCheck"
               ></b-form-input>
 
-              <!-- <div align="right">
-                <b-button type="button" class="m-1" @click="idCheck"
-                  >중복확인</b-button
-                >
-              </div> -->
+              <b-form-invalid-feedback
+                id="id-feedback"
+                style="
+                  font-family: Avenir, Helvetica, Arial, sans-serif;
+                  font-weight: normal;
+                "
+                >이미 사용 중인 아이디입니다.
+              </b-form-invalid-feedback>
             </b-form-group>
-            <b-alert show variant="danger" v-if="duplicateId"
-              >이미 사용중인 아이디입니다.</b-alert
-            >
-            <b-alert show variant="success" v-if="useableId"
-              >사용 가능한 아이디입니다.</b-alert
-            >
 
             <b-form-group
               label="비밀번호:"
@@ -47,15 +45,17 @@
                 type="password"
                 id="pass"
                 v-model="user.pass"
+                :state="passState"
                 required
                 placeholder="비밀번호 입력"
                 @blur="passError"
-              ></b-form-input
-            ></b-form-group>
-
-            <b-alert show variant="danger" v-if="passErr"
-              >비밀번호는 6자 이상, 하나의 문자 및 하나의 숫자를 포함해야
-              합니다.</b-alert
+              ></b-form-input>
+              <b-form-text
+                id="pass"
+                style="font-family: Avenir, Helvetica, Arial, sans-serif"
+                >비밀번호는 6자 이상, 하나의 문자 및 하나의 숫자를 포함해야
+                합니다.</b-form-text
+              ></b-form-group
             >
 
             <b-form-group
@@ -67,14 +67,20 @@
                 type="password"
                 id="checkpwd"
                 v-model="user.checkpwd"
+                :state="passCoin"
                 required
                 placeholder="비밀번호 재입력"
-              ></b-form-input
-            ></b-form-group>
-
-            <!-- <b-alert show variant="danger" v-if=""
-              >비밀번호가 일치하지 않습니다.</b-alert
-            > -->
+                @blur="checkPw"
+              ></b-form-input>
+              <b-form-invalid-feedback
+                id="checkpwd-feedback"
+                style="
+                  font-family: Avenir, Helvetica, Arial, sans-serif;
+                  font-weight: normal;
+                "
+                >비밀번호가 일치하지 않습니다.
+              </b-form-invalid-feedback></b-form-group
+            >
 
             <b-form-group
               label="이름:"
@@ -85,9 +91,19 @@
                 id="name"
                 type="text"
                 v-model="user.name"
+                :state="nameState"
                 required
                 placeholder="이름 입력"
+                @blur="nameCheck"
               ></b-form-input>
+              <b-form-invalid-feedback
+                id="name-feedback"
+                style="
+                  font-family: Avenir, Helvetica, Arial, sans-serif;
+                  font-weight: normal;
+                "
+                >이름을 입력해주세요.
+              </b-form-invalid-feedback>
             </b-form-group>
 
             <b-form-group
@@ -101,7 +117,17 @@
                 v-model="user.email"
                 required
                 placeholder="이메일 입력"
+                @blur="emailCheck"
+                :state="emailState"
               ></b-form-input>
+              <b-form-invalid-feedback
+                id="email-feedback"
+                style="
+                  font-family: Avenir, Helvetica, Arial, sans-serif;
+                  font-weight: normal;
+                "
+                >이메일을 입력해주세요.
+              </b-form-invalid-feedback>
             </b-form-group>
 
             <b-form-group
@@ -115,7 +141,17 @@
                 v-model="user.phone"
                 required
                 placeholder="연락처 입력"
+                @blur="phoneCheck"
+                :state="phoneState"
               ></b-form-input>
+              <b-form-invalid-feedback
+                id="phone-feedback"
+                style="
+                  font-family: Avenir, Helvetica, Arial, sans-serif;
+                  font-weight: normal;
+                "
+                >연락처를 입력해주세요.
+              </b-form-invalid-feedback>
             </b-form-group>
 
             <div align="center">
@@ -151,8 +187,6 @@ export default {
   data() {
     return {
       isLoginError: false,
-      duplicateId: false,
-      useableId: false,
       user: {
         id: "",
         pass: "",
@@ -162,11 +196,47 @@ export default {
         phone: "",
       },
       users: [],
-      passErr: false,
+      passErr: null,
+      useableId: null,
+      passCoin: null,
+      checkName: null,
+      checkEmail: null,
+      checkPhone: null,
     };
   },
-  beforeDestroy() {},
+  computed: {
+    idState() {
+      return this.useableId;
+    },
+    passState() {
+      return this.passErr;
+    },
+    nameState() {
+      return this.checkName;
+    },
+    emailState() {
+      return this.checkEmail;
+    },
+    phoneState() {
+      return this.checkPhone;
+    },
+  },
   methods: {
+    nameCheck() {
+      if (this.user.name == "") {
+        this.checkName = false;
+      } else this.checkName = true;
+    },
+    emailCheck() {
+      if (this.user.email == "") {
+        this.checkEmail = false;
+      } else this.checkEmail = true;
+    },
+    phoneCheck() {
+      if (this.user.phone == "") {
+        this.checkPhone = false;
+      } else this.checkPhone = true;
+    },
     onSubmit() {
       // event.preventDefault();
       let err = true;
@@ -184,44 +254,37 @@ export default {
         ((msg = "연락처를 입력해주세요."), (err = false));
 
       if (!err) alert(msg);
-      else this.checkPw();
-      // else
-      //   this.type === "register" ? this.registArticle() : this.modifyArticle();
+      else {
+        this.regist();
+      }
     },
     // 비밀번호 확인
     checkPw() {
       if (this.user.pass === this.user.checkpwd) {
-        // alert("입력완료");
-        this.regist();
+        this.passCoin = true;
       } else {
-        alert("비밀번호가 일치하지 않습니다.");
+        this.passCoin = false; // 비밀번호 일치하지 않음
       }
     },
     passError() {
       var reg = /^[A-Za-z0-9]{6,}$/;
       if (this.user.pass != "") {
         if (!reg.test(this.user.pass)) {
-          this.passErr = true;
-        } else {
           this.passErr = false;
+        } else {
+          this.passErr = true;
         }
       }
     },
     idCheck() {
       if (this.user.id) {
         http.get(`/user/idcheck/${this.user.id}`).then(({ data }) => {
-          // let msg = "이미 사용중인 아이디입니다.";
-          this.duplicateId = true;
-          this.useableId = false;
+          this.useableId = false; // 사용중인 아이디
           if (data === "success") {
-            // msg = "사용 가능한 아이디입니다.";
-            this.duplicateId = false;
-            this.useableId = true;
+            this.useableId = true; // 사용 가능한 아이디
           }
-          // alert(msg);
         });
       } else {
-        this.duplicateId = false;
         this.useableId = false;
       }
     },
@@ -234,15 +297,18 @@ export default {
       this.user.email = "";
       this.user.phone = "";
 
-      this.duplicateId = false;
-      this.useableId = false;
-      this.passErr = false;
+      this.passErr = null;
+      this.useableId = null;
+      this.passCoin = null;
+      this.checkName = null;
+      this.checkEmail = null;
+      this.checkPhone = null;
     },
     regist() {
       if (this.duplicateId == true) {
         alert("아이디 중복확인을 해주세요.");
-      } else if (this.passErr) {
-        this.passErr = true;
+      } else if (!this.passErr) {
+        this.passErr = false;
       } else {
         http
           .post(`/user/regist`, {

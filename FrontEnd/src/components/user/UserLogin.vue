@@ -20,10 +20,11 @@
                 id="userid"
                 v-model="user.userid"
                 required
-                placeholder="아이디 입력...."
+                placeholder="아이디 입력"
                 @keyup.enter="confirm"
               ></b-form-input>
             </b-form-group>
+
             <b-form-group
               label="비밀번호:"
               label-for="userpwd"
@@ -34,7 +35,7 @@
                 id="userpwd"
                 v-model="user.userpwd"
                 required
-                placeholder="비밀번호 입력...."
+                placeholder="비밀번호 입력"
                 @keyup.enter="confirm"
               ></b-form-input>
             </b-form-group>

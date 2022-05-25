@@ -20,7 +20,10 @@
                 id="pass"
                 v-model="pwcheck"
                 type="password"
+                @keyup.enter="checkPw"
               ></b-form-input>
+              <!-- 새로고침 방지 -->
+              <b-form-input type="text" style="display: none"></b-form-input>
             </b-form-group>
 
             <!-- button -->
@@ -73,8 +76,8 @@ export default {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
 
     checkPw() {
-      // console.log(this.user.pass);
-      // console.log(this.pwcheck);
+      // console.log("keyup enter 확인!!");
+
       if (this.user.pass === this.pwcheck) {
         this.$router.push({ name: "update" });
       } else {
