@@ -22,7 +22,7 @@
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
             <notice-list-item
-              v-for="notice in notices"
+              v-for="notice in noticesPage"
               :key="notice.noticeno"
               :notice="notice"
             />
@@ -43,6 +43,13 @@
         >
       </b-col>
     </b-row>
+    <div class="overflow-auto">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+      ></b-pagination>
+    </div>
   </b-container>
 </template>
 
@@ -60,10 +67,26 @@ export default {
     return {
       notices: [],
       adminCheck: false,
+      perPage: 10,
+      currentPage: 1,
     };
   },
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
+    rows() {
+      return this.notices.length;
+    },
+    noticesPage() {
+      let arr = [];
+      for (
+        let i = (this.currentPage - 1) * this.perPage, cnt = 0;
+        i < this.rows && cnt < this.perPage;
+        i++, cnt++
+      ) {
+        arr.push(this.notices[i]);
+      }
+      return arr;
+    },
   },
   created() {
     http.get(`/notice`).then(({ data }) => {

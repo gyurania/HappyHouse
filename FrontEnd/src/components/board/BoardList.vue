@@ -14,7 +14,7 @@
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
             <board-list-item
-              v-for="article in articles"
+              v-for="article in articlesPage"
               :key="article.articleno"
               :article="article"
             />
@@ -32,6 +32,11 @@
         >
       </b-col>
     </b-row>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+    ></b-pagination>
   </b-container>
 </template>
 
@@ -50,12 +55,29 @@ export default {
   data() {
     return {
       articles: [],
+      perPage: 10,
+      currentPage: 1,
     };
   },
   computed: {
     ...mapState(userStore, ["isLogin", "userInfo"]),
+    rows() {
+      return this.articles.length;
+    },
+    articlesPage() {
+      let arr = [];
+      for (
+        let i = (this.currentPage - 1) * this.perPage, cnt = 0;
+        i < this.rows && cnt < this.perPage;
+        i++, cnt++
+      ) {
+        console.log(i, cnt);
+        arr.push(this.articles[i]);
+      }
+      return arr;
+    },
   },
-  created() {
+  mounted() {
     http.get(`/board`).then(({ data }) => {
       this.articles = data;
     });
