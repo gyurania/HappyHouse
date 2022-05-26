@@ -42,7 +42,6 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-INSERT INTO `comment` VALUES (38,'ㅁㅁㅁ','admin','2022-05-25 06:18:38',28),(39,'asdfasdfasdfasdfasd','admin','2022-05-25 07:26:39',28);
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

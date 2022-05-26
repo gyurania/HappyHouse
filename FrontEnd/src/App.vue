@@ -3,16 +3,19 @@
     <navi-view />
     <!-- 현재 route에 맞는 component가 렌더링된다. -->
     <router-view />
+    <foot-view />
   </div>
 </template>
 
 <script>
 import NaviView from "@/components/common/NaviView";
+import FootView from "@/components/common/FootView";
 
 export default {
   name: "nav-home",
   components: {
     NaviView,
+    FootView,
   },
 };
 </script>

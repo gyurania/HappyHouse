@@ -33,11 +33,11 @@ export default {
 }
 .content {
   position: absolute;
-  top: 60%;
+  top: 55%;
   left: 50;
   width: 100%;
   /* transform: translate(-50%, 50%); */
-  font-size: 20px;
+  font-size: 40px;
   font-family: "Jeju Gothic";
   text-align: center;
   color: white;
