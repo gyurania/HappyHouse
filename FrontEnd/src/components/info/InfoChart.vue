@@ -1,11 +1,5 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <!-- <b-row>
-      <b-col>
-        <b-alert show><h3>지역 정보</h3></b-alert>
-      </b-col>
-    </b-row> -->
-
     <!-- select box -->
     <b-row class="mt-4 mb-4">
       <b-col class="sm-3">
@@ -159,20 +153,12 @@ import {
   Chart as ChartJS,
   Title,
   Tooltip,
-  // Legend,
   BarElement,
   CategoryScale,
   LinearScale,
 } from "chart.js";
 
-ChartJS.register(
-  Title,
-  Tooltip,
-  // Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-);
+ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
 
 export default {
   name: "InfoChart",
@@ -273,14 +259,11 @@ export default {
         http
           .get(`/info/${this.gugun}`)
           .then(({ data }) => {
-            // let msg = "실패";
             if (data != null) {
-              // msg = "성공";
               this.infoResult.info = data.info;
               this.infoResult.avg = data.avg;
               this.drawChart();
             }
-            // console.log(msg);
           })
           .catch((error) => {
             console.log(error);

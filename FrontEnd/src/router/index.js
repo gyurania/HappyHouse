@@ -130,11 +130,6 @@ const routes = [
   },
 
   {
-    path: "/about",
-    name: "About",
-    component: () => import("../views/AboutView.vue"),
-  },
-  {
     path: "/map",
     name: "Map",
     component: MapView,
@@ -156,11 +151,6 @@ const routes = [
         alias: [""],
         name: "InterestArea",
         component: () => import("@/components/interest/InterestArea.vue"),
-      },
-      {
-        path: "apart",
-        name: "InterestApart",
-        component: () => import("@/components/interest/InterestApt.vue"),
       },
       {
         path: "recent",

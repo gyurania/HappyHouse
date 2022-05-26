@@ -11,8 +11,6 @@
             rows="2"
           ></textarea>
         </b-col>
-        <!-- <textarea id="comment" name="comment" v-text="modifyComment.comment" ref="comment" cols="35" rows="2">
-      </textarea> -->
         <b-col sm="auto">
           <b-row class="pt-3">
             <b-button size="sm" @click="updateComment">수정</b-button>
@@ -53,10 +51,9 @@ export default {
   name: "comment-write",
   data() {
     return {
-      userid: "", // 로그인한 사용자 아이디로 바꿈
+      userid: "",
       comment: "",
-      modicomment: this.modifyComment?.comment, // 옵셔널체이닝 : modifyComment가 null 일 경우는 바인딩 안함, modifyComment는 반드시 선언되야 작동.
-      // modicomment: this.modifyComment ? this.modifyComment.comment : {}, //props 는 직접 변경 X
+      modicomment: this.modifyComment?.comment,
     };
   },
   props: {
@@ -101,8 +98,6 @@ export default {
       http
         .put(`/comment`, {
           comment_no: this.modifyComment.comment_no,
-          //  comment: this.modifyComment.comment, //에러나요 ~~
-          //부모뷰에서 자식뷰로 전달한 데이터는 수정하지말고 따로 값을 변수화하여 사용
           comment: this.modicomment,
         })
         .then(({ data }) => {

@@ -46,7 +46,6 @@
 </template>
 
 <script>
-// import moment from "moment";
 import { mapState, mapMutations } from "vuex";
 import http from "@/util/http-common";
 
@@ -102,11 +101,6 @@ export default {
       }
     },
   },
-  // filters: {
-  //   dateFormat(regtime) {
-  //     return moment(new Date(regtime)).format("YY.MM.DD hh:mm:ss");
-  //   },
-  // },
 };
 </script>
 

@@ -11,6 +11,4 @@ async function findById(userid, success, fail) {
   await api.get(`/user/info/${userid}`).then(success).catch(fail);
 }
 
-// function logout(success, fail)
-
 export { login, findById };

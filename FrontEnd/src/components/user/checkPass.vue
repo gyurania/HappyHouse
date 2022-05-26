@@ -76,8 +76,6 @@ export default {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
 
     checkPw() {
-      // console.log("keyup enter 확인!!");
-
       if (this.user.pass === this.pwcheck) {
         this.$router.push({ name: "update" });
       } else {

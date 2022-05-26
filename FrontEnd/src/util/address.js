@@ -14,10 +14,6 @@ function dongList(params, success, fail) {
   api.get(`/address/gugun/${params}`).then(success).catch(fail);
 }
 
-function geoCode(params, success, fail) {
-  api.get(`/address/dong/${params}`).then(success).catch(fail);
-}
-
 function interestList(params, success, fail) {
   api.get(`/address/interest/list/${params}`).then(success).catch(fail);
 }
@@ -39,7 +35,6 @@ export {
   sidoList,
   gugunList,
   dongList,
-  geoCode,
   interestList,
   insertInterestAddr,
   deleteInterest,

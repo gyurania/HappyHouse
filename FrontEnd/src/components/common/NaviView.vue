@@ -102,7 +102,6 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-// import us from "@/store/modules/userStore";
 
 const userStore = "userStore";
 
@@ -114,7 +113,6 @@ export default {
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
-      // console.log("memberStore : ", us);
       this.SET_IS_LOGIN(false);
       this.SET_USER_INFO(null);
       sessionStorage.removeItem("access-token");
@@ -125,9 +123,6 @@ export default {
 </script>
 
 <style>
-.ssafy_logo {
-  /* width: 150px; */
-}
 .header {
   text-align: center;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.3);

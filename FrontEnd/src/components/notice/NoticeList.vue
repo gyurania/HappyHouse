@@ -1,13 +1,5 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <!-- <b-row>
-      <b-col>
-        <b-alert show><h3>공지사항</h3></b-alert>
-      </b-col>
-    </b-row> -->
-    <!-- 관리자만 공지사항 작성 가능 -->
-    <!-- <b-row v-if="adminCheck" class="mb-1"> -->
-
     <b-row class="mt-1">
       <b-col v-if="notices.length">
         <b-table-simple hover responsive>
@@ -28,6 +20,12 @@
             />
           </tbody>
         </b-table-simple>
+        <b-pagination
+          align="center"
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+        ></b-pagination>
       </b-col>
 
       <b-col v-else class="text-center">등록된 공지사항이 없습니다.</b-col>
@@ -43,13 +41,6 @@
         >
       </b-col>
     </b-row>
-    <div class="overflow-auto">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-      ></b-pagination>
-    </div>
   </b-container>
 </template>
 
@@ -95,7 +86,6 @@ export default {
   },
   mounted() {
     // 관리자일 경우에만 공지사항 작성 가능
-    // console.log(this.userInfo.isAdmin);
     if (this.userInfo != null) {
       if (this.userInfo.isAdmin == 1) {
         this.adminCheck = true;

@@ -92,7 +92,6 @@
 </template>
 
 <script>
-// import http from "@/util/http-common";
 import { mapState, mapMutations } from "vuex";
 
 const userStore = "userStore";
@@ -105,13 +104,6 @@ export default {
   created() {},
   methods: {
     ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
-    // onClickLogout() {
-    //   // console.log("memberStore : ", us);
-    //   this.SET_IS_LOGIN(false);
-    //   this.SET_USER_INFO(null);
-    //   sessionStorage.removeItem("access-token");
-    //   if (this.$route.path != "/") this.$router.push({ name: "Home" });
-    // },
     movePage() {
       this.$router.push({ name: "checkpw" });
     },

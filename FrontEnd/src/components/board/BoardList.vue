@@ -20,6 +20,12 @@
             />
           </tbody>
         </b-table-simple>
+        <b-pagination
+          align="center"
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+        ></b-pagination>
       </b-col>
 
       <b-col v-else class="text-center">작성된 게시글이 없습니다.</b-col>
@@ -32,11 +38,6 @@
         >
       </b-col>
     </b-row>
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-    ></b-pagination>
   </b-container>
 </template>
 

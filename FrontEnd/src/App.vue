@@ -21,7 +21,6 @@ export default {
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 #app {
   font-family: "Jeju Gothic";
-  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -51,16 +50,4 @@ a {
   display: inline-block;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 70%, cyan 30%);
 }
-
-/* button,
-.btn {
-  background-color: #d0d3d0;
-  color: rgb(80, 82, 79);
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: 1px solid #787878;
-  border-radius: 4px;
-  font-size: large;
-  cursor: pointer;
-} */
 </style>

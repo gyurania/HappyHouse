@@ -9,8 +9,6 @@
   </b-tr>
 </template>
 <script>
-// <router-link :to="{ name: 'boardView', params: { board_no: article.board_no } }" class="link" >
-// </router-link>
 import moment from "moment";
 
 export default {

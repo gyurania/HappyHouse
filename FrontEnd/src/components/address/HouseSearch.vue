@@ -78,7 +78,6 @@ export default {
 
 <style scoped>
 .link:hover {
-  /* background: silver; */
   cursor: pointer;
 }
 .underline-hotpink {

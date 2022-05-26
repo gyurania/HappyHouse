@@ -46,7 +46,6 @@
 </template>
 
 <script>
-// import moment from "moment";
 import { mapState, mapMutations } from "vuex";
 import http from "@/util/http-common";
 
@@ -88,7 +87,6 @@ export default {
         name: "boardModify",
         params: { articleno: this.article.board_no },
       });
-      //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
     },
     deleteArticle() {
       if (confirm("정말로 삭제하시겠습니까?")) {
@@ -103,11 +101,6 @@ export default {
       }
     },
   },
-  // filters: {
-  //   dateFormat(regtime) {
-  //     return moment(new Date(regtime)).format("YY.MM.DD hh:mm:ss");
-  //   },
-  // },
 };
 </script>
 

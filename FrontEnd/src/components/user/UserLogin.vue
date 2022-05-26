@@ -72,16 +72,6 @@
                   비밀번호를 잊어버리셨나요?</router-link
                 >
               </div>
-              <!-- <div class="mt-3 mb-4 text-center">
-                <span class="fw-normal">or</span>
-              </div> -->
-              <!-- <div class="d-flex justify-content-center my-4">
-                <img
-                  @click="KakaoLogin"
-                  class="btn"
-                  src="@/assets/kakao_login_medium_narrow.png"
-                />
-              </div> -->
             </div>
           </b-form>
         </b-card>
@@ -116,7 +106,6 @@ export default {
     ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
     ...mapMutations(userStore, ["SET_IS_LOGIN_ERROR"]),
     async confirm() {
-      // console.log("login enter");
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {

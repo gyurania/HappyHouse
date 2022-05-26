@@ -238,7 +238,6 @@ export default {
       } else this.checkPhone = true;
     },
     onSubmit() {
-      // event.preventDefault();
       let err = true;
       let msg = "";
       !this.user.id && ((msg = "아이디를 입력해주세요."), (err = false));
@@ -291,7 +290,6 @@ export default {
       }
     },
     onReset() {
-      // event.preventDefault();
       this.user.id = "";
       this.user.pass = "";
       this.user.checkpwd = "";

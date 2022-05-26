@@ -140,7 +140,6 @@ export default {
             this.SET_USER_INFO(null);
             sessionStorage.removeItem("access-token");
 
-            // console.log(this.user.id);
             this.loginUser.userid = this.user.id;
             this.loginUser.userpwd = this.user.pass;
 

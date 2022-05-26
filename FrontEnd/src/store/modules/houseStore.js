@@ -46,12 +46,6 @@ const houseStore = {
       state.aptPriceFilter.end = endPrice;
       eventBus.$emit("getGeoCode", state.viewRange);
     },
-    SET_START_PRICE: (state, price) => {
-      state.aptPriceFilter.start = price;
-    },
-    SET_END_PRICE: (state, price) => {
-      state.aptPriceFilter.end = price;
-    },
     INIT_HOUSE_HOUSE_STORE: (state) => {
       state.houses = [];
       state.apts = [];
@@ -69,9 +63,7 @@ const houseStore = {
     SET_APT_LIST: (state, houses = state.houses) => {
       let arr = [];
       for (let house of houses) {
-        //   if (!arr.find((element) => element.아파트 == house.아파트)) {
         arr.push(house);
-        //   }
       }
       state.apts = arr;
       state.viewRange = "gugun";
@@ -84,9 +76,7 @@ const houseStore = {
       if (dongName == "") state.viewRange = "gugun";
       else state.viewRange = "dong";
       for (let house of state.houses) {
-        // if (!apts.find((element) => element.아파트 == house.아파트)) {
         apts.push(house);
-        // }
       }
       for (let apt of apts) {
         if (apt.법정동.trim().includes(dongName.trim())) {
@@ -135,7 +125,6 @@ const houseStore = {
       );
     },
     detailHouse: ({ commit }, house) => {
-      // 나중에 house.일련번호를 이용하여 API 호출
       commit("SET_DETAIL_HOUSE", house);
     },
   },
