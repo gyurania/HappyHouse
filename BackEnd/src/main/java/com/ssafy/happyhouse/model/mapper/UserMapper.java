@@ -16,7 +16,6 @@ public interface UserMapper {
 
 	UserDto userInfo(String userid) throws SQLException;
 
-//	UserDto detailUser(String userid) throws SQLException;
 	
 	boolean update(UserDto user) throws Exception;
 
@@ -25,7 +24,5 @@ public interface UserMapper {
 	UserDto findPW(String id, String email);
 
 	int idCheck(String id) throws SQLException;
-
-	boolean changePW(String password, String salt, String id);
 
 }

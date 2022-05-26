@@ -20,26 +20,13 @@
 		where dongCode like concat(#{gugunCode},'%')
 	</select>
 	
-	<select id="getGeoCode" parameterType="String" resultType="AddressDto">
-		select dongName, lat, lng from address
-		where dongCode like concat(#{dongName},'%')
-		limit 1
-	</select>
 	
-	<!-- 관심지역 오래된순 정렬 -->
 	<select id="getInterest" parameterType="String" resultType="AddressDto">
 		select a.dongCode, a.sidoName,a.gugunName,a.dongName,a.lat,a.lng 
 		from address a, interest_addr i
 		where i.userid=#{id} and a.dongCode=i.dongCode
 	</select>
 	
-	<!-- 관심지역 최신순 정렬 -->
-	<select id="getInterestNew" parameterType="UserDto" resultType="AddressDto">
-		select a.dongCode, a.sidoName,a.gugunName,a.dongName,a.lat,a.lng 
-		from address a, interest_addr i
-		where i.userid=#{id} and a.dongCode=i.dongCode
-		order by create_date DESC
-	</select>
 	
 	<insert id="addInterest" parameterType="String">
 		insert into interest_addr 

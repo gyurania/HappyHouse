@@ -30,10 +30,6 @@ public class UserServiceImpl implements UserService {
 		return userMapper.userInfo(userid);
 	}
 	
-	@Override
-	public UserDto detailUser(String userid) throws Exception {
-		return userMapper.userInfo(userid);
-	}
 	
 	@Override
 	public boolean update(UserDto user) throws Exception {
@@ -55,10 +51,5 @@ public class UserServiceImpl implements UserService {
 		return userMapper.idCheck(id);
 	}
 
-	@Override
-	public boolean changePW(String password, String salt, String id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 }

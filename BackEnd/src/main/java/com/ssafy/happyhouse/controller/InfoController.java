@@ -26,7 +26,6 @@ public class InfoController {
 	@ApiOperation(value = "해당 자치구의 정보 반환")
 	@GetMapping("/{guName}")
 	public ResponseEntity<InfoResultDto> infoList(@PathVariable String guName, HttpSession session) {
-//		System.out.println(guName);
 
 		InfoResultDto resultDto = new InfoResultDto();
 

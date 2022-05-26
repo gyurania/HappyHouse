@@ -32,10 +32,6 @@ public class AddressServiceImpl implements AddressService{
 		return addressMapper.getInterest(userid);
 	}
 
-	@Override
-	public List<AddressDto> getInterestNew(UserDto user) {
-		return addressMapper.getInterestNew(user);
-	}
 	
 	@Override
 	public void addInterest(String userid, String dongCode) {

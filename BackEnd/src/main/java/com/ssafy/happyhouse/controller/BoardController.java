@@ -64,7 +64,6 @@ public class BoardController {
 	public ResponseEntity<String> modifyBoard(@RequestBody BoardDto board) {
 		logger.debug("modifyBoard - 호출");
 		logger.debug("" + board);
-		
 		if (boardService.modifyBoard(board)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}

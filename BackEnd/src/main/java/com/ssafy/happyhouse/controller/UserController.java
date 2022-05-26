@@ -74,7 +74,6 @@ public class UserController {
 	public ResponseEntity<Map<String, Object>> getInfo(
 			@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
 			HttpServletRequest request) {
-//		logger.debug("userid : {} ", userid);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (jwtService.isUsable(request.getHeader("access-token"))) {
@@ -131,7 +130,6 @@ public class UserController {
 	@ApiOperation(value = "로그인한 유저의 회원정보 반환")
 	@GetMapping("/mypage/{userId}")
 	public ResponseEntity<UserDto> myPage(@PathVariable String userId) throws Exception {
-//		return "user/mypage";
 		logger.debug("datailUser - 호출");
 		return new ResponseEntity<UserDto>(userService.userInfo(userId), HttpStatus.OK);
 	}

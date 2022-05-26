@@ -25,7 +25,7 @@ import com.ssafy.happyhouse.model.service.AddressService;
 @RestController
 @RequestMapping("/address")
 public class AddressController {
-//commit
+
 	@Autowired
 	private AddressService addressService;
 
@@ -66,17 +66,6 @@ public class AddressController {
 	@GetMapping("/interest/list/{userid}")
 	public ResponseEntity<?> listInterest(@PathVariable String userid){
 		List<AddressDto> list= addressService.getInterest(userid);
-		if(list != null) {
-			return new ResponseEntity<List<AddressDto>>(list,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}
-	}
-	
-	@GetMapping("/interest/listnewest")
-	public ResponseEntity<?> listInterestNew(HttpSession session){
-		UserDto user = (UserDto) session.getAttribute("userinfo");
-		List<AddressDto> list= addressService.getInterestNew(user);
 		if(list != null) {
 			return new ResponseEntity<List<AddressDto>>(list,HttpStatus.OK);
 		}else {

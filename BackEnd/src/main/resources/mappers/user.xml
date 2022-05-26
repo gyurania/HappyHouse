@@ -37,9 +37,6 @@
 	</update>
 	
 	<delete id="deleteUser" parameterType="String">
-		<!-- delete from interest_addr
-		where userid=#{id};
- -->		
 		delete from user
 		where id = #{userid};
 	</delete>
