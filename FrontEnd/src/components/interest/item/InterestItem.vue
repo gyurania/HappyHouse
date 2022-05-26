@@ -20,7 +20,7 @@
         {{ item.아파트 }}
       </h4>
       <h4 v-if="showDetail">{{ item.아파트 }}</h4>
-      <h6 v-if="showDetail">거래금액 : {{ item.거래금액 }} 만원</h6>
+      <h6 v-if="showDetail">거래금액 : {{ item.거래금액 | moneyUnit }}원</h6>
       <h6 v-if="showDetail">
         전용면적 : {{ Math.round(item.전용면적 / 3.3058) }}평,
         {{ item.전용면적 }}m<sup>2</sup>
@@ -46,6 +46,25 @@ export default {
   },
   computed: {
     ...mapState("userStore", ["userInfo"]),
+  },
+  filters: {
+    moneyUnit: function (value) {
+      let arr = value.split(",");
+      let str = "";
+      for (let a of arr) {
+        str += a;
+      }
+      str = str.replace(/ /g, "");
+      let result = "";
+      let last = str.slice(-4) == "0000" ? "" : str.slice(-4);
+      last = last ? last + "만" : "";
+      if (str.length > 4) {
+        result = [str.slice(0, -4), "억", last].join("");
+      } else {
+        result = last;
+      }
+      return result;
+    },
   },
   methods: {
     ...mapActions("addressStore", [
