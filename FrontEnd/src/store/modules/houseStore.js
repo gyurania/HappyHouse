@@ -22,8 +22,8 @@ const houseStore = {
         if (state.viewRange != "house") {
           if (!result.find((data) => data.아파트 == apt.아파트)) {
             if (
-              price * 1 >= state.aptPriceFilter.start * 1 &&
-              price * 1 <= state.aptPriceFilter.end * 1
+              price >= state.aptPriceFilter.start &&
+              price <= state.aptPriceFilter.end
             ) {
               result.push(apt);
             }
@@ -42,8 +42,8 @@ const houseStore = {
 
   mutations: {
     SET_FILTER_PRICE(state, { startPrice, endPrice }) {
-      state.aptPriceFilter.start = startPrice;
-      state.aptPriceFilter.end = endPrice;
+      state.aptPriceFilter.start = startPrice * 1;
+      state.aptPriceFilter.end = endPrice * 1;
       eventBus.$emit("getGeoCode", state.viewRange);
     },
     INIT_HOUSE_HOUSE_STORE: (state) => {
