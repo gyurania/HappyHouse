@@ -6,8 +6,8 @@
           <img
             src="@/assets/ssafy_logo.png"
             class="d-inline-block align-middle"
-            width="100px"
-            height="50px"
+            width="70px"
+            height="60px"
             alt="ssafy"
           />
         </router-link>
@@ -19,7 +19,7 @@
         <b-navbar-nav>
           <b-nav-item href="#"
             ><router-link class="nav-link" to="/map/house"
-              >매물찾기</router-link
+              >거래조회</router-link
             ></b-nav-item
           >
         </b-navbar-nav>
@@ -126,7 +126,7 @@ export default {
 
 <style>
 .ssafy_logo {
-  width: 150px;
+  /* width: 150px; */
 }
 .header {
   text-align: center;
