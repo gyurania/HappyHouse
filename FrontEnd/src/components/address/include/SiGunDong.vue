@@ -179,7 +179,9 @@ export default {
         if (this.userInfo)
           insertInterestAddr(
             { userid: this.userInfo.id, dongCode: this.dongCode },
-            () => {}
+            ({ data }) => {
+              if (data == "등록성공") alert("관심지역이 등록되었습니다.");
+            }
           );
       }
     },

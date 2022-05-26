@@ -72,7 +72,6 @@ export default {
         i < this.rows && cnt < this.perPage;
         i++, cnt++
       ) {
-        console.log(i, cnt);
         arr.push(this.articles[i]);
       }
       return arr;

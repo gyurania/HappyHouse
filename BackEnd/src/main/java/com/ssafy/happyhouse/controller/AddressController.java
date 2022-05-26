@@ -88,7 +88,7 @@ public class AddressController {
 		String dongCode = (String) map.get("dongCode");
 		if(userid != null) {
 			addressService.addInterest(userid, dongCode);
-			return new ResponseEntity<String>("등록성공~",HttpStatus.OK);
+			return new ResponseEntity<String>("등록성공",HttpStatus.OK);
 		}else {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);			
 		}

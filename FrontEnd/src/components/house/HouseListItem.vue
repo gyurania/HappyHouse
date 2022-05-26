@@ -2,7 +2,7 @@
   <b-container>
     <div v-if="viewType == 'detail'">
       <h4>{{ apt.아파트 }}</h4>
-      <h6>거래금액 : {{ apt.거래금액 }} 만원</h6>
+      <h6>거래금액 : {{ apt.거래금액 | moneyUnit }}원</h6>
       <h6>
         전용면적 : {{ Math.round(apt.전용면적 / 3.3058) }}평,
         {{ apt.전용면적 }}m<sup>2</sup>
@@ -41,7 +41,26 @@ export default {
   data() {
     return {
       isColor: false,
+      price: 0,
     };
+  },
+  filters: {
+    moneyUnit: function (value) {
+      let arr = value.split(",");
+      let str = "";
+      for (let a of arr) {
+        str += a;
+      }
+      let result = "";
+      let last = str.slice(-4) == "0000" ? "" : str.slice(-4);
+      last = last ? last + "만" : "";
+      if (str.length > 4) {
+        result = [str.slice(0, -4), "억", last].join("");
+      } else {
+        result = last;
+      }
+      return result;
+    },
   },
   props: {
     apt: Object,

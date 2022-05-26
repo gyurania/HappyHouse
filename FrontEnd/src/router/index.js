@@ -148,13 +148,13 @@ const routes = [
     children: [
       {
         path: "area",
-        alias: [""],
         name: "InterestArea",
         component: () => import("@/components/interest/InterestArea.vue"),
       },
       {
         path: "recent",
         name: "RecentApt",
+        alias: [""],
         component: () => import("@/components/interest/RecentApt.vue"),
       },
     ],
