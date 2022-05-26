@@ -55,7 +55,6 @@ export default {
       let result = "";
       let last = str.slice(-4) == "0000" ? "" : str.slice(-4);
       last = last ? last + "만" : "";
-      console.log(str, str.length);
       if (str.length > 4) {
         result = [str.slice(0, -4), "억", last].join("");
       } else {
