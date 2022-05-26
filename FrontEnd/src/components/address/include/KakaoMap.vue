@@ -128,7 +128,7 @@ export default {
         });
         this.markers.push(marker);
         const infowindow = new kakao.maps.InfoWindow({
-          content: `<div style="width:150px;text-align:center;padding:6px 0;">${position[0]}</div>`,
+          content: `<span class="info-title">${position[0]}</span>`,
         });
         infowindow.open(map, marker);
         this.infowindows.push(infowindow);
@@ -137,6 +137,18 @@ export default {
           "click",
           this.makeClickListener(position[0], type)
         );
+      });
+      var infoTitle = document.querySelectorAll(".info-title");
+      infoTitle.forEach(function (e) {
+        var w = e.offsetWidth + 10;
+        var ml = w / 2;
+        e.parentElement.style.top = "82px";
+        e.parentElement.style.left = "50%";
+        e.parentElement.style.marginLeft = -ml + "px";
+        e.parentElement.style.width = w + "px";
+        e.parentElement.previousSibling.style.display = "none";
+        e.parentElement.parentElement.style.border = "0px";
+        e.parentElement.parentElement.style.background = "unset";
       });
     },
     makeClickListener(name, type) {
@@ -153,4 +165,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.info-title {
+  display: block;
+  background: #50627f;
+  color: #fff;
+  text-align: center;
+  height: 24px;
+  line-height: 22px;
+  border-radius: 4px;
+  padding: 0px 3px;
+  opacity: 0.8;
+}
+</style>

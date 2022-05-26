@@ -1,8 +1,8 @@
 <template>
   <!-- Copyright -->
-  <div class="footer text-center p-3 mt-auto" style="background-color: #efefef">
+  <div class="footer text-center p-3 mt-auto bg-dark text-light">
     © 2022 Copyright:
-    <a class="text-dark" href="https://edu.ssafy.com/">edu.ssafy.com</a>
+    <a class="text-light" href="https://edu.ssafy.com/">edu.ssafy.com</a>
   </div>
   <!-- Copyright -->
 </template>
@@ -14,7 +14,6 @@ export default {};
 <style>
 .footer {
   position: absolute;
-  /* bottom: 0; */
   left: 0;
   right: 0;
 }

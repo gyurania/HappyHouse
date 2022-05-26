@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <navi-view />
-    <!-- 현재 route에 맞는 component가 렌더링된다. -->
-    <router-view />
+    <div class="contentWrapper">
+      <navi-view />
+      <!-- 현재 route에 맞는 component가 렌더링된다. -->
+      <router-view />
+    </div>
     <foot-view />
   </div>
 </template>
@@ -22,6 +24,7 @@ export default {
 
 <style>
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
 #app {
   font-family: "Jeju Gothic";
   -webkit-font-smoothing: antialiased;
@@ -29,6 +32,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   overflow-x: hidden;
+  min-height: 100%;
 }
 
 #nav {
@@ -52,5 +56,9 @@ a {
 .underline {
   display: inline-block;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 70%, cyan 30%);
+}
+
+.contentWrapper {
+  min-height: 751px;
 }
 </style>
